@@ -1,0 +1,5 @@
+.env
+.vs/
+/shortstories/wwwroot/lib/
+/shortstories/obj/
+/shortstories/bin/
