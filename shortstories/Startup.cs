@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using shortstories.Data;
 
 namespace shortstories
 {
@@ -23,7 +25,9 @@ namespace shortstories
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews(); 
+            services.AddControllersWithViews();
+            services.AddDbContext<ShortstoriesContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ShortstoriesConnection")));
             services.AddRazorPages()
             .AddRazorRuntimeCompilation();
         }
