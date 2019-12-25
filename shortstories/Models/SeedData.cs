@@ -22,23 +22,6 @@ namespace shortstories.Models
                     return;   // DB has been seeded
                 }
 
-                context.User.AddRange(
-                    new UserModel
-                    {
-                        UserModelId = "Admin",
-                        TimeOfCreation = new DateTime().ToString(System.Globalization.CultureInfo.InvariantCulture),
-                        UserUsername = "Stephen Riding",
-                        UserPassword = "admin_test"
-                    },
-
-                    new UserModel
-                    {
-                        UserModelId = "User",
-                        TimeOfCreation = new DateTime().ToString(System.Globalization.CultureInfo.InvariantCulture),
-                        UserUsername = "Guest",
-                        UserPassword = "guest_test"
-                    }
-                );
                 context.SaveChanges();
             }
         }
