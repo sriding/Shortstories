@@ -9,21 +9,33 @@ namespace shortstories.Models
 {
     public class StoryModel
     {
-        public StoryModel(string profileId, string storyTitle, int storyPages, int storyThumbsUp)
+        public StoryModel(string profileId, string storyTitle)
         {
             StoryModelId = -1;
             ProfileId = profileId;
             StoryTitle = storyTitle;
-            StoryPages = storyPages;
-            StoryThumbsUp = storyThumbsUp;
+            StoryThumbsUp = 0;
+            StoryThumbsDown = 0;
 
         }
+        [Required(ErrorMessage = "Story must have an id. This should be automatic.")]
         [Key]
+        [Column(TypeName = "int")]
         public int StoryModelId { get; set; }
-        [ForeignKey("ProfileModel")]
-        public string ProfileId { get; set; }
+        [Required(ErrorMessage = "Story must have a title.")]
+        [Column(TypeName = "varchar(80)")]
+        [StringLength(80, ErrorMessage = "Story title cannot exceed 80 characters.")]
         public string StoryTitle { get; set; }
-        public int StoryPages { get; set; }
+        [Column(TypeName = "int")]
         public int StoryThumbsUp { get; set; }
+        [Column(TypeName = "int")]
+        public int StoryThumbsDown { get; set; }
+        [Required(ErrorMessage = "The story needs a profile id. This should be automatic.")]
+        [Column(TypeName = "varchar(100)")]
+        [StringLength(100, ErrorMessage = "Profile id should be under 100 characters. This should be automatic.")]
+        public string ProfileId { get; set; }
+
+        [ForeignKey("ProfileId")]
+        public virtual ProfileModel Profile { get; set; }
     }
 }

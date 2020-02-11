@@ -9,8 +9,8 @@ using shortstories.Data;
 namespace shortstories.Migrations
 {
     [DbContext(typeof(ShortstoriesContext))]
-    [Migration("20191225010856_ThirdMigration")]
-    partial class ThirdMigration
+    [Migration("20200210221855_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,11 @@ namespace shortstories.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("FollowersModelId");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Followers");
                 });
@@ -41,12 +43,24 @@ namespace shortstories.Migrations
             modelBuilder.Entity("shortstories.Models.ProfileModel", b =>
                 {
                     b.Property<string>("ProfileModelId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ProfileDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("TimeOfCreation")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("ProfileModelId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Profile");
                 });
@@ -75,6 +89,8 @@ namespace shortstories.Migrations
 
                     b.HasKey("StoryChaptersId");
 
+                    b.HasIndex("StoryId");
+
                     b.ToTable("StoryChapters");
                 });
 
@@ -93,6 +109,8 @@ namespace shortstories.Migrations
 
                     b.HasKey("StoryGenresId");
 
+                    b.HasIndex("StoryId");
+
                     b.ToTable("StoryGenres");
                 });
 
@@ -104,7 +122,7 @@ namespace shortstories.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ProfileId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("StoryPages")
                         .HasColumnType("int");
@@ -116,6 +134,8 @@ namespace shortstories.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StoryModelId");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Story");
                 });
@@ -135,29 +155,83 @@ namespace shortstories.Migrations
 
                     b.HasKey("StoryTagsId");
 
+                    b.HasIndex("StoryId");
+
                     b.ToTable("StoryTags");
                 });
 
             modelBuilder.Entity("shortstories.Models.UserModel", b =>
                 {
                     b.Property<string>("UserModelId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("TimeOfCreation")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserPassword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserProfileId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserUsername")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("UserModelId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("shortstories.Models.FollowersModel", b =>
+                {
+                    b.HasOne("shortstories.Models.ProfileModel", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("shortstories.Models.ProfileModel", b =>
+                {
+                    b.HasOne("shortstories.Models.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("shortstories.Models.StoryChaptersModel", b =>
+                {
+                    b.HasOne("shortstories.Models.StoryModel", "Story")
+                        .WithMany()
+                        .HasForeignKey("StoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("shortstories.Models.StoryGenresModel", b =>
+                {
+                    b.HasOne("shortstories.Models.StoryModel", "Story")
+                        .WithMany()
+                        .HasForeignKey("StoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("shortstories.Models.StoryModel", b =>
+                {
+                    b.HasOne("shortstories.Models.ProfileModel", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("shortstories.Models.StoryTagsModel", b =>
+                {
+                    b.HasOne("shortstories.Models.StoryModel", "Story")
+                        .WithMany()
+                        .HasForeignKey("StoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -15,10 +15,19 @@ namespace shortstories.Models
             StoryId = storyId;
             StoryGenre = storyGenre;
         }
+        [Required(ErrorMessage = "No story genres id. This should be automatic.")]
         [Key]
+        [Column(TypeName = "int")]
         public int StoryGenresId { get; set; }
-        [ForeignKey("StoryModel")]
-        public int StoryId { get; set; }
+        [Required(ErrorMessage = "Must have a genre.")]
+        [Column(TypeName = "varchar(30)")]
+        [StringLength(30, ErrorMessage = "The genre length has a maximum of 30 characters.")]
         public string StoryGenre { get; set; }
+        [Required(ErrorMessage = "No story id. This should be automatic.")]
+        [Column(TypeName = "int")]
+        public int StoryId { get; set; }
+
+        [ForeignKey("StoryId")]
+        public StoryModel Story { get; set; }
     }
 }

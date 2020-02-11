@@ -15,10 +15,20 @@ namespace shortstories.Models
             ProfileId = profileId;
             FollowersId = followersId;
         }
+        [Required(ErrorMessage = "No follower id present. This should be automatic.")]
         [Key]
+        [Column(TypeName = "int")]
         public int FollowersModelId { get; set; }
-        [ForeignKey("ProfileModel")]
-        public string ProfileId { get; set; }
+        [Required(ErrorMessage = "A follower id is required.")]
+        [Column(TypeName = "varchar(100)")]
+        [StringLength(100, ErrorMessage = "A follower id cannot exceed 100 characters.")]
         public string FollowersId { get; set; }
+        [Required(ErrorMessage = "No profile id present. This should be automatic.")]
+        [Column(TypeName = "varchar(100)")]
+        [StringLength(100, ErrorMessage = "The profile id cannot exceed 100 characters.")]
+        public string ProfileId { get; set; }
+
+        [ForeignKey("ProfileId")]
+        public ProfileModel Profile { get; set; }
     }
 }

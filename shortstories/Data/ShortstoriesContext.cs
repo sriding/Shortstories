@@ -17,10 +17,9 @@ namespace shortstories.Data
 
         public DbSet<UserModel> User { get; set; }
         public DbSet<ProfileModel> Profile { get; set; }
-        public DbSet<StoryModel> Story { get; set; }
         public DbSet<FollowersModel> Followers { get; set; }
+        public DbSet<StoryModel> Story { get; set; }
         public DbSet<StoryChaptersModel> StoryChapters { get; set; }
-
         public DbSet<StoryGenresModel> StoryGenres { get; set; }
         public DbSet<StoryTagsModel> StoryTags { get; set; }
     }
