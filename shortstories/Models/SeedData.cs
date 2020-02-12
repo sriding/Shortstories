@@ -16,7 +16,7 @@ namespace shortstories.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<ShortstoriesContext>>()))
             {
-                // Look for any movies.
+                // Look for any users.
                 if (context.User.Any())
                 {
                     return;   // DB has been seeded
