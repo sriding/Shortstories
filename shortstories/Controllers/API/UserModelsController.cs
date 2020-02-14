@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace shortstories.Controllers.API
 
         // GET: api/UserModels/{id}
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserModel>> RetrieveAUser(string id)
         {
             var userModel = await _context.User.FindAsync(id);

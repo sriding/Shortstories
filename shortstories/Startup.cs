@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using shortstories.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace shortstories
 {
@@ -28,6 +30,19 @@ namespace shortstories
             services.AddControllersWithViews();
             services.AddDbContext<ShortstoriesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ShortstoriesConnection")));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://securetoken.google.com/shortstories-auth";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/shortstories-auth",
+                        ValidateAudience = true,
+                        ValidAudience = "shortstories-auth",
+                        ValidateLifetime = true
+                    };
+                });
             services.AddRazorPages()
             .AddRazorRuntimeCompilation();
         }
@@ -50,6 +65,7 @@ namespace shortstories
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
