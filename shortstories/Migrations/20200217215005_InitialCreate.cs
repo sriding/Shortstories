@@ -11,13 +11,12 @@ namespace shortstories.Migrations
                 columns: table => new
                 {
                     UserModelId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    TimeOfCreation = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    UserUsername = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    UserPassword = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    FirebaseUserId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.UserModelId);
+                    table.UniqueConstraint("AK_User_FirebaseUserId", x => x.FirebaseUserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -26,8 +25,10 @@ namespace shortstories.Migrations
                 {
                     ProfileModelId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     TimeOfCreation = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    ProfileUsername = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    ProfileTypeOfWriter = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: true),
                     ProfileDescription = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,17 +38,17 @@ namespace shortstories.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "UserModelId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Followers",
                 columns: table => new
                 {
-                    FollowersModelId = table.Column<int>(nullable: false)
+                    FollowersModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FollowersId = table.Column<string>(nullable: true),
-                    ProfileId = table.Column<string>(nullable: true)
+                    FollowersId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    ProfileId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,19 +58,19 @@ namespace shortstories.Migrations
                         column: x => x.ProfileId,
                         principalTable: "Profile",
                         principalColumn: "ProfileModelId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Story",
                 columns: table => new
                 {
-                    StoryModelId = table.Column<int>(nullable: false)
+                    StoryModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoryTitle = table.Column<string>(nullable: true),
-                    StoryPages = table.Column<int>(nullable: false),
-                    StoryThumbsUp = table.Column<int>(nullable: false),
-                    ProfileId = table.Column<string>(nullable: true)
+                    StoryTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false),
+                    StoryThumbsUp = table.Column<int>(type: "int", nullable: false),
+                    StoryThumbsDown = table.Column<int>(type: "int", nullable: false),
+                    ProfileId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,20 +80,20 @@ namespace shortstories.Migrations
                         column: x => x.ProfileId,
                         principalTable: "Profile",
                         principalColumn: "ProfileModelId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "StoryChapters",
                 columns: table => new
                 {
-                    StoryChaptersId = table.Column<int>(nullable: false)
+                    StoryChaptersId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PageNumber = table.Column<int>(nullable: false),
-                    ChapterTitle = table.Column<string>(nullable: true),
-                    ChapterContent = table.Column<string>(nullable: true),
-                    ChapterTheme = table.Column<string>(nullable: true),
-                    StoryId = table.Column<int>(nullable: false)
+                    ChapterNumber = table.Column<int>(type: "int", nullable: false),
+                    ChapterTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: true),
+                    ChapterContent = table.Column<string>(type: "varchar(3000)", maxLength: 3000, nullable: false),
+                    ChapterTheme = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,10 +110,10 @@ namespace shortstories.Migrations
                 name: "StoryGenres",
                 columns: table => new
                 {
-                    StoryGenresId = table.Column<int>(nullable: false)
+                    StoryGenresId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoryGenre = table.Column<string>(nullable: true),
-                    StoryId = table.Column<int>(nullable: false)
+                    StoryGenre = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,10 +130,10 @@ namespace shortstories.Migrations
                 name: "StoryTags",
                 columns: table => new
                 {
-                    StoryTagsId = table.Column<int>(nullable: false)
+                    StoryTagsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoryTag = table.Column<string>(nullable: true),
-                    StoryId = table.Column<int>(nullable: false)
+                    StoryTag = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

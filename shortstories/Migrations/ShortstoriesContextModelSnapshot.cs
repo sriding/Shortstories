@@ -52,6 +52,15 @@ namespace shortstories.Migrations
                         .HasColumnType("varchar(500)")
                         .HasMaxLength(500);
 
+                    b.Property<string>("ProfileTypeOfWriter")
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25);
+
+                    b.Property<string>("ProfileUsername")
+                        .IsRequired()
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25);
+
                     b.Property<string>("TimeOfCreation")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
@@ -183,22 +192,14 @@ namespace shortstories.Migrations
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("TimeOfCreation")
+                    b.Property<string>("FirebaseUserId")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("UserPassword")
-                        .IsRequired()
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25);
-
-                    b.Property<string>("UserUsername")
-                        .IsRequired()
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25);
-
                     b.HasKey("UserModelId");
+
+                    b.HasAlternateKey("FirebaseUserId");
 
                     b.ToTable("User");
                 });

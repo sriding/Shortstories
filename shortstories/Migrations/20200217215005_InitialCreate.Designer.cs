@@ -9,8 +9,8 @@ using shortstories.Data;
 namespace shortstories.Migrations
 {
     [DbContext(typeof(ShortstoriesContext))]
-    [Migration("20200211024340_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20200217215005_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,15 @@ namespace shortstories.Migrations
                     b.Property<string>("ProfileDescription")
                         .HasColumnType("varchar(500)")
                         .HasMaxLength(500);
+
+                    b.Property<string>("ProfileTypeOfWriter")
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25);
+
+                    b.Property<string>("ProfileUsername")
+                        .IsRequired()
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25);
 
                     b.Property<string>("TimeOfCreation")
                         .IsRequired()
@@ -185,22 +194,14 @@ namespace shortstories.Migrations
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("TimeOfCreation")
+                    b.Property<string>("FirebaseUserId")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("UserPassword")
-                        .IsRequired()
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25);
-
-                    b.Property<string>("UserUsername")
-                        .IsRequired()
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25);
-
                     b.HasKey("UserModelId");
+
+                    b.HasAlternateKey("FirebaseUserId");
 
                     b.ToTable("User");
                 });

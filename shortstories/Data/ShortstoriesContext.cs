@@ -15,6 +15,15 @@ namespace shortstories.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserModel>()
+                .HasAlternateKey(c => c.FirebaseUserId);
+
+            modelBuilder.Entity<ProfileModel>()
+                .HasAlternateKey(c => c.ProfileUsername);
+        }
+
         public DbSet<UserModel> User { get; set; }
         public DbSet<ProfileModel> Profile { get; set; }
         public DbSet<FollowersModel> Followers { get; set; }

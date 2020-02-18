@@ -3,27 +3,21 @@
 
 // Write your JavaScript code.
 
-const practiceGetRequest = async () => {
-    const requestInJSONFormat = await fetch("https://localhost:44389/api/UserModels/Admin");
-    const request = await requestInJSONFormat.json();
-    return console.log(request);
-}
+//Function to run functions on page load.
+const pageLoadFunction = () => {
+    Home.getUsersData();
+    Register.addFormEventListener();
+    Login.addFormEventListener();
+};
 
-const submittingRegisterForm = async () => {
-    const registerFormData = {
-        registerFormUsername: document.getElementById("register_form_username").value,
-        registerFormPassword: document.getElementById("register_form_password").value,
-        registerFormEmailAddress: document.getElementById("register_form_email_address").value,
-        registerFormProfession: document.getElementById("register_form_profession").value,
-        registerFormDescription: document.getElementById("register_form_description").value
-    };
-
-    console.log(registerFormData);
-    /*const responseStream = await fetch("https://localhost:44389/api/UserModels", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(e)
-    });*/
-}
+auth.onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+        console.log("user signs in, ", user);
+        // ...
+    } else {
+        // User is signed out.
+        // ...
+        console.log("user signs out", user);
+    }
+});

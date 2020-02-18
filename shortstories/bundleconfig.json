@@ -9,7 +9,11 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/js/site.js",
-      "wwwroot/js/firebaseFunctions.js"
+      "wwwroot/js/firebaseFunctions.js",
+      "wwwroot/js/eventListenersFunctions.js",
+      "wwwroot/js/Register.js",
+      "wwwroot/js/Login.js",
+      "wwwroot/js/Home.js"
     ],
     "minify": {
       "enabled": true,

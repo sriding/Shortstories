@@ -34,7 +34,7 @@ const firebaseSignInWithEmailAndPassword = () => {
 
 }
 
-const whocares2 = () => {
+const firebaseAuthStateChanged = () => {
     auth.onAuthStateChanged(function (user) {
         if (user) {
             // User is signed in.
@@ -50,5 +50,20 @@ const whocares2 = () => {
             // User is signed out.
             // ...
         }
+    });
+}
+
+const firebaseChangeEmailAddress = () => {
+    let user = auth.currentUser;
+    console.log(user);
+
+    let newEmail = document.getElementById("firebase_email").value;
+
+    user.updateEmail(newEmail).then(function () {
+        // Update successful.
+        console.log("Email has been updated.");
+    }).catch(function (error) {
+        // An error happened.
+        console.log("Email update failed - ", error);
     });
 }
