@@ -1,0 +1,19 @@
+﻿
+.header-unauthenticated {
+    display: block;
+}
+
+.header-authenticated {
+    display: none;
+}
+
+.header-user-details {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+#header-username {
+    margin-right: 8px;
+    margin-left: 5px;
+}

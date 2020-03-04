@@ -2,7 +2,7 @@
     constructor() { }
 
     static getUsersData = async () => {
-        const userDataStream = await fetch("https://localhost:44389/api/UserModels/", {
+        const userDataStream = await fetch("https://localhost:44389/api/ProfileModels/stevetorn", {
             method: "GET",
             withCredentials: true,
             headers: {
@@ -10,6 +10,7 @@
             }
         })
 
-        console.log(userDataStream);
+        const userData = userDataStream.json();
+        return userData;
     }
 }

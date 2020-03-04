@@ -6,26 +6,18 @@
     <title>@ViewData["Title"] - shortstories</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/header.css" />
+    </environment>
 </head>
 <body onload="pageLoadFunction()">
-    <header>
-        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow mb-3">
-            <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
-            <a class="navbar-brand" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
-            <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-        </nav>
-    </header>
+    @await Component.InvokeAsync("Header")
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - shortstories - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @await Component.InvokeAsync("Footer")
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
 
@@ -61,7 +53,8 @@
         <script src="~/js/Register.js" asp-append-version="true"></script>
         <script src="~/js/Login.js" asp-append-version="true"></script>
         <script src="~/js/Home.js" asp-append-version="true"></script>
+        <script src="~/js/Header.js" asp-append-version="true"></script>
     </environment>
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -5,9 +5,22 @@
 
 //Function to run functions on page load.
 const pageLoadFunction = () => {
-    Home.getUsersData();
+    Home.getUsersData().then((data) => {
+        console.log(data);
+    })
     Register.addFormEventListener();
     Login.addFormEventListener();
+
+    const headerInstance = new Header();
+    headerInstance.checkAuthorizationState().then((authStatus) => {
+        if (authStatus) {
+            document.getElementsByClassName("header-unauthenticated")[0].style.display = "none";
+            document.getElementById("header-username").innerHTML = authStatus;
+            document.getElementsByClassName("header-authenticated")[0].style.display = "block";
+        }
+    }).catch((err) => {
+        console.log(err);
+    })
 };
 
 auth.onAuthStateChanged(function (user) {

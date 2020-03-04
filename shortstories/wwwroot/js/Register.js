@@ -54,7 +54,7 @@
 
             const profileResponseData = await profileResponseStream.json();
 
-            console.log(profileResponseData);
+            window.location.href = "https://localhost:44389/Login";
         } catch (error) {
             return error;
         }

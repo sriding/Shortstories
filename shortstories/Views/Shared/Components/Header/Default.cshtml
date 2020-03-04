@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<header>
+    <div class="header-unauthenticated">
+        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow mb-3">
+            <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+        </nav>
+    </div>
+    <div class="header-authenticated">
+        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow mb-3">
+            <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
+            <div class="header-user-details">
+                <a class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="Index">Gravatar Avatar</a>
+                <a id="header-username" class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="Index"></a>
+            </div>
+            <a href="#" class="navbar-brand" onclick="firebaseLogout()">Logout</a>
+        </nav>
+    </div>
+</header>

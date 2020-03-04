@@ -22,6 +22,45 @@ namespace shortstories.Controllers.API
             _context = context;
         }
 
+        // Path: api/UserModels/login/{firebaseUserId}
+        [HttpGet("login/{firebaseUserId}")]
+        [Authorize]
+        public async Task<ActionResult<UserModel>> Login([FromRoute] string firebaseUserId)
+        {
+            var userModel = await _context.User.Where(p => p.FirebaseUserId == firebaseUserId).FirstOrDefaultAsync();
+
+            if (userModel == null)
+            {
+                return NotFound();
+            } else
+            {
+                return Ok(userModel.UserModelId);
+            }
+        }
+
+        [HttpGet("{firebaseUserId}/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<UserModel>> VerifyAUser([FromRoute] string firebaseUserId, [FromRoute] string userId)
+        {
+            var userModel = await _context.User.Where(o => o.UserModelId == userId).Where(p => p.FirebaseUserId == firebaseUserId).FirstOrDefaultAsync();
+
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var profileModel = await _context.Profile.Where(o => o.UserId == userModel.UserModelId).FirstOrDefaultAsync();
+                if (profileModel == null)
+                {
+                    return NotFound();
+                } else
+                {
+                    return Ok(profileModel.ProfileUsername);
+                }
+            }
+        }
+
         // POST: api/UserModels/register
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

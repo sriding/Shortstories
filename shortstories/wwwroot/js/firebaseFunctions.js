@@ -55,7 +55,6 @@ const firebaseAuthStateChanged = () => {
 
 const firebaseChangeEmailAddress = () => {
     let user = auth.currentUser;
-    console.log(user);
 
     let newEmail = document.getElementById("firebase_email").value;
 
@@ -66,4 +65,15 @@ const firebaseChangeEmailAddress = () => {
         // An error happened.
         console.log("Email update failed - ", error);
     });
+}
+
+const firebaseLogout = () => {
+    auth.signOut().then(() => {
+        window.localStorage.clear();
+        console.log("User has signed out.");
+        location.reload();
+    })
+        .catch((err) => {
+            console.log(err);
+        })
 }

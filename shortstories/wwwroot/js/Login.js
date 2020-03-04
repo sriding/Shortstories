@@ -19,7 +19,24 @@
         try {
             const firebaseResult = await auth.signInWithEmailAndPassword(loginFormEmailAddress, loginFormPassword);
             window.localStorage.setItem("t", firebaseResult.user.ma);
-        } catch(error) {
+            window.localStorage.setItem("fid", firebaseResult.user.uid);
+
+            const loginStream = await fetch("https://localhost:44389/api/usermodels/login/" + `${firebaseResult.user.uid}`, {
+                method: "GET",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + firebaseResult.user.ma
+                }
+            });
+
+            const loginJson = await loginStream.text();
+
+            window.localStorage.setItem("uid", loginJson);
+
+            console.log("Confirmed logged in.");
+        } catch (error) {
+            console.log("Log in went wrong.");
+            console.log(error);
             return error;
         }
 
