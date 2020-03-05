@@ -5,9 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\NewFolder\**" />
+    <Compile Remove="Views\Shared\Components\NewFolder\**" />
     <Compile Remove="Views\Shared\NewFolder\**" />
+    <Content Remove="Views\NewFolder\**" />
+    <Content Remove="Views\Shared\Components\NewFolder\**" />
     <Content Remove="Views\Shared\NewFolder\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\NewFolder\**" />
     <EmbeddedResource Remove="Views\Shared\NewFolder\**" />
+    <None Remove="Views\NewFolder\**" />
+    <None Remove="Views\Shared\Components\NewFolder\**" />
     <None Remove="Views\Shared\NewFolder\**" />
   </ItemGroup>
 
@@ -32,12 +40,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Views\NewFolder\" />
-    <Folder Include="Views\Shared\Components\NewFolder\" />
   </ItemGroup>
 
 </Project>
