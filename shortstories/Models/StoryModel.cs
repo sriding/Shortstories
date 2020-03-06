@@ -9,11 +9,12 @@ namespace shortstories.Models
 {
     public class StoryModel
     {
-        public StoryModel(string profileId, string storyTitle)
+        public StoryModel(string profileId, string storyTitle, string storyContent = null)
         {
             StoryModelId = -1;
             ProfileId = profileId;
             StoryTitle = storyTitle;
+            StoryContent = storyContent;
             StoryThumbsUp = 0;
             StoryThumbsDown = 0;
 
@@ -26,6 +27,11 @@ namespace shortstories.Models
         [Column(TypeName = "varchar(80)")]
         [StringLength(80, ErrorMessage = "Story title cannot exceed 80 characters.")]
         public string StoryTitle { get; set; }
+    #nullable enable
+        [Column(TypeName = "varchar(8000)")]
+        [StringLength(8000, ErrorMessage = "Content cannot exceed 8000 characters.")]
+        public string? StoryContent { get; set; }
+    #nullable disable
         [Column(TypeName = "int")]
         public int StoryThumbsUp { get; set; }
         [Column(TypeName = "int")]

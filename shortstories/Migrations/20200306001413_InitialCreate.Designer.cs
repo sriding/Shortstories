@@ -9,7 +9,7 @@ using shortstories.Data;
 namespace shortstories.Migrations
 {
     [DbContext(typeof(ShortstoriesContext))]
-    [Migration("20200217215005_InitialCreate")]
+    [Migration("20200306001413_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,8 @@ namespace shortstories.Migrations
 
                     b.HasKey("ProfileModelId");
 
+                    b.HasAlternateKey("ProfileUsername");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Profile");
@@ -89,16 +91,11 @@ namespace shortstories.Migrations
 
                     b.Property<string>("ChapterContent")
                         .IsRequired()
-                        .HasColumnType("varchar(3000)")
-                        .HasMaxLength(3000);
+                        .HasColumnType("varchar(4000)")
+                        .HasMaxLength(4000);
 
                     b.Property<int>("ChapterNumber")
                         .HasColumnType("int");
-
-                    b.Property<string>("ChapterTheme")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)")
-                        .HasMaxLength(30);
 
                     b.Property<string>("ChapterTitle")
                         .HasColumnType("varchar(80)")
@@ -147,6 +144,10 @@ namespace shortstories.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
+
+                    b.Property<string>("StoryContent")
+                        .HasColumnType("varchar(8000)")
+                        .HasMaxLength(8000);
 
                     b.Property<int>("StoryThumbsDown")
                         .HasColumnType("int");

@@ -33,6 +33,7 @@ namespace shortstories.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Profile", x => x.ProfileModelId);
+                    table.UniqueConstraint("AK_Profile_ProfileUsername", x => x.ProfileUsername);
                     table.ForeignKey(
                         name: "FK_Profile_User_UserId",
                         column: x => x.UserId,
@@ -68,6 +69,7 @@ namespace shortstories.Migrations
                     StoryModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StoryTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false),
+                    StoryContent = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
                     StoryThumbsUp = table.Column<int>(type: "int", nullable: false),
                     StoryThumbsDown = table.Column<int>(type: "int", nullable: false),
                     ProfileId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
@@ -91,8 +93,7 @@ namespace shortstories.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChapterNumber = table.Column<int>(type: "int", nullable: false),
                     ChapterTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: true),
-                    ChapterContent = table.Column<string>(type: "varchar(3000)", maxLength: 3000, nullable: false),
-                    ChapterTheme = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    ChapterContent = table.Column<string>(type: "varchar(4000)", maxLength: 4000, nullable: false),
                     StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

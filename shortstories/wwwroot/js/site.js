@@ -5,12 +5,18 @@
 
 //Function to run functions on page load.
 const pageLoadFunction = () => {
+    //Home Page
     Home.getUsersData().then((data) => {
         console.log(data);
     })
+
+    //Register Page
     Register.addFormEventListener();
+
+    //Login Page
     Login.addFormEventListener();
 
+    //Header Component
     const headerInstance = new Header();
     headerInstance.checkAuthorizationState().then((authStatus) => {
         if (authStatus) {
@@ -20,6 +26,30 @@ const pageLoadFunction = () => {
         }
     }).catch((err) => {
         console.log(err);
+    })
+
+    //Story Page
+    const storyInstance = new Story();
+    document.getElementById("create-story-add-chapter-button").addEventListener("click", () => {
+        storyInstance.generateNewChapterContainer();
+    })
+
+    document.getElementById("create-story-chapter-check-yes").addEventListener("change", (e) => {
+        if (e.target.checked === true) {
+            storyInstance.displayChapterContent();
+            document.getElementById("create-story-chapter-check-no").checked = false;
+        } else {
+            storyInstance.hideStoryAndChapterContent();
+        }
+    })
+
+    document.getElementById("create-story-chapter-check-no").addEventListener("change", (e) => {
+        if (e.target.checked === true) {
+            storyInstance.displayStoryContent();
+            document.getElementById("create-story-chapter-check-yes").checked = false;
+        } else {
+            storyInstance.hideStoryAndChapterContent();
+        }
     })
 };
 

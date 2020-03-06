@@ -4,7 +4,8 @@
     "inputFiles": [
       "wwwroot/css/site.css",
       "wwwroot/css/header.css",
-      "wwwroot/css/profile.css"
+      "wwwroot/css/profile.css",
+      "wwwroot/css/story.css"
     ]
   },
   {
@@ -15,7 +16,9 @@
       "wwwroot/js/eventListenersFunctions.js",
       "wwwroot/js/Register.js",
       "wwwroot/js/Login.js",
-      "wwwroot/js/Home.js"
+      "wwwroot/js/Home.js",
+      "wwwroot/js/Header.js",
+      "wwwroot/js/Story.js"
     ],
     "minify": {
       "enabled": true,

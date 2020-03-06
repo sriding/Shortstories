@@ -9,14 +9,13 @@ namespace shortstories.Models
 {
     public class StoryChaptersModel
     {
-        public StoryChaptersModel(int storyId, int chapterNumber, string chapterContent, string chapterTitle = null, string chapterTheme = "Default")
+        public StoryChaptersModel(int storyId, int chapterNumber, string chapterContent, string chapterTitle = null)
         {
             StoryChaptersId = -1;
             StoryId = storyId;
             ChapterNumber = chapterNumber;
             ChapterTitle = chapterTitle;
             ChapterContent = chapterContent;
-            ChapterTheme = chapterTheme;
         }
         [Required(ErrorMessage = "No story chapters id. This should be automatic.")]
         [Key]
@@ -31,13 +30,9 @@ namespace shortstories.Models
         public string? ChapterTitle { get; set; }
     #nullable disable
         [Required(ErrorMessage = "Chapter content is required.")]
-        [Column(TypeName = "varchar(3000)")]
-        [StringLength(3000, ErrorMessage = "Content cannot exceed 3000 characters.")]
+        [Column(TypeName = "varchar(4000)")]
+        [StringLength(4000, ErrorMessage = "Content cannot exceed 4000 characters.")]
         public string ChapterContent { get; set; }
-        [Required(ErrorMessage = "Chapter theme is required. Should be automatic if left empty.")]
-        [Column(TypeName = "varchar(30)")]
-        [StringLength(30, ErrorMessage = "Theme cannot exceed 30 characters.")]
-        public string ChapterTheme { get; set; }
         [Required(ErrorMessage = "No story id supplied. This should be automatic.")]
         [Column(TypeName = "int")]
         public int StoryId { get; set; }

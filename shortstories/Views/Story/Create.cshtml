@@ -4,32 +4,59 @@
 @{
 }
 
-<div>
-    <h1>Creating a Story...</h1>
-    <form>
-        <div class="form-group">
-            <label for="create-story-title">Story Title</label>
-            <input type="text" class="form-control" id="create-story-title" placeholder="Enter Story Title">
-            <small class="form-text text-muted">Max 80 characters.</small>
-        </div>
-        <div class="form-group">
-            <label for="create-story-tags">Story Tags</label>
-            <input type="text" class="form-control" id="create-story-tags" placeholder="Enter Story Tags">
-            <small class="form-text text-muted">Comma separated. Max 5 tags.</small>
-        </div>
-        <div class="form-group">
-            <label for="create-story-genres">Story Genres</label>
-            <input type="text" class="form-control" id="create-story-genres" placeholder="Enter Story Genres">
-            <small class="form-text text-muted">Comma separated. Max 3 genres.</small>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="create-story-chapter-check">
-            <label class="form-check-label" for="create-story-chapter-check">Does your story include chapters?</label>
-            <small class="form-text text-muted">Each chapter can be up to 4000 characters. Max 3 Chapters.</small>
-        </div>
-        <div class="form-group">
-            <label for="create-story-story-content">Story Content</label>
-            <textarea class="form-control" id="create-story-story-content" rows="3"></textarea>
-        </div>
-    </form>
-</div>
+    <div>
+        <h1>Creating a Story...</h1>
+        <form id="create-story-form">
+            <div class="form-group">
+                <label for="create-story-title">Story Title</label>
+                <input type="text" class="form-control" id="create-story-title" placeholder="Enter Story Title">
+                <small class="form-text text-muted">Max 80 characters.</small>
+            </div>
+            <div class="form-group">
+                <label for="create-story-tags">Story Tags</label>
+                <input type="text" class="form-control" id="create-story-tags" placeholder="Enter Story Tags">
+                <small class="form-text text-muted">Comma separated. Max 5 tags.</small>
+            </div>
+            <div class="form-group">
+                <label for="create-story-genres">Story Genres</label>
+                <input type="text" class="form-control" id="create-story-genres" placeholder="Enter Story Genres">
+                <small class="form-text text-muted">Comma separated. Max 3 genres.</small>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <div class="mr-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="checkbox" class="form-check-input" id="create-story-chapter-check-yes">
+                        <label class="form-check-label create-story-lighter-text" for="create-story-chapter-check-yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="checkbox" class="form-check-input" id="create-story-chapter-check-no">
+                        <label class="form-check-label create-story-lighter-text" for="create-story-chapter-check-no">No</label>
+                    </div>
+                </div>
+                <div>
+                    <p class="mb-0">Does your story include chapters?</p>
+                    <small class="form-text text-muted">Each chapter can be up to 4000 characters. Max 3 Chapters.</small>
+                </div>
+            </div>
+            <div id="create-story-story-content-container" class="form-group">
+                <label for="create-story-story-content">Story Content</label>
+                <textarea class="form-control" id="create-story-story-content" rows="12" placeholder="Required"></textarea>
+            </div>
+            <div id="create-story-chapters-container">
+                <div class="create-story-chapter-container">
+                    <div class="form-group">
+                        <label for="create-story-chapter-title">Chapter Title</label>
+                        <input type="text" class="form-control" id="create-story-chapter-title" placeholder="Required">
+                    </div>
+                    <div class="form-group">
+                        <label for="create-story-chapter-content">Chapter Content</label>
+                        <textarea class="form-control" id="create-story-chapter-content" rows="12" placeholder="Required"></textarea>
+                    </div>
+                </div>
+                <button type="button" id="create-story-add-chapter-button" class="btn btn-primary">Add New Chapter</button>
+            </div>
+            <div id="create-story-submit-container" class="text-right">
+                <button type="submit" id="create-story-submit-button" class="btn btn-primary">Create Story</button>
+            </div>
+        </form>
+    </div>

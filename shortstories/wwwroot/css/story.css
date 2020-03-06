@@ -1,0 +1,19 @@
+﻿.create-story-chapter-checkbox-container {
+    display: flex;
+}
+
+.create-story-lighter-text {
+    color: rgba(0,0,0,0.7);
+}
+
+#create-story-story-content-container {
+    display: none;
+}
+
+#create-story-chapters-container {
+    display: none;
+}
+
+#create-story-submit-container {
+    display: none;
+}
