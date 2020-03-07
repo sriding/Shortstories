@@ -31,7 +31,12 @@ const pageLoadFunction = () => {
     //Story Page
     const storyInstance = new Story();
     document.getElementById("create-story-add-chapter-button").addEventListener("click", () => {
-        storyInstance.generateNewChapterContainer();
+        let deleteChapterButton = storyInstance.generateNewChapterContainer();
+        if (deleteChapterButton !== false && deleteChapterButton !== undefined) {
+            deleteChapterButton.addEventListener("click", (e) => {
+                storyInstance.deleteChapterContainer(e);
+            })
+        }
     })
 
     document.getElementById("create-story-chapter-check-yes").addEventListener("change", (e) => {
@@ -43,6 +48,10 @@ const pageLoadFunction = () => {
         }
     })
 
+    document.getElementsByClassName("la-times-circle")[0].addEventListener("click", (e) => {
+        storyInstance.deleteChapterContainer(e);
+    })
+
     document.getElementById("create-story-chapter-check-no").addEventListener("change", (e) => {
         if (e.target.checked === true) {
             storyInstance.displayStoryContent();
@@ -50,6 +59,10 @@ const pageLoadFunction = () => {
         } else {
             storyInstance.hideStoryAndChapterContent();
         }
+    })
+
+    document.getElementById("create-story-submit-button").addEventListener("click", () => {
+        storyInstance.submitStory();
     })
 };
 

@@ -9,16 +9,12 @@ namespace shortstories.Models
 {
     public class StoryModel
     {
-        public StoryModel(string profileId, string storyTitle, string storyContent = null)
+        public StoryModel()
         {
-            StoryModelId = -1;
-            ProfileId = profileId;
-            StoryTitle = storyTitle;
-            StoryContent = storyContent;
             StoryThumbsUp = 0;
             StoryThumbsDown = 0;
-
         }
+
         [Required(ErrorMessage = "Story must have an id. This should be automatic.")]
         [Key]
         [Column(TypeName = "int")]

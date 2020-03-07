@@ -9,12 +9,10 @@ namespace shortstories.Models
 {
     public class StoryGenresModel
     {
-        public StoryGenresModel(int storyId, string storyGenre)
+        public StoryGenresModel()
         {
-            StoryGenresId = -1;
-            StoryId = storyId;
-            StoryGenre = storyGenre;
         }
+
         [Required(ErrorMessage = "No story genres id. This should be automatic.")]
         [Key]
         [Column(TypeName = "int")]

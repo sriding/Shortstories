@@ -9,14 +9,10 @@ namespace shortstories.Models
 {
     public class StoryChaptersModel
     {
-        public StoryChaptersModel(int storyId, int chapterNumber, string chapterContent, string chapterTitle = null)
+        public StoryChaptersModel()
         {
-            StoryChaptersId = -1;
-            StoryId = storyId;
-            ChapterNumber = chapterNumber;
-            ChapterTitle = chapterTitle;
-            ChapterContent = chapterContent;
         }
+
         [Required(ErrorMessage = "No story chapters id. This should be automatic.")]
         [Key]
         [Column(TypeName = "int")]

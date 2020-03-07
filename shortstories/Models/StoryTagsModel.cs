@@ -9,11 +9,8 @@ namespace shortstories.Models
 {
     public class StoryTagsModel
     {
-        public StoryTagsModel(int storyId, string storyTag)
+        public StoryTagsModel()
         {
-            StoryTagsId = -1;
-            StoryId = storyId;
-            StoryTag = storyTag;
         }
         [Required(ErrorMessage = "No story tags id. This should be automatic.")]
         [Key]
