@@ -2,14 +2,14 @@
     constructor() {
     }
 
-    static addFormEventListener = () => {
+    addFormEventListener = () => {
         const formElement = document.getElementById("register_form");
 
         formElement == null ? "" :
             formElement.addEventListener("submit", this.submitRegisterForm, true);
     }
 
-    static submitRegisterForm = async (event) => {
+    submitRegisterForm = async (event) => {
         event.preventDefault();
 
         const registerFormUsername = document.getElementById("register_form_username").value;
@@ -19,10 +19,10 @@
         const registerFormDescription = document.getElementById("register_form_description").value;
 
         try {
-            const firebaseResult = await auth.createUserWithEmailAndPassword(registerFormEmailAddress, registerFormPassword);
+            const registerResult = await firebaseInstance.createUserWithEmailAndPassword(registerFormEmailAddress, registerFormPassword);
 
             const userFormData = {
-                "firebaseUserId": firebaseResult.user.uid,
+                "firebaseUserId": registerResult.user.uid,
             }
 
             const userResponseStream = await fetch("https://localhost:44389/api/UserModels/register", {

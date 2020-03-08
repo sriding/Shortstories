@@ -22,6 +22,35 @@ namespace shortstories.Controllers.API
             _context = context;
         }
 
+        // GET: api/ProfileModels/{userId}
+        [HttpGet("id/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<ProfileModel>> GetProfileId([FromRoute] string userId)
+        {
+            var profile = await _context.Profile.SingleAsync(a => a.UserId == userId );
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(profile.ProfileModelId);
+        }
+
+        [HttpGet("username/{profileId}")]
+        [Authorize]
+        public async Task<ActionResult<ProfileModel>> GetProfileUsername([FromRoute] string profileId)
+        {
+            var profile = await _context.Profile.SingleAsync(a => a.ProfileUsername == profileId);
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(profile.ProfileUsername);
+        }
+
         // GET: api/ProfileModels/{profileUsername}
         [HttpGet("{profileUsername}")]
         public async Task<ActionResult<ProfileModel>> GetProfile(string profileUsername)

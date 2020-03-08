@@ -24,8 +24,15 @@
             }
         });
 
-        const authStatus = await authStatusStream.text();
+        const username = await authStatusStream.text();
 
-        return authStatus;
+        return username;
+    }
+
+    logoutEventListener() {
+        document.getElementById("header-logout").addEventListener("click", () => {
+            //Instance created in page load function.
+            firebaseInstance.firebaseLogout();
+        })
     }
 }

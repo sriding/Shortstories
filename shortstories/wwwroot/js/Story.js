@@ -1,4 +1,5 @@
 ﻿class Story {
+    onStoryPage = false;
     containerTemplate;
     storyContainer;
     chapterContainer;
@@ -7,12 +8,17 @@
     submitContainer;
 
     constructor() {
-        this.containerTemplate = document.getElementsByClassName("create-story-chapter-container")[0].cloneNode(true);
-        this.storyContainer = document.getElementById("create-story-story-content-container");
-        this.chapterContainer = document.getElementById("create-story-chapters-container");
-        this.yesCheckBox = document.getElementById("create-story-chapter-check-yes");
-        this.noCheckBox = document.getElementById("create-story-chapter-check-no");
-        this.submitContainer = document.getElementById("create-story-submit-container");
+        if (!document.getElementById("create-story-main-container")) {
+            this.onStoryPage = false;
+        } else {
+            this.onStoryPage = true;
+            this.containerTemplate = document.getElementsByClassName("create-story-chapter-container")[0].cloneNode(true);
+            this.storyContainer = document.getElementById("create-story-story-content-container");
+            this.chapterContainer = document.getElementById("create-story-chapters-container");
+            this.yesCheckBox = document.getElementById("create-story-chapter-check-yes");
+            this.noCheckBox = document.getElementById("create-story-chapter-check-no");
+            this.submitContainer = document.getElementById("create-story-submit-container");
+        }
     }
 
     displayStoryContent() {

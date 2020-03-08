@@ -3,43 +3,53 @@
 
     }
 
-    static addFormEventListener = () => {
+    addFormEventListener = () => {
         const formElement = document.getElementById("login_form");
 
         formElement == null ? "" :
             formElement.addEventListener("submit", this.submitLoginForm, true);
     }
 
-    static submitLoginForm = async (event) => {
+    submitLoginForm = async (event) => {
         event.preventDefault();
 
         const loginFormEmailAddress = document.getElementById("login_form_email_address").value;
         const loginFormPassword = document.getElementById("login_form_password").value;
 
         try {
-            const firebaseResult = await auth.signInWithEmailAndPassword(loginFormEmailAddress, loginFormPassword);
-            window.localStorage.setItem("t", firebaseResult.user.ma);
-            window.localStorage.setItem("fid", firebaseResult.user.uid);
+            const loginResult = await firebaseInstance.signInWithEmailAndPassword(loginFormEmailAddress, loginFormPassword);
+            window.localStorage.setItem("t", loginResult.user.ma);
+            window.localStorage.setItem("fid", loginResult.user.uid);
 
-            const loginStream = await fetch("https://localhost:44389/api/usermodels/login/" + `${firebaseResult.user.uid}`, {
+            const loginStream = await fetch("https://localhost:44389/api/usermodels/login/" + `${loginResult.user.uid}`, {
                 method: "GET",
                 withCredentials: true,
                 headers: {
-                    "Authorization": "Bearer " + firebaseResult.user.ma
+                    "Authorization": "Bearer " + loginResult.user.ma
                 }
             });
 
-            const loginJson = await loginStream.text();
+            const loginText = await loginStream.text();
 
-            window.localStorage.setItem("uid", loginJson);
+            window.localStorage.setItem("uid", loginText);
 
-            console.log("Confirmed logged in.");
+            const profileStream = await fetch("https://localhost:44389/api/profilemodels/id/" + `${loginText}`, {
+                method: "GET",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + loginResult.user.ma
+                }
+            });
+
+            const profileText = await profileStream.text();
+
+            window.localStorage.setItem("pid", profileText);
+
+            return window.location.href = "https://localhost:44389/";
         } catch (error) {
             console.log("Log in went wrong.");
             console.log(error);
             return error;
         }
-
-        return "Success";
     }
 }
