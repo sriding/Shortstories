@@ -29,6 +29,28 @@
         return username;
     }
 
+    async getAvatarUrl() {
+        const avatarUrlStream = await fetch("https://localhost:44389/api/profilemodels/avatar", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                source: "ridingjr@gmail.com"
+            })
+        });
+
+        const avatarUrl = await avatarUrlStream.text();
+
+        return avatarUrl;
+    }
+
+    setAvatar() {
+        this.getAvatarUrl().then((url) => {
+            document.getElementById("header-avatar-image").src = url;
+        });
+    }
+
     logoutEventListener() {
         document.getElementById("header-logout").addEventListener("click", () => {
             //Instance created in page load function.

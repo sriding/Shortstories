@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +52,29 @@ namespace shortstories.Controllers.API
             }
 
             return Ok(profile.ProfileUsername);
+        }
+
+        [HttpPost("avatar")]
+        public ActionResult GetProfileAvatar([FromBody] JsonElement body)
+        {
+            string gravatarBaseUrl = "https://www.gravatar.com/avatar/";
+            var jsonString = JsonSerializer.Serialize(body);
+            var jsonDoc = JsonDocument.Parse(jsonString);
+            var json = jsonDoc.RootElement.GetProperty("source").GetString();
+            string jsonCleanedUp = json.Trim().ToLower();
+
+            using (MD5 md5hash = MD5.Create())
+            {
+                try
+                {
+                    string hash = GetMd5Hash(md5hash, jsonCleanedUp);
+
+                    return Ok(gravatarBaseUrl + hash);
+                } catch
+                {
+                    throw;
+                }
+            }
         }
 
         // GET: api/ProfileModels/{profileUsername}
@@ -174,6 +200,27 @@ namespace shortstories.Controllers.API
             await _context.SaveChangesAsync();
 
             return Ok("Profile deleted.");
+        }
+
+        static string GetMd5Hash(MD5 md5Hash, string input)
+        {
+
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
         }
     }
 }

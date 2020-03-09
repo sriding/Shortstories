@@ -9,6 +9,10 @@
             formElement.addEventListener("submit", this.submitRegisterForm, true);
     }
 
+    clearCredentials() {
+
+    }
+
     submitRegisterForm = async (event) => {
         event.preventDefault();
 

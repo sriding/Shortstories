@@ -23,6 +23,7 @@ const pageLoadFunction = () => {
             document.getElementById("header-username").innerHTML = username;
             document.getElementsByClassName("header-authenticated")[0].style.display = "block";
             headerInstance.logoutEventListener();
+            headerInstance.setAvatar();
         }
     }).catch((err) => {
         console.log(err);
