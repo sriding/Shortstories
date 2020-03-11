@@ -6,16 +6,12 @@
 
   <ItemGroup>
     <Compile Remove="Views\NewFolder\**" />
-    <Compile Remove="Views\Shared\Components\NewFolder\**" />
     <Compile Remove="Views\Shared\NewFolder\**" />
     <Content Remove="Views\NewFolder\**" />
-    <Content Remove="Views\Shared\Components\NewFolder\**" />
     <Content Remove="Views\Shared\NewFolder\**" />
     <EmbeddedResource Remove="Views\NewFolder\**" />
-    <EmbeddedResource Remove="Views\Shared\Components\NewFolder\**" />
     <EmbeddedResource Remove="Views\Shared\NewFolder\**" />
     <None Remove="Views\NewFolder\**" />
-    <None Remove="Views\Shared\Components\NewFolder\**" />
     <None Remove="Views\Shared\NewFolder\**" />
   </ItemGroup>
 
@@ -24,6 +20,10 @@
     <Compile Remove="Migrations\20200210202732_FourthMigration.Designer.cs" />
     <Compile Remove="Migrations\20200216052453_Initial.cs" />
     <Compile Remove="Migrations\20200216052453_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200309214040_SecondMigration.cs" />
+    <Compile Remove="Migrations\20200309214040_SecondMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200309214317_SecondMigration.cs" />
+    <Compile Remove="Migrations\20200309214317_SecondMigration.Designer.cs" />
   </ItemGroup>
 
 

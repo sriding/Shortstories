@@ -44,7 +44,7 @@ namespace shortstories.Controllers.API
         [Authorize]
         public async Task<ActionResult<ProfileModel>> GetProfileUsername([FromRoute] string profileId)
         {
-            var profile = await _context.Profile.SingleAsync(a => a.ProfileUsername == profileId);
+            var profile = await _context.Profile.SingleAsync(a => a.ProfileModelId == profileId);
 
             if (profile == null)
             {

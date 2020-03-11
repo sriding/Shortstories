@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model StoryModel
+
+<a asp-area="" asp-controller="Story" asp-action="Display" asp-route-id="@Model.StoryModelId">
+<div style="cursor: pointer; box-shadow: 0px 0px 1px gray; position: relative; min-height: 300px; width: 250px; margin: 15px; padding: 20px;">
+    <h3>@Model.StoryTitle</h3>
+    <p style="margin-top: 13px; margin-bottom: 13px;">@Model.StoryHeadline</p>
+    <div style="display: flex; position: absolute; bottom: 0px; right: 15px;">
+        <p class="text-muted" style="border: 1px solid gray; border-radius: 100px; padding: 3px 7px; font-size: 14px;">Genre 1</p>
+        <p>Genre 2</p>
+        <p>Genre 3</p>
+    </div>
+</div>
+</a>

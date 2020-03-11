@@ -104,13 +104,13 @@
                     body: JSON.stringify({
                         "StoryTitle": storyTitleText,
                         "StoryContent": null,
-                        "ProfileId": "ed3f02fc-7ce3-4bef-98c2-80d7b4f7ed86"
+                        "ProfileId": window.localStorage.getItem("pid")
                     })
                 })
 
                 const storyId = await storyStream.json();
 
-                fetch("https://localhost:44389/api/storytagsmodels/create", {
+                const tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -121,7 +121,7 @@
                     })
                 });
 
-                fetch("https://localhost:44389/api/storygenresmodels/create", {
+                const genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -132,18 +132,23 @@
                     })
                 });
 
-                fetch("https://localhost:44389/api/storychaptersmodels/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "ChapterNumber": 1,
-                        "ChapterTitle": storyChapterTitleArray[0].value,
-                        "ChapterContent": storyChapterContentArray[0].value,
-                        "StoryId": storyId
-                    })
+                //Either array should work fine for looping here. Just make sure to adjust content location in the body.
+                storyChapterTitleArray.forEach(async (content, index) => {
+                    let storyChaptersRequest = await fetch("https://localhost:44389/api/storychaptersmodels/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "ChapterNumber": index + 1,
+                            "ChapterTitle": content.value,
+                            "ChapterContent": storyChapterContentArray[index].value,
+                            "StoryId": storyId
+                        })
+                    });
                 });
+
+                window.location.href = "https://localhost:44389/";
             } catch (error) {
                 console.log(error);
             }
@@ -157,13 +162,13 @@
                     body: JSON.stringify({
                         "StoryTitle": storyTitleText,
                         "StoryContent": storyContentText,
-                        "ProfileId": "ed3f02fc-7ce3-4bef-98c2-80d7b4f7ed86"
+                        "ProfileId": window.localStorage.getItem("pid")
                     })
                 })
 
                 const storyId = await storyStream.json();
 
-                fetch("https://localhost:44389/api/storytagsmodels/create", {
+                const tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -174,7 +179,7 @@
                     })
                 })
 
-                fetch("https://localhost:44389/api/storygenresmodels/create", {
+                const genresRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -184,6 +189,8 @@
                         "StoryId": storyId
                     })
                 })
+
+                window.location.href = "https://localhost:44389/";
             } catch (error) {
                 console.log(error);
             } 

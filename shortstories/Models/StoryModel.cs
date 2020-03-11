@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace shortstories.Models
 {
@@ -11,6 +12,7 @@ namespace shortstories.Models
     {
         public StoryModel()
         {
+            _StoryHeadline = "Once upon a time...";
             StoryThumbsUp = 0;
             StoryThumbsDown = 0;
         }
@@ -23,6 +25,19 @@ namespace shortstories.Models
         [Column(TypeName = "varchar(80)")]
         [StringLength(80, ErrorMessage = "Story title cannot exceed 80 characters.")]
         public string StoryTitle { get; set; }
+
+        string _StoryHeadline;
+        [Required(ErrorMessage = "Story must have a headline.")]
+        [Column(TypeName = "varchar(200)")]
+        [StringLength(200, ErrorMessage = "Story headline cannot exceed 200 characters.")]
+        public string StoryHeadline { 
+            get {
+                return _StoryHeadline;
+            }
+            set {
+                _StoryHeadline = HttpUtility.HtmlEncode(value);
+            } 
+        }
     #nullable enable
         [Column(TypeName = "varchar(8000)")]
         [StringLength(8000, ErrorMessage = "Content cannot exceed 8000 characters.")]

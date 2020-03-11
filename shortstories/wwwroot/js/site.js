@@ -24,6 +24,7 @@ const pageLoadFunction = () => {
             document.getElementsByClassName("header-authenticated")[0].style.display = "block";
             headerInstance.logoutEventListener();
             headerInstance.setAvatar();
+            headerInstance.setProfileLink();
         }
     }).catch((err) => {
         console.log(err);

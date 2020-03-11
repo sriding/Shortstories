@@ -2,17 +2,27 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@model ProfileModel
+@model dynamic
 
-<div>
-    <div class="w-100 text-center border-bottom">
-    @{ 
-        <h3 class="mt-5 mb-0">@Model.ProfileUsername</h3>
-        <p class="text-muted mt-0 mb-0">@Model.ProfileTypeOfWriter</p>
-        <p class="mt-4 mb-4">@Model.ProfileDescription</p>
-    }
+    <div>
+        <div class="w-100 text-center border-bottom">
+            @{
+                <h3 class="mt-5 mb-0">@Model.Profile.ProfileUsername</h3>
+                <p class="text-muted mt-0 mb-0">@Model.Profile.ProfileTypeOfWriter</p>
+                <p class="mt-4 mb-4">@Model.Profile.ProfileDescription</p>
+            }
+        </div>
+        @if (Model.Story == null)
+        {
+            <div class="mt-4 mb-4">
+                <p>No Stories Available</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var Story in Model.Story)
+            {
+                @await Component.InvokeAsync("StoryThumbnail", new { storyData = Story })
+            }
+        }
     </div>
-    <div class="mt-4 mb-4">
-        <p>No Stories Available</p>
-    </div>
-</div>
