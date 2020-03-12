@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using shortstories.Data;
 using shortstories.Models;
 
 namespace shortstories.Controllers
@@ -13,14 +16,19 @@ namespace shortstories.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ShortstoriesContext _context;
+
+        public HomeController(ILogger<HomeController> logger, ShortstoriesContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<StoryModel> stories = await _context.Story.ToListAsync();
+
+            return View("~/Views/Home/Index.cshtml", stories);
         }
 
         public IActionResult Privacy()

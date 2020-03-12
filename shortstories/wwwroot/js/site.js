@@ -68,4 +68,8 @@ const pageLoadFunction = () => {
             storyInstance.submitStory();
         })
     }
+
+    //Profile Page
+    const profileInstance = new Profile();
+    profileInstance.followButtonAddEventListeners();
 };

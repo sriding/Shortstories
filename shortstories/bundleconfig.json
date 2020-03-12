@@ -17,7 +17,8 @@
       "wwwroot/js/Login.js",
       "wwwroot/js/Home.js",
       "wwwroot/js/Header.js",
-      "wwwroot/js/Story.js"
+      "wwwroot/js/Story.js",
+      "wwwroot/js/Profile.js"
     ],
     "minify": {
       "enabled": true,

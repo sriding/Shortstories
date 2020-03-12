@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -78,12 +79,13 @@ namespace shortstories.Controllers.API
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<FollowersModel>> PostFollowersModel(FollowersModel followersModel)
         {
             _context.Followers.Add(followersModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFollowersModel", new { id = followersModel.FollowersModelId }, followersModel);
+            return Ok("Follower Added.");
         }
 
         // DELETE: api/FollowersModels/5

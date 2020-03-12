@@ -9,11 +9,8 @@ namespace shortstories.Models
 {
     public class FollowersModel
     {
-        public FollowersModel(string profileId, string followersId)
+        public FollowersModel()
         {
-            FollowersModelId = -1;
-            ProfileId = profileId;
-            FollowersId = followersId;
         }
         [Required(ErrorMessage = "No follower id present. This should be automatic.")]
         [Key]

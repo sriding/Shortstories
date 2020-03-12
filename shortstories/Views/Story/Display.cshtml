@@ -1,7 +1,37 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
+
+@model dynamic
+
+
+<div>
+    <div>
+        <a asp-controller="Profile" asp-action="GetProfile" asp-route-id="@Model.profile.ProfileUsername"><p>@Model.profile.ProfileUsername</p></a>
+        <p>@Model.profile.ProfileTypeOfWriter</p>
+        <p>@Model.profile.ProfileDescription</p>
+    </div>
+<h2>@Model.story.StoryTitle</h2>
+@if (Model.story.StoryContent != null)
+{
+    <p>@Model.story.StoryContent</p>
+}
+else
+{
+    @foreach (var chapter in Model.chapters)
+    {
+        <h3>@chapter.ChapterTitle</h3>
+        <p>@chapter.ChapterContent</p>
+    }
 }
 
-<h3>Displayed!</h3>
+@foreach (var genre in Model.genres)
+{
+    <p>@genre.StoryGenre</p>
+}
+
+@foreach (var tag in Model.tags)
+{
+    <p>@tag.StoryTag</p>
+}
+</div>
