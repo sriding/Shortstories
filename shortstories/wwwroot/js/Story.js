@@ -197,4 +197,43 @@
 
         }
     }
+
+    showFirstStoryChapter() {
+        //document.getElementsByClassName("display-story-content-container")[0].style.display = "block";
+        document.getElementsByClassName("display-story-content-container")[0].classList.add("display-story-displayer");
+    }
+
+    displayPreviousChapter() {
+        const chapterContainer = Array.from(document.getElementsByClassName("display-story-content-container"));
+        for (let i = 0; i < chapterContainer.length; i++) {
+            if (chapterContainer[i].classList.contains("display-story-displayer") && i !== 0) {
+                chapterContainer[i].classList.remove("display-story-displayer");
+                chapterContainer[i - 1].classList.add("display-story-displayer");
+                break;
+            }
+        }
+    }
+
+    addFunctionalityDisplayPreviousChapter() {
+        document.getElementsByClassName("la-caret-square-left")[0].addEventListener("click", () => {
+            this.displayPreviousChapter();
+        })
+    }
+
+    displayNextChapter() {
+        const chapterContainer = Array.from(document.getElementsByClassName("display-story-content-container"));
+        for (let i = 0; i < chapterContainer.length; i++) {
+            if (chapterContainer[i].classList.contains("display-story-displayer") && i !== chapterContainer.length - 1) {
+                chapterContainer[i].classList.remove("display-story-displayer");
+                chapterContainer[i + 1].classList.add("display-story-displayer");
+                break;
+            }
+        }
+    }
+
+    addFunctionalityDisplayNextChapter() {
+        document.getElementsByClassName("la-caret-square-right")[0].addEventListener("click", () => {
+            this.displayNextChapter();
+        })
+    }
 }

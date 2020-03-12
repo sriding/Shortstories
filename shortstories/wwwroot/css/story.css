@@ -29,3 +29,29 @@
 #create-story-submit-container {
     display: none;
 }
+
+.display-story-content-container {
+    display: none;
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.display-story-displayer {
+    display: block !important;
+}
+
+.la-caret-square-right {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    font-size: 46px;
+    cursor: pointer;
+}
+
+.la-caret-square-left {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    font-size: 46px;
+    cursor: pointer;
+}

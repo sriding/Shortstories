@@ -65,7 +65,7 @@ namespace shortstories.Controllers
                 return View("~/Views/Story/Display.cshtml", storyInformation);
             } else
             {
-                List<StoryChaptersModel> storyChapters = await _context.StoryChapters.Where(c => c.StoryId == story.StoryModelId).ToListAsync();
+                List<StoryChaptersModel> storyChapters = await _context.StoryChapters.Where(c => c.StoryId == story.StoryModelId).OrderBy(d => d.ChapterNumber).ToListAsync();
                 storyInformation.chapters = storyChapters;
 
                 return View("~/Views/Story/Display.cshtml", storyInformation);

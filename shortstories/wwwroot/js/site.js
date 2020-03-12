@@ -32,6 +32,10 @@ const pageLoadFunction = () => {
 
     //Story Page
     const storyInstance = new Story();
+    storyInstance.showFirstStoryChapter();
+    storyInstance.addFunctionalityDisplayPreviousChapter();
+    storyInstance.addFunctionalityDisplayNextChapter();
+
     if (storyInstance.onStoryPage === true) {
         document.getElementById("create-story-add-chapter-button").addEventListener("click", () => {
             let deleteChapterButton = storyInstance.generateNewChapterContainer();
