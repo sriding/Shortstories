@@ -142,6 +142,7 @@
 
     async submitStory() {
         let storyTitleText = document.getElementById("create-story-title").value;
+        let storyTitleHeadline = document.getElementById("create-story-headline").value;
         let storyTagsText = document.getElementById("create-story-tags").value;
         let storyGenresText = document.getElementById("create-story-genres").value;
         let storyContentText = document.getElementById("create-story-story-content").value;
@@ -157,6 +158,7 @@
                     },
                     body: JSON.stringify({
                         "StoryTitle": storyTitleText,
+                        "StoryHeadline": storyTitleHeadline,
                         "StoryContent": null,
                         "ProfileId": window.localStorage.getItem("pid")
                     })
@@ -164,27 +166,38 @@
 
                 const storyId = await storyStream.json();
 
-                const tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "StoryTag": storyTagsText,
-                        "StoryId": storyId
-                    })
-                });
 
-                const genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "StoryGenre": storyGenresText,
-                        "StoryId": storyId
-                    })
-                });
+
+                //Split tag string into array of tags, and make a request per tag.
+                const storyTagsTextArray = storyTagsText.split(",");
+                console.log(storyTagsTextArray);
+                //Make sure to check length of array to assure 3 tags total.
+                storyTagsTextArray.forEach(async (tag) => {
+                    let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "StoryTag": tag.trim(),
+                            "StoryId": storyId
+                        })
+                    });
+                })
+
+                const storyGenresTextArray = storyGenresText.split(",");
+                storyGenresTextArray.forEach(async (genre) => {
+                    let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "StoryGenre": genre.trim(),
+                            "StoryId": storyId
+                        })
+                    });
+                })
 
                 //Either array should work fine for looping here. Just make sure to adjust content location in the body.
                 storyChapterTitleArray.forEach(async (content, index) => {
@@ -215,6 +228,7 @@
                     },
                     body: JSON.stringify({
                         "StoryTitle": storyTitleText,
+                        "StoryHeadline": storyTitleHeadline,
                         "StoryContent": storyContentText,
                         "ProfileId": window.localStorage.getItem("pid")
                     })
@@ -222,26 +236,36 @@
 
                 const storyId = await storyStream.json();
 
-                const tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "StoryTag": storyTagsText,
-                        "StoryId": storyId
-                    })
+                
+                //Split tag string into array of tags, and make a request per tag.
+                const storyTagsTextArray = storyTagsText.split(",");
+                console.log(storyTagsTextArray);
+                //Make sure to check length of array to assure 3 tags total.
+                storyTagsTextArray.forEach(async (tag) => {
+                    let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "StoryTag": tag.trim(),
+                            "StoryId": storyId
+                        })
+                    });
                 })
 
-                const genresRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "StoryGenre": storyGenresText,
-                        "StoryId": storyId
-                    })
+                const storyGenresTextArray = storyGenresText.split(",");
+                storyGenresTextArray.forEach(async (genre) => {
+                    let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "StoryGenre": genre.trim(),
+                            "StoryId": storyId
+                        })
+                    });
                 })
 
                 window.location.href = "https://localhost:44389/";
