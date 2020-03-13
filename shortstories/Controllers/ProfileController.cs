@@ -42,14 +42,22 @@ namespace shortstories.Controllers
 
                 profileAndStory.Profile = profile;
 
-                List<StoryModel> story = await _context.Story.Where(o => o.ProfileId == profile.ProfileModelId).ToListAsync();
-
-                if (story == null)
+                List<StoryModel> stories = await _context.Story.Where(o => o.ProfileId == profile.ProfileModelId).ToListAsync();
+                
+                if (stories == null)
                 {
                     return Redirect("/");
                 }
 
-                profileAndStory.Story = story;
+                List<List<StoryGenresModel>> genres = new List<List<StoryGenresModel>>();
+                foreach (StoryModel story in stories)
+                {
+                    List<StoryGenresModel> tempGenreList = await _context.StoryGenres.Where(a => a.StoryId == story.StoryModelId).ToListAsync();
+                    genres.Add(tempGenreList);
+                }
+
+                profileAndStory.stories = stories;
+                profileAndStory.genres = genres;
 
                 return View("~/Views/Profile/Index.cshtml", profileAndStory);
             }

@@ -31,6 +31,11 @@
 }
 
 .display-story-content-container {
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.display-story-chapter-content-container {
     display: none;
     max-height: 100vh;
     overflow: auto;

@@ -1,6 +1,12 @@
 ﻿class Profile {
-    constructor() {
+    profileViewId;
 
+    constructor() {
+        this.profileViewId = document.getElementById("profile-view-page") || null;
+    }
+
+    get profileViewId() {
+        return profileViewId;
     }
 
     followButtonAddEventListeners() {

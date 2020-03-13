@@ -5,7 +5,7 @@
 @model dynamic
 
 
-    <div>
+    <div id="story-view-page">
         <div class="mr-3">
             <a asp-controller="Profile" asp-action="GetProfile" asp-route-id="@Model.profile.ProfileUsername"><p>@Model.profile.ProfileUsername</p></a>
             <p>@Model.profile.ProfileTypeOfWriter</p>
@@ -24,7 +24,9 @@
         <div class="border-left border-right" style="display: flex; position: relative;">
             @if (Model.story.StoryContent != null)
             {
-                <p>@Model.story.StoryContent</p>
+                <div class="display-story-content-container p-4">
+                    <p>@Model.story.StoryContent</p>
+                </div>
             }
             else
             {
@@ -32,7 +34,7 @@
                 <i class="las la-caret-square-left"></i>
                 @foreach (var chapter in Model.chapters)
                 {
-                    <div class="display-story-content-container p-4">
+                    <div class="display-story-chapter-content-container p-4">
                         <div class="text-center">
                             <h3 class="d-inline-block mb-5 mt-5 border-bottom">@chapter.ChapterTitle</h3>
                         </div>

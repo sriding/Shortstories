@@ -1,23 +1,77 @@
 ﻿class Story {
-    onStoryPage = false;
-    containerTemplate;
-    storyContainer;
-    chapterContainer;
-    yesCheckBox;
-    noCheckBox;
-    submitContainer;
+    storyCreatePage = null;
+    storyViewPage = null;
+    containerTemplate = null;
+    storyContainer = null;
+    chapterContainer = null;
+    yesCheckBox = null;
+    noCheckBox = null;
+    submitButton = null;
+    submitContainer = null;
+    addChapterButton = null;
+    lineAwesomeCircle = null;
+    displayStoryChapterContentContainer = null;
 
     constructor() {
-        if (!document.getElementById("create-story-main-container")) {
-            this.onStoryPage = false;
-        } else {
-            this.onStoryPage = true;
-            this.containerTemplate = document.getElementsByClassName("create-story-chapter-container")[0].cloneNode(true);
-            this.storyContainer = document.getElementById("create-story-story-content-container");
-            this.chapterContainer = document.getElementById("create-story-chapters-container");
-            this.yesCheckBox = document.getElementById("create-story-chapter-check-yes");
-            this.noCheckBox = document.getElementById("create-story-chapter-check-no");
-            this.submitContainer = document.getElementById("create-story-submit-container");
+        this.storyCreatePage = document.getElementById("create-story-main-container") || null;
+        this.storyViewPage = document.getElementById("story-view-page") || null;
+
+        //If the user is on the create story page
+        if (this.storyCreatePage !== null) {
+            this.containerTemplate = document.getElementsByClassName("create-story-chapter-container")[0].cloneNode(true) || null;
+            this.storyContainer = document.getElementById("create-story-story-content-container") || null;
+            this.chapterContainer = document.getElementById("create-story-chapters-container") || null;
+            this.yesCheckBox = document.getElementById("create-story-chapter-check-yes") || null;
+            this.noCheckBox = document.getElementById("create-story-chapter-check-no") || null;
+            this.submitButton = document.getElementById("create-story-submit-button") || null;
+            this.submitContainer = document.getElementById("create-story-submit-container") || null;
+            this.addChapterButton = document.getElementById("create-story-add-chapter-button") || null;
+            this.lineAwesomeCircle = document.getElementsByClassName("la-times-circle")[0] || null;
+
+            this.addChapterButton.addEventListener("click", () => {
+                let deleteChapterButton = this.generateNewChapterContainer();
+                if (deleteChapterButton !== false && deleteChapterButton !== undefined) {
+                    deleteChapterButton.addEventListener("click", (e) => {
+                        this.deleteChapterContainer(e);
+                    })
+                }
+            })
+
+            this.yesCheckBox.addEventListener("change", (e) => {
+                if (e.target.checked === true) {
+                    this.displayChapterContent();
+                    this.noCheckBox.checked = false;
+                } else {
+                    this.hideStoryAndChapterContent();
+                }
+            })
+
+            this.noCheckBox.addEventListener("change", (e) => {
+                if (e.target.checked === true) {
+                    this.displayStoryContent();
+                    this.yesCheckBox.checked = false;
+                } else {
+                    this.hideStoryAndChapterContent();
+                }
+            })
+
+            this.lineAwesomeCircle.addEventListener("click", (e) => {
+                this.deleteChapterContainer(e);
+            })
+
+            this.submitButton.addEventListener("click", () => {
+                this.submitStory();
+            })
+        }
+
+        //If the user is on the viewing story page
+        if (this.storyViewPage !== null) {
+            this.displayStoryChapterContentContainer = document.getElementsByClassName("display-story-chapter-content-container");
+            if (this.displayStoryChapterContentContainer[0] !== undefined) {
+                this.showFirstStoryChapter();
+                this.addFunctionalityDisplayNextChapter();
+                this.addFunctionalityDisplayPreviousChapter();
+            }
         }
     }
 
@@ -199,12 +253,11 @@
     }
 
     showFirstStoryChapter() {
-        //document.getElementsByClassName("display-story-content-container")[0].style.display = "block";
-        document.getElementsByClassName("display-story-content-container")[0].classList.add("display-story-displayer");
+        this.displayStoryChapterContentContainer[0].classList.add("display-story-displayer");
     }
 
     displayPreviousChapter() {
-        const chapterContainer = Array.from(document.getElementsByClassName("display-story-content-container"));
+        const chapterContainer = Array.from(this.displayStoryChapterContentContainer);
         for (let i = 0; i < chapterContainer.length; i++) {
             if (chapterContainer[i].classList.contains("display-story-displayer") && i !== 0) {
                 chapterContainer[i].classList.remove("display-story-displayer");
@@ -221,7 +274,7 @@
     }
 
     displayNextChapter() {
-        const chapterContainer = Array.from(document.getElementsByClassName("display-story-content-container"));
+        const chapterContainer = Array.from(this.displayStoryChapterContentContainer);
         for (let i = 0; i < chapterContainer.length; i++) {
             if (chapterContainer[i].classList.contains("display-story-displayer") && i !== chapterContainer.length - 1) {
                 chapterContainer[i].classList.remove("display-story-displayer");
