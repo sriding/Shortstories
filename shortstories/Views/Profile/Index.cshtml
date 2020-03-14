@@ -5,7 +5,8 @@
 @model dynamic
 
     <div id="profile-view-page">
-        <button id="profile-follow-button" value="@Model.Profile.ProfileModelId" type="button" class="text-right">Follow</button>
+        <button id="profile-follow-button" value="@Model.Profile.ProfileModelId" type="button" class="btn btn-outline-primary text-right">Follow</button>
+        <button id="profile-unfollow-button" value="@Model.Profile.ProfileModelId" type="button" class="btn btn-outline-danger profile-hide-button text-right">Unfollow</button>
         <div class="w-100 text-center border-bottom">
             @{
                 <h3 class="mt-5 mb-0">@Model.Profile.ProfileUsername</h3>
@@ -23,7 +24,7 @@
         {
             @for (int i = 0; i < Model.stories.Count; i++)
             {
-                @await Component.InvokeAsync("StoryThumbnail", new { storyData = Model.stories[i], genreData = Model.genres[i]})
+                @await Component.InvokeAsync("StoryThumbnail", new { storyData = Model.stories[i], genreData = Model.genres[i] })
             }
         }
     </div>

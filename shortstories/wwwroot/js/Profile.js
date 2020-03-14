@@ -1,8 +1,12 @@
 ﻿class Profile {
-    profileViewId;
+    profileViewId = null;
+    followButton = null;
+    unfollowButton = null;
 
     constructor() {
         this.profileViewId = document.getElementById("profile-view-page") || null;
+        this.followButton = document.getElementById("profile-follow-button") || null;
+        this.unfollowButton = document.getElementById("profile-unfollow-button") || null;
     }
 
     get profileViewId() {
@@ -10,7 +14,7 @@
     }
 
     followButtonAddEventListeners() {
-        document.getElementById("profile-follow-button").addEventListener("click", (e) => {
+        this.followButton.addEventListener("click", (e) => {
             this.sendFollowRequest(e.target.value).then(() => {
                 console.log("Follower request complete.");
             });
@@ -33,6 +37,28 @@
 
         const followerRequestResult = await followerRequest.text();
 
-        console.log(followerRequestResult);
+        window.location.reload();
+    }
+
+    async checkIfUserIsAFriend() {
+        const myProfileId = window.localStorage.getItem("pid");
+        const userProfileId = this.followButton.value || this.unfollowButton.value;
+        const checkIfFriendStream = await fetch("https://localhost:44389/api/followersmodels/" + myProfileId + "/" + userProfileId, {
+            method: "GET",
+            withCredentials: true,
+            headers: {
+                "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                "Content-Type": "application/json"
+            },
+        })
+
+        const checkIfFriend = await checkIfFriendStream.text();
+
+        if (checkIfFriend === "friend") {
+            this.followButton.classList.add("profile-hide-button");
+            this.unfollowButton.classList.remove("profile-hide-button");
+        } else {
+            return;
+        }
     }
 }

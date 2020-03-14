@@ -33,6 +33,7 @@ const pageLoadFunction = () => {
     const profileInstance = new Profile();
     if (profileInstance.profileViewId != null) {
         profileInstance.followButtonAddEventListeners();
+        profileInstance.checkIfUserIsAFriend();
     }
 
     //Story Page

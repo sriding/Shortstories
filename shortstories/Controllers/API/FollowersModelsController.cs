@@ -43,6 +43,26 @@ namespace shortstories.Controllers.API
             return followersModel;
         }
 
+        [HttpGet("{profileId}/{userProfileId}")]
+        [Authorize]
+        public async Task<ActionResult<FollowersModel>> CheckIfUserIsAFriend([FromRoute] string profileId, [FromRoute] string userProfileId) {
+            try
+            {
+                FollowersModel follower = await _context.Followers.Where(a => a.ProfileId == profileId).Where(b => b.FollowersId == userProfileId).SingleOrDefaultAsync();
+
+                if (follower == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok("friend");
+
+            } catch(Exception)
+            {
+                throw;
+            }
+        }
+
         // PUT: api/FollowersModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

@@ -15,10 +15,12 @@
 </head>
 <body onload="pageLoadFunction()">
     @await Component.InvokeAsync("Header")
-    <div class="container">
+    <div class="container-fluid">
+        <div style="width: 85%; margin: 0 auto;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        </div>
     </div>
     @await Component.InvokeAsync("Footer")
     <script src="~/js/Firebase.js" asp-append-version="true"></script>
