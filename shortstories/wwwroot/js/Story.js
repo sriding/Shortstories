@@ -6,6 +6,7 @@
     chapterContainer = null;
     yesCheckBox = null;
     noCheckBox = null;
+    genreButtons = null;
     submitButton = null;
     submitContainer = null;
     addChapterButton = null;
@@ -23,6 +24,7 @@
             this.chapterContainer = document.getElementById("create-story-chapters-container") || null;
             this.yesCheckBox = document.getElementById("create-story-chapter-check-yes") || null;
             this.noCheckBox = document.getElementById("create-story-chapter-check-no") || null;
+            this.genreButtons = Array.from(document.getElementsByClassName("create-story-individual-genres"));
             this.submitButton = document.getElementById("create-story-submit-button") || null;
             this.submitContainer = document.getElementById("create-story-submit-container") || null;
             this.addChapterButton = document.getElementById("create-story-add-chapter-button") || null;
@@ -53,6 +55,20 @@
                 } else {
                     this.hideStoryAndChapterContent();
                 }
+            })
+
+            this.genreButtons.forEach((genre) => {
+                genre.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("btn-outline-dark")) {
+                        e.target.classList.remove("btn-outline-dark");
+                        e.target.classList.add("btn-dark");
+                        e.target.classList.add("genre-button-selected");
+                    } else {
+                        e.target.classList.remove("btn-dark");
+                        e.target.classList.remove("genre-button-selected");
+                        e.target.classList.add("btn-outline-dark");
+                    }
+                })
             })
 
             this.lineAwesomeCircle.addEventListener("click", (e) => {
@@ -141,11 +157,11 @@
     }
 
     async submitStory() {
-        let storyTitleText = document.getElementById("create-story-title").value;
-        let storyTitleHeadline = document.getElementById("create-story-headline").value;
-        let storyTagsText = document.getElementById("create-story-tags").value;
-        let storyGenresText = document.getElementById("create-story-genres").value;
-        let storyContentText = document.getElementById("create-story-story-content").value;
+        let storyTitleText = document.getElementById("create-story-title").value || null;
+        let storyTitleHeadline = document.getElementById("create-story-headline").value || null;
+        let storyTagsText = document.getElementById("create-story-tags").value || null;
+        let storyGenresArray = Array.from(document.getElementsByClassName("genre-button-selected"));
+        let storyContentText = document.getElementById("create-story-story-content").value || null;
         let storyChapterTitleArray = Array.from(document.getElementsByClassName("create-story-chapter-title"));
         let storyChapterContentArray = Array.from(document.getElementsByClassName("create-story-chapter-content"));
 
@@ -185,15 +201,14 @@
                     });
                 })
 
-                const storyGenresTextArray = storyGenresText.split(",");
-                storyGenresTextArray.forEach(async (genre) => {
+                storyGenresArray.forEach(async (genre) => {
                     let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            "StoryGenre": genre.trim(),
+                            "StoryGenre": genre.value,
                             "StoryId": storyId
                         })
                     });
@@ -254,15 +269,14 @@
                     });
                 })
 
-                const storyGenresTextArray = storyGenresText.split(",");
-                storyGenresTextArray.forEach(async (genre) => {
+                storyGenresArray.forEach(async (genre) => {
                     let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            "StoryGenre": genre.trim(),
+                            "StoryGenre": genre.value,
                             "StoryId": storyId
                         })
                     });

@@ -30,6 +30,10 @@
     display: none;
 }
 
+.create-story-individual-genres {
+
+}
+
 .display-story-content-container {
     max-height: 100vh;
     overflow: auto;
