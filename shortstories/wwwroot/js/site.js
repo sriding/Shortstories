@@ -15,6 +15,7 @@ const pageLoadFunction = () => {
     //Register Page
     const registerInstance = new Register();
     registerInstance.addFormEventListener();
+    registerInstance.changeChosenAvatar();
 
     //Login Page
     const loginInstance = new Login();

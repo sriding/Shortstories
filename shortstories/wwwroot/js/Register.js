@@ -1,5 +1,8 @@
 ﻿class Register {
+    arrayOfAvatarElements = null;
+
     constructor() {
+        this.arrayOfAvatarElements = Array.from(document.getElementsByClassName("register-avatar"));
     }
 
     addFormEventListener = () => {
@@ -9,8 +12,14 @@
             formElement.addEventListener("submit", this.submitRegisterForm, true);
     }
 
-    clearCredentials() {
 
+    changeChosenAvatar() {
+        this.arrayOfAvatarElements.forEach((avatars) => {
+            avatars.addEventListener("click", (e) => {
+                document.getElementsByClassName("register-chosen-avatar")[0].classList.remove("register-chosen-avatar", "border");
+                e.target.classList.add("register-chosen-avatar", "border");
+            })
+        })
     }
 
     submitRegisterForm = async (event) => {
@@ -21,6 +30,7 @@
         const registerFormEmailAddress = document.getElementById("register_form_email_address").value;
         const registerFormProfession = document.getElementById("register_form_profession").value;
         const registerFormDescription = document.getElementById("register_form_description").value;
+        const registerFormAvatar = document.getElementsByClassName("register-chosen-avatar")[0].alt;
 
         try {
             const registerResult = await firebaseInstance.createUserWithEmailAndPassword(registerFormEmailAddress, registerFormPassword);
@@ -43,6 +53,7 @@
             const profileFormData = {
                 "UserId": userResponseData,
                 "ProfileUsername": registerFormUsername,
+                "ProfileAvatar": registerFormAvatar,
                 "ProfileTypeOfWriter": registerFormProfession,
                 "ProfileDescription": registerFormDescription
             }

@@ -54,6 +54,19 @@ namespace shortstories.Controllers.API
             return Ok(profile.ProfileUsername);
         }
 
+        [HttpGet("avatar/{profileId}")]
+        public async Task<ActionResult<ProfileModel>> GetProfileAvatar([FromRoute] string profileId)
+        {
+            var profile = await _context.Profile.SingleAsync(a => a.ProfileModelId == profileId);
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(profile.ProfileAvatar);
+        }
+
         [HttpPost("avatar")]
         public ActionResult GetProfileAvatar([FromBody] JsonElement body)
         {

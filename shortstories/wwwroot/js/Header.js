@@ -30,14 +30,8 @@
     }
 
     async getAvatarUrl() {
-        const avatarUrlStream = await fetch("https://localhost:44389/api/profilemodels/avatar", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                source: "ridingjr@gmail.com"
-            })
+        const avatarUrlStream = await fetch("https://localhost:44389/api/profilemodels/avatar/" + window.localStorage.getItem("pid"), {
+            method: "GET"
         });
 
         const avatarUrl = await avatarUrlStream.text();
@@ -47,7 +41,7 @@
 
     setAvatar() {
         this.getAvatarUrl().then((url) => {
-            document.getElementById("header-avatar-image").src = url;
+            document.getElementById("header-avatar-image").src = "/images/" + url + ".png";
         });
     }
 

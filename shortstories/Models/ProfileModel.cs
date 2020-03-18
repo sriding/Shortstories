@@ -40,6 +40,20 @@ namespace shortstories.Models
             }
         }
 
+        string _ProfileAvatar;
+        [Required(ErrorMessage = "No avatar selected.")]
+        [Column(TypeName = "varchar(25)")]
+        [StringLength(25, ErrorMessage = "Avatar cannot exceed 25 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9_-]*$", ErrorMessage = "Only alphanumerical characters, spaces, and dashes are allowed.")]
+        public string ProfileAvatar
+        {
+            get { return _ProfileAvatar; }
+            set
+            {
+                _ProfileAvatar = HttpUtility.HtmlEncode(value);
+            }
+        }
+
         string _ProfileTypeOfWriter;
         [Column(TypeName = "varchar(25)")]
         [StringLength(25, ErrorMessage = "Should not exceed 25 characters. This should be automatic.")]
