@@ -39,6 +39,7 @@ const pageLoadFunction = () => {
     if (profileInstance.profileViewId != null) {
         profileInstance.followButtonAddEventListeners();
         profileInstance.checkIfUserIsAFriend();
+        homeInstance.getStoriesByProfile(document.getElementById("profile-username").innerHTML, "profile-stories");
     }
 
     //Story Page

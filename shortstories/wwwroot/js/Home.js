@@ -62,7 +62,7 @@
 
             const stories = await storiesStream.json();
 
-            this.createStoryContainers(stories, elementId);
+            this.createStoryContainersGeneral(stories, elementId);
         } catch (error) {
             console.log("error: ", error);
         }
