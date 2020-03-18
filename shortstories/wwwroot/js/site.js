@@ -6,7 +6,12 @@
 //Function to run functions on page load.
 const pageLoadFunction = () => {
     //Home Page
-
+    const homeInstance = new Home();
+    if (homeInstance.homePage !== null) {
+        homeInstance.getStoriesByFollowers(window.localStorage.getItem("pid"), "home-follower-stories");
+        homeInstance.getStoriesByFilter("New", "home-filter-stories");
+        homeInstance.addAllDropdownButtonEventListeners();
+    }
     //Register Page
     const registerInstance = new Register();
     registerInstance.addFormEventListener();

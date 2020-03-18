@@ -2,27 +2,37 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model dynamic
-    <div class="text-center">
+    <div id="home-page" class="text-center">
         <h1 class="display-4 mt-4 mb-4">Shortstories</h1>
         <a class="btn btn-primary" asp-controller="Story" asp-action="Create">Add Story</a>
         <div class="border-bottom text-left">
             <h5 class="d-inline-block position-relative text-muted" style="left: 10px;">Followers</h5>
         </div>
-        <div class="d-flex flex-wrap justify-content-center">
-            @for (int i = 0; i < Model.stories.Count; i++)
-            {
-                @await Component.InvokeAsync("StoryThumbnail", new { storyData = Model.stories[i], genreData = Model.genres[i] })
-            }
-        </div>
+        <div id="home-follower-stories" class="d-flex flex-wrap justify-content-center"></div>
         <div class="border-bottom dropdown text-left">
-            <div class="dropdown-toggle position-relative text-muted mb-2" style="font-size: 20px; left: 10px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Random
-            </div>
+            <div id="dropdownMenuButton" class="dropdown-toggle position-relative text-muted mb-2" style="font-size: 20px; left: 10px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</div>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">New</a>
+                <a class="dropdown-item" href="#">Random</a>
                 <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">Adventure</a>
+                <a class="dropdown-item" href="#">Crime</a>
+                <a class="dropdown-item" href="#">Dark</a>
+                <a class="dropdown-item" href="#">Fantasy</a>
+                <a class="dropdown-item" href="#">Fiction</a>
+                <a class="dropdown-item" href="#">Horror</a>
+                <a class="dropdown-item" href="#">Mystery</a>
+                <a class="dropdown-item" href="#">MMO</a>
+                <a class="dropdown-item" href="#">Non-fiction</a>
+                <a class="dropdown-item" href="#">Romance</a>
+                <a class="dropdown-item" href="#">Science Fiction</a>
+                <a class="dropdown-item" href="#">Shooter</a>
+                <a class="dropdown-item" href="#">Space</a>
+                <a class="dropdown-item" href="#">Thriller</a>
+                <a class="dropdown-item" href="#">War</a>
+                <a class="dropdown-item" href="#">Western</a>
+            </div>
+            <div id="home-filter-stories">
             </div>
         </div>
     </div>

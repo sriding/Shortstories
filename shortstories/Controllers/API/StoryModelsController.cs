@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using shortstories.Data;
 using shortstories.Models;
 
@@ -24,16 +28,207 @@ namespace shortstories.Controllers.API
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<dynamic>> GetStories()
         {
-            return new string[] { "value1", "value2" };
+            var stories = await _context.Story.ToListAsync();
+            //return JsonSerializer.Serialize(stories);
+            return Ok();
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("filter/{filterText}")]
+        public async Task<ActionResult<dynamic>> GetGenreStories(string filterText)
         {
-            return "value";
+            dynamic dynamoObject = new ExpandoObject();
+
+            switch (filterText)
+            {
+                case "Random":
+                    try
+                    {
+                        Random rand = new Random();
+                        int toSkip = rand.Next(1, _context.Story.Count());
+
+                        List<StoryModel> randomStories = await _context.Story.Skip(toSkip).Take(16).ToListAsync();
+                        if (randomStories == null)
+                        {
+                            dynamoObject.stories = new List<StoryModel>();
+                            dynamoObject.genres = new List<List<StoryGenresModel>>();
+                            return NotFound(dynamoObject);
+                        }
+                        List<List<StoryGenresModel>> randomGenres = new List<List<StoryGenresModel>>();
+
+                        foreach (StoryModel story in randomStories)
+                        {
+                            List<StoryGenresModel> randomGenre = await _context.StoryGenres.Where(a => a.StoryId == story.StoryModelId).ToListAsync();
+                            randomGenres.Add(randomGenre);
+                        }
+
+                        dynamoObject.genres = randomGenres;
+                        dynamoObject.stories = randomStories;
+
+                        return JsonConvert.SerializeObject(dynamoObject);
+                    } catch (Exception e)
+                    {
+                        return JsonConvert.SerializeObject(e);
+                    }
+
+                case "New":
+                    try
+                    {
+                        List<StoryModel> newStories = await _context.Story.Take(16).ToListAsync();
+                        if (newStories == null)
+                        {
+                            dynamoObject.stories = new List<StoryModel>();
+                            dynamoObject.genres = new List<List<StoryGenresModel>>();
+                            return NotFound(dynamoObject);
+                        }
+                        var newGenres = new List<List<StoryGenresModel>>();
+
+                        foreach (StoryModel story in newStories)
+                        {
+                            List<StoryGenresModel> newGenre = await _context.StoryGenres.Where(b => b.StoryId == story.StoryModelId).ToListAsync();
+                            newGenres.Add(newGenre);
+                        }
+
+                        dynamoObject.genres = newGenres;
+                        dynamoObject.stories = newStories;
+
+                        return JsonConvert.SerializeObject(dynamoObject);
+                    } catch(Exception e)
+                    {
+                        return JsonConvert.SerializeObject(e);
+                    }
+                default:
+                    try
+                    {
+                        var defaultGenres = await _context.StoryGenres.Where(a => a.StoryGenre == char.ToUpper(filterText[0]) + filterText.Substring(1)).Take(16).ToListAsync();
+                        if (defaultGenres == null)
+                        {
+                            dynamoObject.stories = new List<StoryModel>();
+                            dynamoObject.genres = new List<List<StoryGenresModel>>();
+                            return NotFound(dynamoObject);
+                        }
+                        var defaultStories = new List<StoryModel>();
+                        if (defaultStories == null)
+                        {
+                            dynamoObject.stories = new List<StoryModel>();
+                            dynamoObject.genres = new List<List<StoryGenresModel>>();
+                            return NotFound(dynamoObject);
+                        }
+
+                        foreach (StoryGenresModel genre in defaultGenres)
+                        {
+                            StoryModel story = await _context.Story.Where(c => c.StoryModelId == genre.StoryId).SingleOrDefaultAsync();
+                            defaultStories.Add(story);
+                        }
+
+                        List<List<StoryGenresModel>> returnGenres = new List<List<StoryGenresModel>>();
+
+                        foreach (StoryModel story in defaultStories)
+                        {
+                            List<StoryGenresModel> genres = await _context.StoryGenres.Where(d => d.StoryId == story.StoryModelId).ToListAsync();
+                            returnGenres.Add(genres);
+                        }
+
+                        dynamoObject.genres = returnGenres;
+                        dynamoObject.stories = defaultStories;
+
+                        return JsonConvert.SerializeObject(dynamoObject);
+                    } catch(Exception e)
+                    {
+                        return JsonConvert.SerializeObject(e);
+                    }
+            }
+        }
+
+        [HttpGet("filter/followers/{profileId}")]
+        [Authorize]
+        public async Task<ActionResult<dynamic>> GetFollowersStories(string profileId)
+        {
+            try
+            {
+                dynamic dynamoObject = new ExpandoObject();
+
+                List<FollowersModel> followers = await _context.Followers.Where(a => a.ProfileId == profileId).ToListAsync();
+                if (followers == null)
+                {
+                    dynamoObject.stories = new List<StoryModel>();
+                    dynamoObject.genres = new List<List<StoryGenresModel>>();
+                    return NotFound(dynamoObject);
+                }
+                List<List<StoryModel>> stories = new List<List<StoryModel>>();
+                if (stories == null)
+                {
+                    dynamoObject.stories = new List<StoryModel>();
+                    dynamoObject.genres = new List<List<StoryGenresModel>>();
+                    return NotFound(dynamoObject);
+                }
+
+                foreach (FollowersModel follower in followers)
+                {
+                    var storyList = await _context.Story.Where(b => b.ProfileId == follower.FollowersId).ToListAsync();
+                    stories.Add(storyList);
+                }
+
+                List<List<StoryGenresModel>> genres = new List<List<StoryGenresModel>>();
+
+                foreach (List<StoryModel> storyList in stories)
+                {
+                    foreach (StoryModel story in storyList)
+                    {
+                        var genreList = await _context.StoryGenres.Where(c => c.StoryId == story.StoryModelId).ToListAsync();
+                        genres.Add(genreList);
+                    }
+                }
+
+                dynamoObject.genres = genres;
+                dynamoObject.stories = stories;
+
+                return JsonConvert.SerializeObject(dynamoObject);
+            } catch (Exception e)
+            {
+                return JsonConvert.SerializeObject(e);
+            }
+        }
+
+        [HttpGet("filter/profile/{profileUsername}")]
+        public async Task<ActionResult<dynamic>> GetProfileStories(string profileUsername)
+        {
+            try
+            {
+                dynamic dynamoObject = new ExpandoObject();
+
+                ProfileModel profile = await _context.Profile.Where(a => a.ProfileUsername == profileUsername).SingleOrDefaultAsync();
+                if (profile == null)
+                {
+                    dynamoObject.stories = new List<StoryModel>();
+                    dynamoObject.genres = new List<List<StoryGenresModel>>();
+                    return NotFound(dynamoObject);
+                }
+                List<StoryModel> stories = await _context.Story.Where(b => b.ProfileId == profile.ProfileModelId).ToListAsync();
+                if (stories == null)
+                {
+                    dynamoObject.stories = new List<StoryModel>();
+                    dynamoObject.genres = new List<List<StoryGenresModel>>();
+                    return NotFound(dynamoObject);
+                }
+                List<List<StoryGenresModel>> genres = new List<List<StoryGenresModel>>();
+
+                foreach (StoryModel story in stories)
+                {
+                    List<StoryGenresModel> genre = await _context.StoryGenres.Where(c => c.StoryId == story.StoryModelId).ToListAsync();
+                    genres.Add(genre);
+                }
+
+                dynamoObject.genres = genres;
+                dynamoObject.stories = stories;
+
+                return JsonConvert.SerializeObject(dynamoObject);
+            } catch (Exception e)
+            {
+                return JsonConvert.SerializeObject(e);
+            }
         }
 
         // POST api/<controller>

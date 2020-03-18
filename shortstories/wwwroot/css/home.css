@@ -1,0 +1,19 @@
+﻿.home-link-container {
+    color: inherit;
+}
+
+.home-main-container {
+    cursor: pointer;
+    min-height: 300px;
+    width: 250px;
+}
+
+.home-genre-container {
+    bottom: 0px;
+    right: 15px;
+}
+
+.home-genre-text {
+    font-size: 14px;
+    border-radius: 100px;
+}
