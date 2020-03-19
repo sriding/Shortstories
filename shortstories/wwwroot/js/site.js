@@ -38,13 +38,20 @@ const pageLoadFunction = () => {
 
     const profileInstance = new Profile();
     if (profileInstance.profileViewId != null) {
-        profileInstance.followButtonAddEventListeners();
-        profileInstance.checkIfUserIsAFriend();
+        if (window.localStorage.getItem("pid") !== null) {
+            profileInstance.followButtonAddEventListeners();
+            profileInstance.checkIfUserIsAFriend();
+        } else {
+            profileInstance.hideButtons();
+        }
+        profileInstance.displayProfileAvatar();
         homeInstance.getStoriesByProfile(document.getElementById("profile-username").innerHTML, "profile-stories");
     }
 
     //Story Page
     const storyInstance = new Story();
-
+    if (storyInstance.storyViewPage != null) {
+        storyInstance.displayUserAvatar();
+    }
     //Profile Page
 };

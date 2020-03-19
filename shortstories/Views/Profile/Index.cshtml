@@ -8,11 +8,12 @@
         <button id="profile-follow-button" value="@Model.Profile.ProfileModelId" type="button" class="btn btn-outline-primary text-right">Follow</button>
         <button id="profile-unfollow-button" value="@Model.Profile.ProfileModelId" type="button" class="btn btn-outline-danger profile-hide-button text-right">Unfollow</button>
         <div class="w-100 text-center border-bottom">
-            @{
-                <h3 id="profile-username" class="mt-5 mb-0">@Model.Profile.ProfileUsername</h3>
-                <p class="text-muted mt-0 mb-0">@Model.Profile.ProfileTypeOfWriter</p>
-                <p class="mt-4 mb-4">@Model.Profile.ProfileDescription</p>
-            }
+            <div class="d-flex justify-content-center align-items-center">
+                <img id="profile-view-user-avatar" alt="@Model.Profile.ProfileAvatar" class="ml-1 mr-1" style="height: 50px; width: 50px;" />
+                <h3 id="profile-username" class="mt-0 mb-0">@Model.Profile.ProfileUsername</h3>
+            </div>
+           <p class="text-muted mt-0 mb-0">@Model.Profile.ProfileTypeOfWriter</p>
+           <p class="mt-4 mb-4">@Model.Profile.ProfileDescription</p>
         </div>
         <div id="profile-stories">
         </div>

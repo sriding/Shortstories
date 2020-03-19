@@ -1,4 +1,5 @@
-﻿.create-story-chapter-checkbox-container {
+﻿/*Create Story Page (Start)*/
+.create-story-chapter-checkbox-container {
     display: flex;
 }
 
@@ -34,6 +35,13 @@
 
 }
 
+/*Create Story Page (End)*/
+
+/*Display story page (start)*/
+#story-view-page {
+    
+}
+
 .display-story-content-container {
     max-height: 100vh;
     overflow: auto;
@@ -64,3 +72,5 @@
     font-size: 46px;
     cursor: pointer;
 }
+
+/*Display store page (end)*/

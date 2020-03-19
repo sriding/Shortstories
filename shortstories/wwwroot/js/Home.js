@@ -17,6 +17,10 @@
 
     async getStoriesByFilter(filterText, elementId) {
         try {
+            if (filterText === null) {
+                return;
+            }
+
             const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/" + filterText, {
                 method: "GET",
                 headers: {
@@ -34,6 +38,10 @@
 
     async getStoriesByFollowers(profileId, elementId) {
         try {
+            if (profileId === null) {
+                document.getElementById(elementId).innerHTML = "Not following anyone."
+                return;
+            }
             const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/followers/" + profileId, {
                 method: "GET",
                 withCredentials: true,
@@ -106,9 +114,11 @@
 
     createStoryContainersFollowers(stories, elementId) {
         if (stories.stories.length === 0) {
-            document.getElementById(elementId).innerHTML = "No follower stories.";
+            document.getElementById(elementId).innerHTML = "No stories to display from those you are following.";
             return;
         }
+
+        console.log(stories);
 
         stories.stories.forEach((storyList) => {
             storyList.forEach((story, index) => {

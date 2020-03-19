@@ -4,16 +4,16 @@
 @{
 }
 
-<header>
+<header style="height: 64px;">
     <div class="header-unauthenticated">
-        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow mb-3">
+        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
             <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
             <a class="navbar-brand" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
             <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
         </nav>
     </div>
     <div class="header-authenticated">
-        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow mb-3">
+        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
             <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
             <div class="header-user-details">
                 <a id="header-avatar-link" class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="GetProfile"><img id="header-avatar-image" alt="profile pic" style="width: 30px; height: 30px;"/></a>

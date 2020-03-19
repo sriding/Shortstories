@@ -13,12 +13,22 @@
         return profileViewId;
     }
 
+    displayProfileAvatar() {
+        const profileAvatar = document.getElementById("profile-view-user-avatar");
+        profileAvatar.src = "/images/" + profileAvatar.alt + ".png";
+    }
+
     followButtonAddEventListeners() {
         this.followButton.addEventListener("click", (e) => {
             this.sendFollowRequest(e.target.value).then(() => {
                 console.log("Follower request complete.");
             });
         })
+    }
+
+    hideButtons() {
+        this.followButton.style.display = "none";
+        this.unfollowButton.style.display = "none";
     }
 
     async sendFollowRequest(followerId) {

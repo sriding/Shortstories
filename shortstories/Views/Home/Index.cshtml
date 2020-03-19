@@ -5,12 +5,14 @@
     <div id="home-page" class="text-center">
         <h1 class="display-4 mt-4 mb-4">Shortstories</h1>
         <a class="btn btn-primary" asp-controller="Story" asp-action="Create">Add Story</a>
-        <div class="border-bottom text-left">
-            <h5 class="d-inline-block position-relative text-muted" style="left: 10px;">Followers</h5>
+        <div>
+            <div class="border-bottom text-left">
+                <h5 class="d-inline-block position-relative text-muted" style="left: 10px;">Followers</h5>
+            </div>
+            <div id="home-follower-stories" class="d-flex flex-wrap justify-content-center"></div>
         </div>
-        <div id="home-follower-stories" class="d-flex flex-wrap justify-content-center"></div>
-        <div class="border-bottom dropdown text-left">
-            <div id="dropdownMenuButton" class="dropdown-toggle position-relative text-muted mb-2" style="font-size: 20px; left: 10px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</div>
+        <div>
+            <div id="dropdownMenuButton" class="border-bottom text-left position-relative text-muted mb-2 dropdown-toggle" style="font-size: 20px; left: 10px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</div>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">New</a>
                 <a class="dropdown-item" href="#">Random</a>

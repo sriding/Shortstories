@@ -16,6 +16,10 @@
         const userId = window.localStorage.getItem("uid");
         const firebaseId = window.localStorage.getItem("fid");
 
+        if (userId === null && firebaseId === null) {
+            return;
+        }
+
         const authStatusStream = await fetch(`https://localhost:44389/api/usermodels/${firebaseId}/${userId}`, {
             method: "GET",
             withCredentials: true,

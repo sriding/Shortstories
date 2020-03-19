@@ -57,12 +57,14 @@
                 }
             })
 
-            this.genreButtons.forEach((genre) => {
+            this.genreButtons.forEach(genre => {
                 genre.addEventListener("click", (e) => {
                     if (e.target.classList.contains("btn-outline-dark")) {
-                        e.target.classList.remove("btn-outline-dark");
-                        e.target.classList.add("btn-dark");
-                        e.target.classList.add("genre-button-selected");
+                        if (Array.from(document.getElementsByClassName("genre-button-selected")).length < 3) {
+                            e.target.classList.remove("btn-outline-dark");
+                            e.target.classList.add("btn-dark");
+                            e.target.classList.add("genre-button-selected");
+                        } else {}
                     } else {
                         e.target.classList.remove("btn-dark");
                         e.target.classList.remove("genre-button-selected");
@@ -89,6 +91,11 @@
                 this.addFunctionalityDisplayPreviousChapter();
             }
         }
+    }
+
+    displayUserAvatar() {
+        const avatarElement = document.getElementById("story-view-user-avatar");
+        avatarElement.src = "/images/" + avatarElement.alt + ".png";
     }
 
     displayStoryContent() {
@@ -323,6 +330,9 @@
     }
 
     addFunctionalityDisplayNextChapter() {
+        document.getElementsByClassName("la-caret-square-right")[0].addEventListener("keydown", (e) => {
+            console.dir(e);
+        }, false)
         document.getElementsByClassName("la-caret-square-right")[0].addEventListener("click", () => {
             this.displayNextChapter();
         })
