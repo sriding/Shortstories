@@ -206,22 +206,20 @@
         }
     }
 
-    //Needs work -- will only update certain profile details and what it updates is random. Thinking it must 
-    //be some kind of async/await issue and my web api can't handle the multiple requests while using localhost.
     async updateProfileButtonEventListeners() {
-        await document.getElementById("settings-update-profile-button").addEventListener("click", async () => {
+        document.getElementById("settings-update-profile-button").addEventListener("click", async () => {
             const newAvatar = document.getElementsByClassName("settings-chosen-avatar")[0];
-            console.log("Avatar: ", newAvatar.alt);
-            await this.changeAvatar(newAvatar.alt);
+            const avatarChanged = await this.changeAvatar(newAvatar.alt);
+
+            const newDescription = document.getElementById("settings-writer-description").value;
+            const descriptionChanged = await this.changeProfileDescription(newDescription);
+
+            //Had to move this to the bottom of the function, because how do you await for a foreach loop to finish?
             Array.from(document.getElementsByClassName("settings-option")).forEach(async (option) => {
                 if (option.selected === true) {
-                    console.log("Option: ", option.value);
-                    await this.changeWriterLabel(option.value);
+                    const writerLabelChanged = await this.changeWriterLabel(option.value);
                 }
             })
-            const newDescription = document.getElementById("settings-writer-description").value;
-            console.log("Description: ", newDescription);
-            await this.changeProfileDescription(newDescription);
         })
     }
 
