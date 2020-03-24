@@ -10,6 +10,7 @@ const pageLoadFunction = () => {
     if (homeInstance.homePage !== null) {
         homeInstance.getStoriesByFollowers(window.localStorage.getItem("pid"), "home-follower-stories");
         homeInstance.getStoriesByFilter("New", "home-filter-stories");
+        homeInstance.addMainDropdownButtonEventListener();
         homeInstance.addAllDropdownButtonEventListeners();
     }
     //Register Page
@@ -53,5 +54,20 @@ const pageLoadFunction = () => {
     if (storyInstance.storyViewPage != null) {
         storyInstance.displayUserAvatar();
     }
-    //Profile Page
+    //Settings Page
+    const settingsInstance = new Settings();
+    document.getElementById("main-container").addEventListener("click", (e) => {
+        if (e.target.id !== "settings-update-user-button") {
+            settingsInstance.hideCurrentLoginDetailsPrompt();
+        }
+    })
+
+    if (settingsInstance.settingsPage !== null) {
+        settingsInstance.preSelectCurrentAvatar();
+        settingsInstance.preSelectCurrentWriterLabel();
+        settingsInstance.preFillProfileDescription();
+        settingsInstance.displayCurrentStories();
+        settingsInstance.updateUserButtonEventListeners();
+        settingsInstance.updateProfileButtonEventListeners();
+    }
 };

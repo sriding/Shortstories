@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,8 +32,20 @@ namespace shortstories.Controllers.API
         public async Task<ActionResult<dynamic>> GetStories()
         {
             var stories = await _context.Story.ToListAsync();
-            //return JsonSerializer.Serialize(stories);
             return Ok();
+        }
+
+        [HttpGet("profile/{profileId}")]
+        public async Task<dynamic> GetProfileStories(string profileId)
+        {
+            List<StoryModel> stories = await _context.Story.Where(a => a.ProfileId == profileId).Take(16).ToListAsync();
+
+            if (stories == null)
+            {
+                return NotFound();
+            }
+
+            return JsonConvert.SerializeObject(stories);
         }
 
         // GET api/<controller>/5
@@ -193,7 +206,7 @@ namespace shortstories.Controllers.API
         }
 
         [HttpGet("filter/profile/{profileUsername}")]
-        public async Task<ActionResult<dynamic>> GetProfileStories(string profileUsername)
+        public async Task<ActionResult<dynamic>> GetStoryCardInformation(string profileUsername)
         {
             try
             {
@@ -257,8 +270,41 @@ namespace shortstories.Controllers.API
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize]
+        public async Task<ActionResult> DeleteAStory([FromRoute] int id, [FromBody] UserModel user)
         {
+            try
+            {
+                var userExists = await _context.User.Where(a => a.UserModelId == user.UserModelId).Where(b => b.FirebaseUserId == user.FirebaseUserId).SingleOrDefaultAsync();
+
+                if (userExists == null)
+                {
+                    return NotFound();
+                }
+
+                var profile = await _context.Profile.Where(c => c.UserId == userExists.UserModelId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                var story = await _context.Story.Where(d => d.ProfileId == profile.ProfileModelId).Where(e => e.StoryModelId == id).SingleOrDefaultAsync();
+
+                if (story == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Story.Remove(story);
+
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            } catch(Exception e)
+            {
+                return Problem(e.ToString());
+            }
         }
     }
 }

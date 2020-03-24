@@ -45,12 +45,16 @@
 .display-story-content-container {
     max-height: 100vh;
     overflow: auto;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .display-story-chapter-content-container {
     display: none;
     max-height: 100vh;
     overflow: auto;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .display-story-displayer {

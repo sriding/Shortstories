@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div id="edit-story-main-container" class="mt-4 mb-4">
+    <h1>Editing a Story...</h1>
+    <form id="edit-story-form">
+        <div class="form-group">
+            <label for="edit-story-title">Edit Story Title</label>
+            <input type="text" class="form-control" name="edit-story-title" id="edit-story-title" placeholder="Enter Story Title" required>
+            <small class="form-text text-muted">Max 80 characters.</small>
+        </div>
+        <div class="form-group">
+            <label for="edit-story-title">Edit Story Headline</label>
+            <input type="text" class="form-control" name="edit-story-headline" id="edit-story-headline" placeholder="Enter Story Headline">
+            <small class="form-text text-muted">Max 200 characters.</small>
+        </div>
+        <div class="form-group">
+            <label for="edit-story-tags">Edit Story Tags</label>
+            <input type="text" class="form-control" name="edit-story-tags" id="edit-story-tags" placeholder="Enter Story Tags">
+            <small class="form-text text-muted">Comma separated. Max 3 tags.</small>
+        </div>
+        <div class="form-group">
+            <p class="mb-1">Edit Story Genres</p>
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Action" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Adventure" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Comedy" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Crime" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Dark" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Fantasy" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Fiction" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Horror" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Mystery" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="MMO" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Non-fiction" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Romance" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Science Fiction" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Shooter" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Space" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Thriller" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="War" />
+            <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Western" />
+            <small class="form-text text-muted">Max 3 genres.</small>
+        </div>
+        <div class="form-group d-flex align-items-center">
+            <div class="mr-3">
+                <div class="form-check">
+                    <input type="checkbox" name="checkbox" class="form-check-input" id="edit-story-chapter-check-yes">
+                    <label class="form-check-label edit-story-lighter-text" for="edit-story-chapter-check-yes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="checkbox" class="form-check-input" id="edit-story-chapter-check-no">
+                    <label class="form-check-label edit-story-lighter-text" for="edit-story-chapter-check-no">No</label>
+                </div>
+            </div>
+            <div>
+                <p class="mb-0">Does your story include chapters?</p>
+                <small class="form-text text-muted">Each chapter can be up to 4000 characters. Max 3 Chapters.</small>
+            </div>
+        </div>
+        <div id="edit-story-story-content-container" class="form-group">
+            <label for="edit-story-story-content">Story Content</label>
+            <textarea class="form-control" id="edit-story-story-content" rows="12" placeholder="Required"></textarea>
+        </div>
+        <div id="edit-story-chapters-container">
+            <div class="edit-story-chapter-container">
+                <i class="las la-times-circle"></i>
+                <div class="form-group">
+                    <label for="edit-story-chapter-title">Chapter Title</label>
+                    <input type="text" class="form-control edit-story-chapter-title" name="edit-story-chapter-title" placeholder="Required">
+                </div>
+                <div class="form-group">
+                    <label for="edit-story-chapter-content">Chapter Content</label>
+                    <textarea class="form-control edit-story-chapter-content" name="edit-story-chapter-content" rows="12" placeholder="Required"></textarea>
+                </div>
+            </div>
+            <button type="button" id="edit-story-add-chapter-button" class="btn btn-outline-primary">Add New Chapter</button>
+        </div>
+        <div id="edit-story-submit-container" class="text-right">
+            <button type="button" id="edit-story-submit-button" class="btn btn-outline-primary">Create Story</button>
+        </div>
+    </form>
+</div>
+

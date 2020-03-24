@@ -8,19 +8,34 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/home.css" />
-        <link rel="stylesheet" href="~/css/header.css" />
-        <link rel="stylesheet" href="~/css/profile.css" />
-        <link rel="stylesheet" href="~/css/story.css" />
+        <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/header.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/story.css" asp-append-version="true"/>
     </environment>
 </head>
 <body onload="pageLoadFunction()">
     @await Component.InvokeAsync("Header")
     <div class="container-fluid">
-        <div style="width: 85%; margin: 0 auto;">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div id="main-container" style="width: 85%; margin: 0 auto;">
+            <main role="main" id="role-main" class="pb-3" style="min-height: 100vh;">
+                @RenderBody()
+            </main>
+        </div>
+        <!--modal should be moved to a view component later on-->
+        <div id="current-login-details-modal" class="mt-4 mb-4 p-5 border rounded" style="display: none; position: absolute; top: 30vh; z-index: 1000; background-color: purple; color: white;">
+            <h3 class="mb-3">Current Login</h3>
+            <form id="current-login-details-modal-container" onsubmit="Settings.currentLoginFormSubmit(); return false;">
+                <div class="form-group">
+                    <label for="current-login-details-email-address">Email address</label>
+                    <input type="email" id="current-login-details-email-address" name="current-login-details-email-address" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="current-login-details-password">Password</label>
+                    <input type="password" id="current-login-details-password" name="current-login-details-password" class="form-control" placeholder="Password">
+                </div>
+                <button type="submit" id="current-login-details-submit-button" class="btn btn-outline-primary">Provide Details</button>
+            </form>
         </div>
     </div>
     @await Component.InvokeAsync("Footer")
@@ -49,6 +64,7 @@
         <script src="~/js/Header.js" asp-append-version="true"></script>
         <script src="~/js/Story.js" asp-append-version="true"></script>
         <script src="~/js/Profile.js" asp-append-version="true"></script>
+        <script src="~/js/Settings.js" asp-append-version="true"></script>
     </environment>
     @RenderSection("Scripts", required: false)
 </body>

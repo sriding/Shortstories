@@ -5,30 +5,27 @@
 @model dynamic
 
 
-    <div id="story-view-page">
-        <h2 class="position-relative text-center display-4 mb-0" style="width: 80%; left: 20%;">@Model.story.StoryTitle</h2>
-        <div style="display: grid; grid-template-columns: 20% 80%;">
+    <div id="story-view-page" class="mb-4 mt-4">
+        <div style="display: grid; grid-template-columns: 25% 75%; min-height: 100vh;">
             <div class="d-flex justify-content-center flex-column mr-3">
+                <h2 class="display-4">@Model.story.StoryTitle</h2>
                 <a style="color: inherit;" asp-controller="Profile" asp-action="GetProfile" asp-route-id="@Model.profile.ProfileUsername">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <img id="story-view-user-avatar" alt="@Model.profile.ProfileAvatar" class="ml-1 mr-1" style="height: 50px; width: 50px;"/>
-                        <p class="mb-0 ml-1 mr-1" style="font-size: 22px;">@Model.profile.ProfileUsername</p>
-                    </div>
+                   <p class="mb-1 ml-1 mr-1 text-muted" style="font-size: 16px;">by @Model.profile.ProfileUsername</p>
                 </a>
-                <p class="text-muted text-center" style="font-size: 15px;">@Model.profile.ProfileTypeOfWriter</p>
-                <div class="d-flex justify-content-center">
+                <div class="d-flex mb-5">
                     @foreach (var genre in Model.genres)
                     {
-                        <p class="p-1 text-muted" style="font-size: 14px; border-radius: 100px; background-color: #DCDCDC;">@genre.StoryGenre</p>
+                        <p class="p-2 m-1 text-muted" style="font-size: 15px; border-radius: 100px; background-color: #DCDCDC;">@genre.StoryGenre</p>
                     }
                 </div>
             </div>
             <div class="border-left border-right" style="display: flex; position: relative;">
                 @if (Model.story.StoryContent != null)
                 {
-                    <div class="display-story-content-container p-5">
-                        <p>@Model.story.StoryContent</p>
-                    </div>
+                <div class="display-story-content-container p-5">
+                    <p class="pl-5 pr-5 text-muted" style="line-height: 32px; font-size: 16px;">"@Model.story.StoryHeadline"</p>
+                    <p class="pl-5 pr-5" style="line-height: 32px; font-size: 20px;">@Model.story.StoryContent</p>
+                </div>
                 }
                 else
                 {
@@ -37,8 +34,9 @@
                     @foreach (var chapter in Model.chapters)
                     {
                         <div class="display-story-chapter-content-container p-5">
+                            <p class="pl-5 pr-5 text-muted" style="line-height: 32px; font-size: 16px;">"@Model.story.StoryHeadline"</p>
                             <div class="text-center">
-                                <h3 class="d-inline-block mb-5 mt-5 border-bottom">@chapter.ChapterTitle</h3>
+                                <h3 class="d-inline-block mb-5 border-bottom">@chapter.ChapterTitle</h3>
                             </div>
                             <p class="pl-5 pr-5" style="line-height: 32px; font-size: 20px;">@chapter.ChapterContent</p>
                         </div>

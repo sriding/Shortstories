@@ -2,39 +2,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div id="home-page" class="text-center">
-        <h1 class="display-4 mt-4 mb-4">Shortstories</h1>
-        <a class="btn btn-primary" asp-controller="Story" asp-action="Create">Add Story</a>
-        <div>
+    <div id="home-page" class="text-center mb-4 mt-4">
+        <h1 class="display-4 mb-4">Shortstories</h1>
+        <a class="btn btn-outline-primary" asp-controller="Story" asp-action="Create">Add Story</a>
+        <div class="mb-4 mt-4">
             <div class="border-bottom text-left">
-                <h5 class="d-inline-block position-relative text-muted" style="left: 10px;">Followers</h5>
+                <h5 class="d-inline-block position-relative text-muted" style="font-size: 23px; left: 10px;">Followers</h5>
             </div>
-            <div id="home-follower-stories" class="d-flex flex-wrap justify-content-center"></div>
+            <div id="home-follower-stories" class="mt-2 mb-2"></div>
+            <div id="home-no-follower-stories"></div>
         </div>
-        <div>
-            <div id="dropdownMenuButton" class="border-bottom text-left position-relative text-muted mb-2 dropdown-toggle" style="font-size: 20px; left: 10px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</div>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">New</a>
-                <a class="dropdown-item" href="#">Random</a>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Adventure</a>
-                <a class="dropdown-item" href="#">Crime</a>
-                <a class="dropdown-item" href="#">Dark</a>
-                <a class="dropdown-item" href="#">Fantasy</a>
-                <a class="dropdown-item" href="#">Fiction</a>
-                <a class="dropdown-item" href="#">Horror</a>
-                <a class="dropdown-item" href="#">Mystery</a>
-                <a class="dropdown-item" href="#">MMO</a>
-                <a class="dropdown-item" href="#">Non-fiction</a>
-                <a class="dropdown-item" href="#">Romance</a>
-                <a class="dropdown-item" href="#">Science Fiction</a>
-                <a class="dropdown-item" href="#">Shooter</a>
-                <a class="dropdown-item" href="#">Space</a>
-                <a class="dropdown-item" href="#">Thriller</a>
-                <a class="dropdown-item" href="#">War</a>
-                <a class="dropdown-item" href="#">Western</a>
+        <div class="mb-4 mt-4">
+            <div style="position: relative; text-align: left;">
+                <div class="border-bottom">
+                    <button type="button" id="home-filter-title" class="d-inline-block position-relative text-muted pl-0" style="font-size: 23px; font-weight: 400; left: 10px; cursor: pointer; border: none; background-color: inherit;">New</button>
+                    <i class="las la-angle-down ml-1" style="cursor: pointer;"></i>
+                </div>
+                <div class="home-genre-selection-container">
+                    <p class="dropdown-item">New</p>
+                    <p class="dropdown-item">Random</p>
+                    <p class="dropdown-item">Action</p>
+                    <p class="dropdown-item">Adventure</p>
+                    <p class="dropdown-item">Crime</p>
+                    <p class="dropdown-item">Dark</p>
+                    <p class="dropdown-item">Fantasy</p>
+                    <p class="dropdown-item">Fiction</p>
+                    <p class="dropdown-item">Horror</p>
+                    <p class="dropdown-item">Mystery</p>
+                    <p class="dropdown-item">MMO</p>
+                    <p class="dropdown-item">Non-fiction</p>
+                    <p class="dropdown-item">Romance</p>
+                    <p class="dropdown-item">Science Fiction</p>
+                    <p class="dropdown-item">Shooter</p>
+                    <p class="dropdown-item">Space</p>
+                    <p class="dropdown-item">Thriller</p>
+                    <p class="dropdown-item">War</p>
+                    <p class="dropdown-item">Western</p>
+                </div>
             </div>
-            <div id="home-filter-stories">
-            </div>
+            <div id="home-filter-stories" class="mb-2 mt-2"></div>
+            <div id="home-no-genre-stories"></div>
         </div>
     </div>

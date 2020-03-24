@@ -30,7 +30,7 @@ namespace shortstories.Controllers.API
         [Authorize]
         public async Task<ActionResult<ProfileModel>> GetProfileId([FromRoute] string userId)
         {
-            var profile = await _context.Profile.SingleAsync(a => a.UserId == userId );
+            var profile = await _context.Profile.SingleAsync(a => a.UserId == userId);
 
             if (profile == null)
             {
@@ -67,27 +67,30 @@ namespace shortstories.Controllers.API
             return Ok(profile.ProfileAvatar);
         }
 
-        [HttpPost("avatar")]
-        public ActionResult GetProfileAvatar([FromBody] JsonElement body)
+        [HttpGet("writer/{profileId}")]
+        public async Task<ActionResult<ProfileModel>> GetProfileWriterLabel([FromRoute] string profileId)
         {
-            string gravatarBaseUrl = "https://www.gravatar.com/avatar/";
-            var jsonString = JsonSerializer.Serialize(body);
-            var jsonDoc = JsonDocument.Parse(jsonString);
-            var json = jsonDoc.RootElement.GetProperty("source").GetString();
-            string jsonCleanedUp = json.Trim().ToLower();
+            var profile = await _context.Profile.SingleAsync(a => a.ProfileModelId == profileId);
 
-            using (MD5 md5hash = MD5.Create())
+            if (profile == null)
             {
-                try
-                {
-                    string hash = GetMd5Hash(md5hash, jsonCleanedUp);
-
-                    return Ok(gravatarBaseUrl + hash);
-                } catch
-                {
-                    throw;
-                }
+                return NotFound();
             }
+
+            return Ok(profile.ProfileTypeOfWriter);
+        }
+
+        [HttpGet("description/{profileId}")]
+        public async Task<ActionResult<ProfileModel>> GetProfileDescription([FromRoute] string profileId)
+        {
+            var profile = await _context.Profile.SingleAsync(a => a.ProfileModelId == profileId);
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(profile.ProfileDescription);
         }
 
         // GET: api/ProfileModels/{profileUsername}
@@ -98,9 +101,9 @@ namespace shortstories.Controllers.API
 
             if (profile == null)
             {
-               return NotFound();
+                return NotFound();
             }
-            
+
 
             return new JsonResult(new { username = profile.ProfileUsername, typeOfWriter = profile.ProfileTypeOfWriter, description = profile.ProfileDescription });
         }
@@ -125,6 +128,40 @@ namespace shortstories.Controllers.API
             return Ok(profile.ProfileModelId);
         }
 
+        [HttpPut("update/avatar/{userId}/{avatar}")]
+        [Authorize]
+        public async Task<IActionResult> PutProfileAvatar([FromRoute] string userId, [FromRoute] string avatar)
+        {
+            var profileModel = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
+
+            if (profileModel == null)
+            {
+                return BadRequest();
+            }
+
+            profileModel.ProfileAvatar = avatar.Trim();
+
+            _context.Entry(profileModel).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (profileModel == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/ProfileModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -132,14 +169,14 @@ namespace shortstories.Controllers.API
         [Authorize]
         public async Task<IActionResult> PutProfileTypeOfWriter([FromRoute] string userId, [FromRoute] string profileTypeOfWriter)
         {
-            var profileModel = await _context.Profile.SingleAsync(a => a.UserId == userId);
+            var profileModel = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
 
             if (profileModel == null)
             {
                 return BadRequest();
             }
 
-            profileModel.ProfileTypeOfWriter = profileTypeOfWriter;
+            profileModel.ProfileTypeOfWriter = profileTypeOfWriter.Trim();
 
             _context.Entry(profileModel).State = EntityState.Modified;
 
@@ -164,9 +201,9 @@ namespace shortstories.Controllers.API
 
         [HttpPut("update/description/{userId}/{profileDescription}")]
         [Authorize]
-        public async Task<IActionResult> PutProfileDescription(string userId, string profileDescription)
+        public async Task<IActionResult> PutProfileDescription([FromRoute] string userId, [FromRoute] string profileDescription)
         {
-            var profileModel = await _context.Profile.SingleAsync(a => a.UserId == userId);
+            var profileModel = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
 
             if (profileModel == null)
             {
@@ -213,27 +250,6 @@ namespace shortstories.Controllers.API
             await _context.SaveChangesAsync();
 
             return Ok("Profile deleted.");
-        }
-
-        static string GetMd5Hash(MD5 md5Hash, string input)
-        {
-
-            // Convert the input string to a byte array and compute the hash.
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data 
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
         }
     }
 }

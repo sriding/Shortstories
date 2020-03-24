@@ -16,7 +16,7 @@
     }
 
     initialize() {
-        //firebase is brought it from some scripts on layout page
+        //firebase is brought in from scripts on layout page
         firebase.initializeApp(this.firebaseConfig);
         firebase.analytics();
 
@@ -50,6 +50,24 @@
         } catch (err) {
             console.log(err);
         } 
+    }
+
+    async changeEmail(newEmail) {
+        try {
+            const changeResult = await this.firebaseAuth.currentUser.updateEmail(newEmail);
+            return changeResult;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async changePassword(newPassword) {
+        try {
+            const changeResult = await this.firebaseAuth.currentUser.updatePassword(newPassword);
+            return changeResult;
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     onAuthStateChanged() {

@@ -18,13 +18,27 @@ a {
 }
 
 .btn-primary {
-  color: var(--main-theme-color);
-  background-color: var(--main-bg-color);
-  border: 1px solid var(--main-theme-color);
+  color: var(--main-bg-color);
+  background-color: var(--main-theme-color);
+  border: 1px solid var(--main-bg-color);
   padding: 3px 9px;
 }
 
 .btn-primary:hover {
+    color: var(--main-bg-color);
+    background-color: var(--main-theme-color);
+    border: none;
+    box-shadow: 0px 0px 1px var(--main-theme-color);
+}
+
+.btn-outline-primary {
+    color: var(--main-theme-color);
+    background-color: var(--main-bg-color);
+    border: 1px solid var(--main-theme-color);
+    padding: 3px 9px;
+}
+
+.btn-outline-primary:hover {
     color: var(--main-bg-color);
     background-color: var(--main-theme-color);
     border: none;

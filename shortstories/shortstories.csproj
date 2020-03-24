@@ -5,13 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NewFolder\**" />
     <Compile Remove="Views\Shared\NewFolder\**" />
-    <Content Remove="Views\NewFolder\**" />
     <Content Remove="Views\Shared\NewFolder\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Views\Shared\NewFolder\**" />
-    <None Remove="Views\NewFolder\**" />
     <None Remove="Views\Shared\NewFolder\**" />
   </ItemGroup>
 

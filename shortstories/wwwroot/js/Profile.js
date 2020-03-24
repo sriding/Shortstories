@@ -53,6 +53,11 @@
     async checkIfUserIsAFriend() {
         const myProfileId = window.localStorage.getItem("pid");
         const userProfileId = this.followButton.value || this.unfollowButton.value;
+        if (myProfileId === userProfileId) {
+            this.hideButtons();
+            return;
+        }
+
         const checkIfFriendStream = await fetch("https://localhost:44389/api/followersmodels/" + myProfileId + "/" + userProfileId, {
             method: "GET",
             withCredentials: true,

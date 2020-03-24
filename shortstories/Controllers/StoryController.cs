@@ -32,6 +32,11 @@ namespace shortstories.Controllers
             return View();
         }
 
+        public IActionResult Edit(int id)
+        {
+            return View("~/Views/Story/Edit.cshtml");
+        }
+
         [HttpGet("{controller}/{action}/{id:int}")]
         public async Task<IActionResult> Display(int id)
         {

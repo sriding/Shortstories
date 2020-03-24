@@ -17,3 +17,45 @@
     font-size: 14px;
     border-radius: 100px;
 }
+
+#home-follower-stories {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+}
+
+#home-filter-title:active,
+#home-filter-title:focus {
+    outline: none;
+}
+
+.home-genre-selection-container {
+    text-align: center;
+    z-index: 10;
+    background-color: rgba(255,255,255,1);
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    border-top: 1px solid gray;
+    border-left: 1px solid gray;
+}
+
+.home-genre-selection-container p {
+    cursor: pointer;
+    font-size: 21px;
+    padding: 7px;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+    margin-bottom: 0px;
+}
+
+#home-filter-stories {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+}

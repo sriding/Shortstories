@@ -4,7 +4,7 @@
 @{
 }
 
-    <div>
+    <div class="mt-4 mb-4">
         <h1 class="mb-3">Register</h1>
         <form id="register_form">
             <div class="form-group">
@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="register_form_email_address">Email address</label>
                 <input type="email" id="register_form_email_address" name="register_form_email_address" class="form-control" aria-describedby="emailHelp" placeholder="Email">
-                <small id="emailHelp" class="form-text text-muted">Will be used to login.</small>
+                <small id="emailHelp" class="form-text text-muted">Will be used for logging in.</small>
             </div>
             <div class="form-group">
                 <label for="register_form_password">Password</label>
@@ -30,7 +30,7 @@
                 <img class="register-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/slow.png" alt="slow" />
                 <div class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev" title="Vitaly Gorbachev">Vitaly Gorbachev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
             </div>
-            <div  class="form-group">
+            <div class="form-group">
                 <label for="register_form_profession">What kind of writer would you consider yourself?</label>
                 <select multiple class="form-control" id="register_form_profession" name="register_form_profession">
                     <option>Beginner</option>
@@ -43,6 +43,6 @@
                 <label for="register_form_description">Short description about yourself.</label>
                 <textarea class="form-control" id="register_form_description" name="register_form_description" rows="3" placeholder="Optional"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
         </form>
     </div>

@@ -5,11 +5,30 @@
         this.homePage = document.getElementById("home-page") || null;
     }
 
+    addMainDropdownButtonEventListener() {
+        document.getElementById("home-filter-title").addEventListener("click", () => {
+            if (document.getElementsByClassName("home-genre-selection-container")[0].style.display === "grid") {
+                document.getElementsByClassName("home-genre-selection-container")[0].style.display = "none";
+            } else {
+                document.getElementsByClassName("home-genre-selection-container")[0].style.display = "grid";
+            }
+        })
+
+        document.getElementsByClassName("la-angle-down")[0].addEventListener("click", () => {
+            if (document.getElementsByClassName("home-genre-selection-container")[0].style.display === "grid") {
+                document.getElementsByClassName("home-genre-selection-container")[0].style.display = "none";
+            } else {
+                document.getElementsByClassName("home-genre-selection-container")[0].style.display = "grid";
+            }
+        })
+    }
+
     addAllDropdownButtonEventListeners() {
         Array.from(document.getElementsByClassName("dropdown-item")).forEach((element) => {
             element.addEventListener("click", () => {
                 document.getElementById("home-filter-stories").innerHTML = "";
-                document.getElementById("dropdownMenuButton").innerHTML = element.innerHTML;
+                document.getElementById("home-filter-title").innerHTML = element.innerHTML;
+                document.getElementsByClassName("home-genre-selection-container")[0].style.display = "none";
                 this.getStoriesByFilter(element.innerHTML, "home-filter-stories");
             })
         })
@@ -39,7 +58,11 @@
     async getStoriesByFollowers(profileId, elementId) {
         try {
             if (profileId === null) {
-                document.getElementById(elementId).innerHTML = "Not following anyone."
+                const noFollowersElement = document.createElement("p");
+                noFollowersElement.classList.add("mt-3", "mb-3");
+                noFollowersElement.style.fontSize = "20px";
+                noFollowersElement.innerHTML = "Not following anyone.";
+                document.getElementById("home-no-follower-stories").append(noFollowersElement);
                 return;
             }
             const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/followers/" + profileId, {
@@ -51,11 +74,20 @@
                 }
             })
 
+            if (storiesStream.status === 401) {
+                const noFollowersElement = document.createElement("p");
+                noFollowersElement.classList.add("mt-3", "mb-3");
+                noFollowersElement.style.fontSize = "20px";
+                noFollowersElement.innerHTML = "Not following anyone.";
+                document.getElementById("home-no-follower-stories").append(noFollowersElement);
+                return;
+            }
+
             const stories = await storiesStream.json();
 
             this.createStoryContainersFollowers(stories, elementId);
         } catch (error) {
-            console.log("error: ", error);
+
         }
     }
 
@@ -70,15 +102,23 @@
 
             const stories = await storiesStream.json();
 
-            this.createStoryContainersGeneral(stories, elementId);
+            this.createStoryContainersGeneral(stories, elementId, true);
         } catch (error) {
             console.log("error: ", error);
         }
     }
 
-    createStoryContainersGeneral(stories, elementId) {
+    createStoryContainersGeneral(stories, elementId, profile = false) {
         if (stories.stories.length === 0) {
-            document.getElementById(elementId).innerHTML = "No stories for this filter.";
+            const noStoriesElement = document.createElement("p");
+            noStoriesElement.classList.add("mt-3", "mb-3");
+            noStoriesElement.style.fontSize = "20px";
+            if (profile !== false) {
+                noStoriesElement.innerHTML = "No stories from this user.";
+            } else {
+                noStoriesElement.innerHTML = "No stories for this filter.";
+            }
+            document.getElementById(elementId).append(noStoriesElement);
             return;
         }
 
@@ -114,11 +154,13 @@
 
     createStoryContainersFollowers(stories, elementId) {
         if (stories.stories.length === 0) {
-            document.getElementById(elementId).innerHTML = "No stories to display from those you are following.";
+            const noStoriesElement = document.createElement("p");
+            noStoriesElement.classList.add("mt-3", "mb-3");
+            noStoriesElement.style.fontSize = "20px";
+            noStoriesElement.innerHTML = "No stories to display from those you are following.";
+            document.getElementById("home-no-follower-stories").append(noStoriesElement);
             return;
         }
-
-        console.log(stories);
 
         stories.stories.forEach((storyList) => {
             storyList.forEach((story, index) => {
