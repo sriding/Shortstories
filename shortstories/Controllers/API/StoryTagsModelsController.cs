@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,36 +43,65 @@ namespace shortstories.Controllers.API
             return storyTagsModel;
         }
 
+        [HttpGet("story/{storyId}")]
+        public async Task<ActionResult<dynamic>> GetStoryTagsBasedOffStoryId(int storyId)
+        {
+            List<StoryTagsModel> storyTags = await _context.StoryTags.Where(a => a.StoryId == storyId).ToListAsync();
+
+            if (storyTags == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(JsonSerializer.Serialize(storyTags));
+        }
+
         // PUT: api/StoryTagsModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStoryTagsModel(int id, StoryTagsModel storyTagsModel)
+        [HttpPut("{userId}/{storyId}")]
+        public async Task<IActionResult> PutStoryTagsModel([FromRoute] string userId, [FromRoute] int storyId, [FromBody] List<StoryTagsModel> updatedStoryTags)
         {
-            if (id != storyTagsModel.StoryTagsId)
-            {
-                return BadRequest();
-            }
+            try {
+                UserModel user = await _context.User.FindAsync(userId);
 
-            _context.Entry(storyTagsModel).State = EntityState.Modified;
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-            try
-            {
+                ProfileModel profile = await _context.Profile.Where(a => a.UserId == user.UserModelId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                StoryModel story = await _context.Story.Where(b => b.ProfileId == profile.ProfileModelId).Where(c => c.StoryModelId == storyId).SingleOrDefaultAsync();
+
+                if (story == null)
+                {
+                    return NotFound();
+                }
+
+                List<StoryTagsModel> storytags = await _context.StoryTags.Where(d => d.StoryId == story.StoryModelId).ToListAsync();
+
+                if (storytags == null)
+                {
+                    return NotFound();
+                }
+
+                _context.StoryTags.RemoveRange(storytags);
+                _context.StoryTags.AddRange(updatedStoryTags);
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StoryTagsModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return NoContent();
+            return Ok(new { Response = "Okay." });
         }
 
         // POST: api/StoryTagsModels

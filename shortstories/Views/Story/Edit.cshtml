@@ -1,9 +1,7 @@
-﻿
-@{
-    ViewData["Title"] = "Edit";
-}
+﻿@model int
 
 <div id="edit-story-main-container" class="mt-4 mb-4">
+    <button id="edit-story-id" type="button" style="position:absolute; left: -1000px;" value="@Model"></button>
     <h1>Editing a Story...</h1>
     <form id="edit-story-form">
         <div class="form-group">
@@ -64,8 +62,8 @@
             <textarea class="form-control" id="edit-story-story-content" rows="12" placeholder="Required"></textarea>
         </div>
         <div id="edit-story-chapters-container">
-            <div class="edit-story-chapter-container">
-                <i class="las la-times-circle"></i>
+            <div class="edit-story-chapter-container position-relative mt-4 pt-2">
+                <i class="las la-times-circle" style="position: absolute; right: 0px; top: 0px; font-size: 28px; cursor: pointer;"></i>
                 <div class="form-group">
                     <label for="edit-story-chapter-title">Chapter Title</label>
                     <input type="text" class="form-control edit-story-chapter-title" name="edit-story-chapter-title" placeholder="Required">
@@ -75,8 +73,8 @@
                     <textarea class="form-control edit-story-chapter-content" name="edit-story-chapter-content" rows="12" placeholder="Required"></textarea>
                 </div>
             </div>
-            <button type="button" id="edit-story-add-chapter-button" class="btn btn-outline-primary">Add New Chapter</button>
         </div>
+        <button type="button" id="edit-story-add-chapter-button" class="btn btn-outline-primary">Add New Chapter</button>
         <div id="edit-story-submit-container" class="text-right">
             <button type="button" id="edit-story-submit-button" class="btn btn-outline-primary">Create Story</button>
         </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,36 +43,65 @@ namespace shortstories.Controllers.API
             return storyGenresModel;
         }
 
+        [HttpGet("story/{storyId}")]
+        public async Task<ActionResult<dynamic>> GetStoryGenresBasedOffStoryId(int storyId)
+        {
+            List<StoryGenresModel> storyGenres = await _context.StoryGenres.Where(a => a.StoryId == storyId).ToListAsync();
+
+            if (storyGenres == null) {
+                return NotFound();
+            }
+
+            return Ok(JsonSerializer.Serialize(storyGenres));
+        }
+
         // PUT: api/StoryGenresModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStoryGenresModel(int id, StoryGenresModel storyGenresModel)
+        [HttpPut("{userId}/{storyId}")]
+        public async Task<IActionResult> PutStoryGenresModel([FromRoute] string userId, [FromRoute] int storyId, [FromBody] List<StoryGenresModel> updatedStoryGenres)
         {
-            if (id != storyGenresModel.StoryGenresId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(storyGenresModel).State = EntityState.Modified;
-
             try
             {
+                UserModel user = await _context.User.FindAsync(userId);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                ProfileModel profile = await _context.Profile.Where(a => a.UserId == user.UserModelId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                StoryModel story = await _context.Story.Where(b => b.StoryModelId == storyId).Where(c => c.ProfileId == profile.ProfileModelId).SingleOrDefaultAsync();
+
+                if (story == null)
+                {
+                    return NotFound();
+                }
+
+                List<StoryGenresModel> storyGenres = await _context.StoryGenres.Where(d => d.StoryId == story.StoryModelId).ToListAsync();
+
+                if (storyGenres == null)
+                {
+                    return NotFound();
+                }
+
+                _context.StoryGenres.RemoveRange(storyGenres);
+                _context.StoryGenres.AddRange(updatedStoryGenres);
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StoryGenresModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return NoContent();
+            return Ok(new { Response = "Okay." });
         }
 
         // POST: api/StoryGenresModels

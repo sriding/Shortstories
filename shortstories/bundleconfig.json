@@ -20,7 +20,8 @@
       "wwwroot/js/Header.js",
       "wwwroot/js/Story.js",
       "wwwroot/js/Profile.js",
-      "wwwroot/js/Settings.js"
+      "wwwroot/js/Settings.js",
+      "wwwroot/js/EditStory.js"
     ],
     "minify": {
       "enabled": true,

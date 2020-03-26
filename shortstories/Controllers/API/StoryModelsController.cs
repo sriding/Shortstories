@@ -35,6 +35,19 @@ namespace shortstories.Controllers.API
             return Ok();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<dynamic>> GetStory(int id)
+        {
+            StoryModel story = await _context.Story.FindAsync(id);
+
+            if (story == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(JsonConvert.SerializeObject(story));
+        }
+
         [HttpGet("profile/{profileId}")]
         public async Task<dynamic> GetProfileStories(string profileId)
         {
@@ -263,9 +276,46 @@ namespace shortstories.Controllers.API
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{userId}/{id}")]
+        [Authorize]
+        public async Task<IActionResult> PutStory([FromRoute] string userId, [FromRoute] int id, [FromBody] StoryModel updatedStory)
         {
+            try
+            {
+                UserModel user = await _context.User.FindAsync(userId);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                ProfileModel profile = await _context.Profile.Where(a => a.UserId == user.UserModelId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                StoryModel story = await _context.Story.Where(b => b.ProfileId == profile.ProfileModelId).Where(c => c.StoryModelId == id).SingleOrDefaultAsync();
+
+                if (story == null)
+                {
+                    return NotFound();
+                }
+
+                story.StoryTitle = updatedStory.StoryTitle;
+                story.StoryHeadline = updatedStory.StoryHeadline;
+                story.StoryContent = updatedStory.StoryContent;
+
+                _context.Entry(story).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            } catch(Exception e)
+            {
+                throw;
+            }
+
+            return Ok(new { Response = "Okay." });
         }
 
         // DELETE api/<controller>/5

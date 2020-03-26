@@ -19,14 +19,6 @@
     position: relative;
 }
 
-.la-times-circle {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    font-size: 28px;
-    cursor: pointer;
-}
-
 #create-story-submit-container {
     display: none;
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shortstories.Data;
 using shortstories.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace shortstories.Controllers.API
 {
@@ -42,36 +44,67 @@ namespace shortstories.Controllers.API
             return storyChaptersModel;
         }
 
+        [HttpGet("story/{storyId}")]
+        public async Task<ActionResult<StoryChaptersModel>> GetStoryChaptersFromStoryId(int storyId)
+        {
+            List<StoryChaptersModel> storyChapters = await _context.StoryChapters.Where(a => a.StoryId == storyId).OrderBy(b => b.ChapterNumber).ToListAsync();
+
+            if (storyChapters == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(JsonSerializer.Serialize(storyChapters));
+        }
+
         // PUT: api/StoryChaptersModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStoryChaptersModel(int id, StoryChaptersModel storyChaptersModel)
+        [HttpPut("{userId}/{storyId}")]
+        [Authorize]
+        public async Task<IActionResult> PutStoryChaptersModel([FromRoute] string userId, [FromRoute] int storyId, [FromBody] List<StoryChaptersModel> updatedStoryChapters)
         {
-            if (id != storyChaptersModel.StoryChaptersId)
-            {
-                return BadRequest();
-            }
+            try {
+                UserModel user = await _context.User.FindAsync(userId);
 
-            _context.Entry(storyChaptersModel).State = EntityState.Modified;
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-            try
-            {
+                ProfileModel profile = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                StoryModel story = await _context.Story.Where(b => b.StoryModelId == storyId).Where(c => c.ProfileId == profile.ProfileModelId).SingleOrDefaultAsync();
+
+                if (story == null)
+                {
+                    return NotFound();
+                }
+
+                List<StoryChaptersModel> storyChapters = await _context.StoryChapters.Where(e => e.StoryId == story.StoryModelId).ToListAsync();
+
+                if (storyChapters == null)
+                {
+                    return NotFound();
+                }
+
+                _context.StoryChapters.RemoveRange(storyChapters);
+
+                _context.StoryChapters.AddRange(updatedStoryChapters);
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StoryChaptersModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return NoContent();
+            return Ok(new { Response = "Okay." });
         }
 
         // POST: api/StoryChaptersModels

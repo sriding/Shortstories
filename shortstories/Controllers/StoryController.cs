@@ -34,7 +34,7 @@ namespace shortstories.Controllers
 
         public IActionResult Edit(int id)
         {
-            return View("~/Views/Story/Edit.cshtml");
+            return View("~/Views/Story/Edit.cshtml", id);
         }
 
         [HttpGet("{controller}/{action}/{id:int}")]

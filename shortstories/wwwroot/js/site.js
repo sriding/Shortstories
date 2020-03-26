@@ -54,6 +54,19 @@ const pageLoadFunction = () => {
     if (storyInstance.storyViewPage != null) {
         storyInstance.displayUserAvatar();
     }
+
+    //Edit Story Page
+    const editStoryInstance = new EditStory();
+    if (editStoryInstance.editStoryPage !== null) {
+        editStoryInstance.getStoryDetails(document.getElementById("edit-story-id").value).then(() => {
+            editStoryInstance.updateStoryButtonFunctionality();
+        }).catch((err) => {
+            console.log(err);
+        })
+        editStoryInstance.updateSelectedGenresFunctionality();
+        editStoryInstance.switchingBetweenStoryAndChapterSelection();
+    }
+
     //Settings Page
     const settingsInstance = new Settings();
     document.getElementById("main-container").addEventListener("click", (e) => {
