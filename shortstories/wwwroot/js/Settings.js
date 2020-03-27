@@ -124,6 +124,7 @@
         document.getElementById("settings-update-user-button").addEventListener("click", (e) => {
             e.preventDefault();
             this.showCurrentLoginDetailsPrompt();
+            this.adjustPositionOfLoginDetailsPrompt();
         })
     }
 
@@ -265,5 +266,17 @@
     hideCurrentLoginDetailsPrompt() {
         document.getElementById("role-main").style.filter = "none";
         document.getElementById("current-login-details-modal").style.display = "none";
+    }
+
+    adjustPositionOfLoginDetailsPrompt() {
+        let windowWidth = window.innerWidth;
+        let windowCenter = windowWidth * 0.5;
+        //completely dependent on what is declared in css as the width.
+        let widthOfLoginPrompt = 340;
+
+        let rightEdge = windowCenter + (widthOfLoginPrompt * 0.5);
+        let leftEdge = windowCenter - (widthOfLoginPrompt * 0.5);
+
+        document.getElementById("current-login-details-modal").style.left = `${leftEdge}px`;
     }
 }

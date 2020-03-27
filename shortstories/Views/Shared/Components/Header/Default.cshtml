@@ -16,9 +16,12 @@
         <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
             <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
             <div class="header-user-details">
-                <a id="header-avatar-link" class="navbar-brand mr-2" asp-area="" asp-controller="Profile" asp-action="GetProfile"><img id="header-avatar-image" alt="profile pic" style="width: 30px; height: 30px;"/></a>
+                <a id="header-avatar-link" class="navbar-brand mr-2" asp-area="" asp-controller="Profile" asp-action="GetProfile"><img id="header-avatar-image" alt="profile pic" style="width: 30px; height: 30px;" /></a>
                 <a id="header-username" class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="GetProfile"></a>
             </div>
+            <a id="header-settings-link" class="d-inline-block text-decoration-none" style="cursor: pointer; color: whitesmoke;" asp-area="" asp-controller="Settings" asp-action="Index">
+                <p class="mb-0 mr-2" style="font-size: 18px;">Settings</p>
+            </a>
             <a href="#" id="header-logout" class="navbar-brand">Logout</a>
         </nav>
     </div>

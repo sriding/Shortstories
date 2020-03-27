@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <environment include="Development">
         <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/header.css" asp-append-version="true"/>
-        <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true"/>
-        <link rel="stylesheet" href="~/css/story.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/story.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/settings.css" asp-append-version="true" />
     </environment>
 </head>
 <body onload="pageLoadFunction()">
@@ -23,7 +24,7 @@
             </main>
         </div>
         <!--modal should be moved to a view component later on-->
-        <div id="current-login-details-modal" class="mt-4 mb-4 p-5 border rounded" style="display: none; position: absolute; top: 30vh; z-index: 1000; background-color: purple; color: white;">
+        <div id="current-login-details-modal" class="mt-4 mb-4 p-5">
             <h3 class="mb-3">Current Login</h3>
             <form id="current-login-details-modal-container" onsubmit="Settings.currentLoginFormSubmit(); return false;">
                 <div class="form-group">

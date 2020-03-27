@@ -1,1 +1,10 @@
-﻿
+﻿#current-login-details-modal {
+    display: none;
+    position: absolute;
+    top: 30vh;
+    z-index: 1000;
+    background-color: var(--main-theme-color);
+    color: whitesmoke;
+    box-shadow: 0px 0px 2px black;
+    width: 340px;
+}
