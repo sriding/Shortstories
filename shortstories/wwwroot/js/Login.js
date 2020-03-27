@@ -47,8 +47,6 @@
 
             return window.location.href = "https://localhost:44389/";
         } catch (error) {
-            console.log("Log in went wrong.");
-            console.log(error);
             return error;
         }
     }

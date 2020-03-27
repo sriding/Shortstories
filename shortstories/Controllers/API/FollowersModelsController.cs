@@ -108,20 +108,36 @@ namespace shortstories.Controllers.API
             return Ok("Follower Added.");
         }
 
-        // DELETE: api/FollowersModels/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<FollowersModel>> DeleteFollowersModel(int id)
+        // DELETE: api/FollowersModels/...
+        [HttpDelete("{userId}/{followerId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteFollowersModel([FromRoute] string userId, [FromRoute] string followerId)
         {
-            var followersModel = await _context.Followers.FindAsync(id);
-            if (followersModel == null)
+            try
             {
-                return NotFound();
+                ProfileModel profile = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
+
+                if (profile == null)
+                {
+                    return NotFound();
+                }
+
+                FollowersModel follower = await _context.Followers.Where(b => b.FollowersId == followerId).Where(c => c.ProfileId == profile.ProfileModelId).SingleOrDefaultAsync();
+
+                if (follower == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Followers.Remove(follower);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { Deleted = "Unfollowed." });
+            } catch(Exception e)
+            {
+                throw;
             }
-
-            _context.Followers.Remove(followersModel);
-            await _context.SaveChangesAsync();
-
-            return followersModel;
         }
 
         private bool FollowersModelExists(int id)

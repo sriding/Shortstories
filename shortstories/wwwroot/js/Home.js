@@ -51,7 +51,6 @@
 
             this.createStoryContainersGeneral(stories, elementId);
         } catch (error) {
-            console.log("error: ", error);
         }
     }
 
@@ -104,7 +103,6 @@
 
             this.createStoryContainersGeneral(stories, elementId, true);
         } catch (error) {
-            console.log("error: ", error);
         }
     }
 

@@ -32,15 +32,17 @@ const pageLoadFunction = () => {
             headerInstance.logoutEventListener();
             headerInstance.setAvatar();
             headerInstance.setProfileLink();
+            headerInstance.setSettingsLink();
         }
     }).catch((err) => {
-        console.log(err);
     })
 
+    //Profile Page
     const profileInstance = new Profile();
     if (profileInstance.profileViewId != null) {
         if (window.localStorage.getItem("pid") !== null) {
             profileInstance.followButtonAddEventListeners();
+            profileInstance.unfollowButtonAddEventListners();
             profileInstance.checkIfUserIsAFriend();
         } else {
             profileInstance.hideButtons();
@@ -51,9 +53,6 @@ const pageLoadFunction = () => {
 
     //Story Page
     const storyInstance = new Story();
-    if (storyInstance.storyViewPage != null) {
-        storyInstance.displayUserAvatar();
-    }
 
     //Edit Story Page
     const editStoryInstance = new EditStory();
@@ -61,7 +60,6 @@ const pageLoadFunction = () => {
         editStoryInstance.getStoryDetails(document.getElementById("edit-story-id").value).then(() => {
             editStoryInstance.updateStoryButtonFunctionality();
         }).catch((err) => {
-            console.log(err);
         })
         editStoryInstance.updateSelectedGenresFunctionality();
         editStoryInstance.switchingBetweenStoryAndChapterSelection();

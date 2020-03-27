@@ -25,12 +25,9 @@
 
     firebaseLogout() {
         this.firebaseAuth.signOut().then(() => {
-            console.log("Logging out of firebase...");
             window.localStorage.clear();
             location.reload();
-        })
-            .catch((err) => {
-                console.log(err);
+        }).catch((err) => {
         })
     }
 
@@ -39,7 +36,6 @@
             const loginResult = await this.firebaseAuth.signInWithEmailAndPassword(email, password);
             return loginResult;
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -48,7 +44,6 @@
             const registerResult = await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
             return registerResult;
         } catch (err) {
-            console.log(err);
         } 
     }
 
@@ -57,7 +52,6 @@
             const changeResult = await this.firebaseAuth.currentUser.updateEmail(newEmail);
             return changeResult;
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -66,7 +60,6 @@
             const changeResult = await this.firebaseAuth.currentUser.updatePassword(newPassword);
             return changeResult;
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -74,12 +67,9 @@
         this.firebaseAuth.onAuthStateChanged(function (user) {
             if (user) {
                 // User is signed in.
-                console.log("user signed in");
                 // ...
             } else {
                 // User is signed out.
-                // ...
-                console.log("user signed out");
             }
         });
     }

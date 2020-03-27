@@ -80,6 +80,8 @@
             this.submitButton.addEventListener("click", () => {
                 this.submitStory();
             })
+
+            this.displayStoryAlert();
         }
 
         //If the user is on the viewing story page
@@ -93,9 +95,12 @@
         }
     }
 
-    displayUserAvatar() {
-        const avatarElement = document.getElementById("story-view-user-avatar");
-        avatarElement.src = "/images/" + avatarElement.alt + ".png";
+    displayStoryAlert() {
+        const storyAlert = document.getElementById("create-story-alert");
+        if (window.localStorage.getItem("uid") === null) {
+            storyAlert.classList.remove("d-none");
+            storyAlert.classList.add("d-inline-block");
+        }
     }
 
     displayStoryContent() {
@@ -193,7 +198,6 @@
 
                 //Split tag string into array of tags, and make a request per tag.
                 const storyTagsTextArray = storyTagsText.split(",");
-                console.log(storyTagsTextArray);
                 //Make sure to check length of array to assure 3 tags total.
                 storyTagsTextArray.forEach(async (tag) => {
                     let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
@@ -239,7 +243,6 @@
 
                 window.location.href = "https://localhost:44389/";
             } catch (error) {
-                console.log(error);
             }
         } else {
             try {
@@ -261,7 +264,6 @@
                 
                 //Split tag string into array of tags, and make a request per tag.
                 const storyTagsTextArray = storyTagsText.split(",");
-                console.log(storyTagsTextArray);
                 //Make sure to check length of array to assure 3 tags total.
                 storyTagsTextArray.forEach(async (tag) => {
                     let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
@@ -291,7 +293,6 @@
 
                 window.location.href = "https://localhost:44389/";
             } catch (error) {
-                console.log(error);
             } 
 
         }
@@ -331,7 +332,6 @@
 
     addFunctionalityDisplayNextChapter() {
         document.getElementsByClassName("la-caret-square-right")[0].addEventListener("keydown", (e) => {
-            console.dir(e);
         }, false)
         document.getElementsByClassName("la-caret-square-right")[0].addEventListener("click", () => {
             this.displayNextChapter();

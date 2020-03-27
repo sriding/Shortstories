@@ -18,9 +18,24 @@ namespace shortstories.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        [HttpGet("{controller}/{action}/{id:regex(^[[a-zA-Z0-9-]]*$)}")]
+        public async Task<IActionResult> GetSettings([FromRoute] string id)
         {
-            return View();
+            try
+            {
+                ProfileModel profile = await _context.Profile.FindAsync(id);
+
+                if (profile == null)
+                {
+                    return Redirect("/");
+                }
+
+                return View("~/Views/Settings/Index.cshtml", profile);
+
+            } catch(Exception e)
+            {
+                return Redirect("/");
+            }
         }
     }
 }

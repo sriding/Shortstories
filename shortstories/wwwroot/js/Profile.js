@@ -21,8 +21,13 @@
     followButtonAddEventListeners() {
         this.followButton.addEventListener("click", (e) => {
             this.sendFollowRequest(e.target.value).then(() => {
-                console.log("Follower request complete.");
             });
+        })
+    }
+
+    unfollowButtonAddEventListners() {
+        this.unfollowButton.addEventListener("click", (e) => {
+            this.removeFollow(e.target.value);
         })
     }
 
@@ -46,6 +51,21 @@
         })
 
         const followerRequestResult = await followerRequest.text();
+
+        window.location.reload();
+    }
+
+    async removeFollow(followerId) {
+        const removeRequest = await fetch("https://localhost:44389/api/followersmodels/" + window.localStorage.getItem("uid") + "/" + followerId, {
+            method: "DELETE",
+            withCredentials: true,
+            headers: {
+                "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                "Content-Type": "application/json"
+            },
+        })
+
+        const removeRequestResponse = await removeRequest.json();
 
         window.location.reload();
     }

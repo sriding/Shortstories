@@ -104,9 +104,7 @@
         //using global firebase object
         firebaseInstance.changeEmail(email).then(() => {
             window.location.reload();
-            console.log("Changed email.");
         }).catch((err) => {
-            console.log("There was an error changing email on firebase.");
         })
     }
 
@@ -114,9 +112,7 @@
         //using global firebase object
         firebaseInstance.changePassword(password).then(() => {
             window.location.reload();
-            console.log("Changed password.");
         }).catch((err) => {
-            console.log("There was an error changing password on firebase.");
         })
     }
 
@@ -142,11 +138,11 @@
         let newPassword = document.getElementById("settings-form-password").value;
 
         if (newEmail && newEmail !== "") {
-            this.changeEmail(newEmail);
+            await this.changeEmail(newEmail);
         }
 
         if (newPassword && newPassword !== "") {
-            this.changePassword(newPassword);
+            await this.changePassword(newPassword);
         }
     }
 
@@ -162,10 +158,7 @@
             })
 
             const changeAvatar = await changeAvatarStream.json();
-
-            console.log(changeAvatar);
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -181,10 +174,7 @@
             })
 
             const changeLabel = await changeLabelStream.json();
-
-            console.log(changeLabel);
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -200,10 +190,7 @@
             })
 
             const changeDescription = await changeDescriptionStream.json();
-
-            console.log(changeDescription);
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -221,13 +208,16 @@
                     const writerLabelChanged = await this.changeWriterLabel(option.value);
                 }
             })
+
+            window.location.reload();
         })
     }
 
     editStoryButtonsEventListeners() {
         Array.from(document.getElementsByClassName("settings-edit-button")).forEach((editButtons) => {
             editButtons.addEventListener("click", () => {
-                window.location.href = `https://localhost:44389/Story/Edit/${editButtons.value}`;
+                let uid = window.localStorage.getItem("uid");
+                window.location.href = `https://localhost:44389/Story/${uid}/Edit/${editButtons.value}`;
             })
         })
     }

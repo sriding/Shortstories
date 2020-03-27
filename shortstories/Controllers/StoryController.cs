@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shortstories.Data;
@@ -32,9 +33,30 @@ namespace shortstories.Controllers
             return View();
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(string userId, int storyId)
         {
-            return View("~/Views/Story/Edit.cshtml", id);
+            UserModel user = await _context.User.FindAsync(userId);
+
+            if (user == null)
+            {
+                return Redirect("/");
+            }
+
+            ProfileModel profile = await _context.Profile.Where(a => a.UserId == userId).SingleOrDefaultAsync();
+
+            if (profile == null)
+            {
+                return Redirect("/");
+            }
+
+            StoryModel story = await _context.Story.Where(b => b.StoryModelId == storyId).Where(c => c.ProfileId == profile.ProfileModelId).SingleOrDefaultAsync();
+
+            if (story == null)
+            {
+                return Redirect("/");
+            }
+
+            return View("~/Views/Story/Edit.cshtml", story.StoryModelId);
         }
 
         [HttpGet("{controller}/{action}/{id:int}")]
