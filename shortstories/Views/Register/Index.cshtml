@@ -10,16 +10,19 @@
             <div class="form-group">
                 <label for="register_form_username">Username</label>
                 <input type="text" id="register_form_username" name="register_form_username" class="form-control" placeholder="Username">
+                <p id="register-validation-username" class="register-validation alert alert-danger"></p>
                 <small id="usernameHelp" class="form-text text-muted">Alphanumeric characters and underlines only.</small>
             </div>
             <div class="form-group">
                 <label for="register_form_email_address">Email address</label>
                 <input type="email" id="register_form_email_address" name="register_form_email_address" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+                <p id="register-validation-email" class="register-validation alert alert-danger"></p>
                 <small id="emailHelp" class="form-text text-muted">Will be used for logging in.</small>
             </div>
             <div class="form-group">
                 <label for="register_form_password">Password</label>
                 <input type="password" id="register_form_password" name="register_form_password" class="form-control" placeholder="Password">
+                <p id="register-validation-password" class="register-validation alert alert-danger"></p>
                 <small id="passwordHelp" class="form-text text-muted">Must be at least 6 characters.</small>
             </div>
             <div class="form-group">
@@ -28,6 +31,7 @@
                 <img class="register-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/cat.png" alt="cat" />
                 <img class="register-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/pet-shop.png" alt="pet-shop" />
                 <img class="register-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/slow.png" alt="slow" />
+                <p id="register-validation-avatar" class="register-validation alert alert-danger"></p>
                 <div class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev" title="Vitaly Gorbachev">Vitaly Gorbachev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
             </div>
             <div class="form-group">
@@ -38,10 +42,12 @@
                     <option>Enthusiast</option>
                     <option>Professional</option>
                 </select>
+                <p id="register-validation-profession" class="register-validation alert alert-danger"></p>
             </div>
             <div class="form-group">
                 <label for="register_form_description">Short description about yourself.</label>
                 <textarea class="form-control" id="register_form_description" name="register_form_description" rows="3" placeholder="Optional"></textarea>
+                <p id="register-validation-description" class="register-validation alert alert-danger"></p>
             </div>
             <button type="submit" class="btn btn-outline-primary">Submit</button>
         </form>

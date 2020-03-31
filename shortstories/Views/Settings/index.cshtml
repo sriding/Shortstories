@@ -11,16 +11,19 @@
                     <div class="form-group">
                         <label for="settings-form-username">Change Username</label>
                         <input type="text" name="settings-form-username" class="form-control" placeholder="Username" disabled>
+                        <p id="settings-validation-username" class="settings-validation alert alert-danger"></p>
                         <small id="usernameHelp" class="form-text text-muted">Cannot change username.</small>
                     </div>
                     <div class="form-group">
                         <label for="settings-form-email">Change Email Address</label>
                         <input type="email" id="settings-form-email" name="settings-form-email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+                        <p id="settings-validation-email" class="settings-validation alert alert-danger"></p>
                         <small id="emailHelp" class="form-text text-muted">Must be a valid email.</small>
                     </div>
                     <div class="form-group">
                         <label for="settings-form-password">Change Password</label>
                         <input type="password" id="settings-form-password" name="settings-form-password" class="form-control" placeholder="Password">
+                        <p id="settings-validation-password" class="settings-validation alert alert-danger"></p>
                         <small id="passwordHelp" class="form-text text-muted">Must be at least 6 characters.</small>
                     </div>
                     <button type="submit" id="settings-update-user-button" class="btn btn-outline-primary">Update User</button>
@@ -37,6 +40,7 @@
                         <img class="settings-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/cat.png" alt="cat" />
                         <img class="settings-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/pet-shop.png" alt="pet-shop" />
                         <img class="settings-avatar p-2 m-1" style="height: 80px; width: 80px; cursor: pointer;" src="~/images/slow.png" alt="slow" />
+                        <p id="settings-validation-avatars" class="settings-validation alert alert-danger"></p>
                         <div class="text-muted">
                             Icons made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev" title="Vitaly Gorbachev">Vitaly Gorbachev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
                         </div>
@@ -49,10 +53,12 @@
                             <option class="settings-option settings-option-Enthusiast">Enthusiast</option>
                             <option class="settings-option settings-option-Professional">Professional</option>
                         </select>
+                        <p id="settings-validation-profession" class="settings-validation alert alert-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="settings-writer-description">Change Profile Description</label>
                         <textarea class="form-control" id="settings-writer-description" name="settings-writer-description" rows="3" placeholder="Optional"></textarea>
+                        <p id="settings-validation-description" class="settings-validation alert alert-danger"></p>
                     </div>
                     <button type="submit" id="settings-update-profile-button" class="btn btn-outline-primary">Update Profile</button>
                 </form>

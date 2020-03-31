@@ -7,16 +7,19 @@
         <div class="form-group">
             <label for="edit-story-title">Edit Story Title</label>
             <input type="text" class="form-control" name="edit-story-title" id="edit-story-title" placeholder="Enter Story Title" required>
+            <p id="edit-story-validation-title" class="edit-story-validation alert alert-danger"></p>
             <small class="form-text text-muted">Max 80 characters.</small>
         </div>
         <div class="form-group">
             <label for="edit-story-title">Edit Story Headline</label>
             <input type="text" class="form-control" name="edit-story-headline" id="edit-story-headline" placeholder="Enter Story Headline">
+            <p id="edit-story-validation-headline" class="edit-story-validation alert alert-danger"></p>
             <small class="form-text text-muted">Max 200 characters.</small>
         </div>
         <div class="form-group">
             <label for="edit-story-tags">Edit Story Tags</label>
             <input type="text" class="form-control" name="edit-story-tags" id="edit-story-tags" placeholder="Enter Story Tags">
+            <p id="edit-story-validation-tags" class="edit-story-validation alert alert-danger"></p>
             <small class="form-text text-muted">Comma separated. Max 3 tags.</small>
         </div>
         <div class="form-group">
@@ -39,6 +42,7 @@
             <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Thriller" />
             <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="War" />
             <input class="btn btn-outline-dark m-1 edit-story-individual-genres" type="button" value="Western" />
+            <p id="edit-story-validation-genres" class="edit-story-validation alert alert-danger"></p>
             <small class="form-text text-muted">Max 3 genres.</small>
         </div>
         <div class="form-group d-flex align-items-center">
@@ -54,12 +58,14 @@
             </div>
             <div>
                 <p class="mb-0">Does your story include chapters?</p>
+                <p id="edit-story-validation-checkbox" class="edit-story-validation alert alert-danger"></p>
                 <small class="form-text text-muted">Each chapter can be up to 4000 characters. Max 3 Chapters.</small>
             </div>
         </div>
         <div id="edit-story-story-content-container" class="form-group">
             <label for="edit-story-story-content">Story Content</label>
             <textarea class="form-control" id="edit-story-story-content" rows="12" placeholder="Required"></textarea>
+            <p id="edit-story-validation-story-content" class="edit-story-validation alert alert-danger"></p>
         </div>
         <div id="edit-story-chapters-container">
             <div class="edit-story-chapter-container position-relative mt-4 pt-2">

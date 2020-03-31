@@ -173,11 +173,16 @@
         let storyTitleHeadline = document.getElementById("create-story-headline").value || null;
         let storyTagsText = document.getElementById("create-story-tags").value || null;
         let storyGenresArray = Array.from(document.getElementsByClassName("genre-button-selected"));
-        let storyContentText = document.getElementById("create-story-story-content").value || null;
+        let storyContentText = document.getElementById("create-story-story-content");
         let storyChapterTitleArray = Array.from(document.getElementsByClassName("create-story-chapter-title"));
         let storyChapterContentArray = Array.from(document.getElementsByClassName("create-story-chapter-content"));
 
-        if (storyContentText == "") {
+        Array.from(document.getElementsByClassName("create-story-validation")).forEach((elements) => {
+            elements.innerHTML = "";
+            elements.style.display = "none";
+        })
+
+        if (document.getElementById("create-story-story-content-container").style.display === "none") {
             try {
                 const storyStream = await fetch("https://localhost:44389/api/storymodels/create", {
                     method: "POST",
@@ -194,23 +199,102 @@
 
                 const storyId = await storyStream.json();
 
+                if (storyStream.status !== 200 && storyId.errors) {
+                    let count = 0;
+                    if (storyId.errors.StoryModelId) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.StoryModelId;
+                        document.getElementById("create-story-form").append(newElement);
+                        count++;
+                    }
 
+                    if (storyId.errors.StoryTitle) {
+                        document.getElementById("create-story-validation-title").style.display = "inline-block";
+                        document.getElementById("create-story-validation-title").innerHTML = storyId.errors.StoryTitle;
+                        count++;
+                    }
+
+                    if (storyId.errors.StoryHeadline) {
+                        document.getElementById("create-story-validation-headline").style.display = "inline-block";
+                        document.getElementById("create-story-validation-headline").innerHTML = storyId.errors.StoryHeadline;
+                        count++;
+                    }
+
+                    if (storyId.errors.StoryContent) {
+                        document.getElementById("create-story-validation-story-content").style.display = "inline-block";
+                        document.getElementById("create-story-validation-story-content").innerHTML = storyId.errors.StoryContent;
+                        count++;
+                    }
+
+                    if (storyId.errors.ProfileId) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.ProfileId;
+                        document.getElementById("create-story-form").append(newElement);
+                        count++;
+                    }
+
+                    if (count === 0) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.toString();
+                        document.getElementById("create-story-form").append(newElement);
+                    }
+
+                    count = 0;
+
+                    return null;
+                }
 
                 //Split tag string into array of tags, and make a request per tag.
-                const storyTagsTextArray = storyTagsText.split(",");
-                //Make sure to check length of array to assure 3 tags total.
-                storyTagsTextArray.forEach(async (tag) => {
-                    let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            "StoryTag": tag.trim(),
-                            "StoryId": storyId
-                        })
-                    });
-                })
+                if (storyTagsText !== null) {
+                    const storyTagsTextArray = storyTagsText.split(",");
+                    //Make sure to check length of array to assure 3 tags total.
+                    storyTagsTextArray.forEach(async (tag) => {
+                        let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                "StoryTag": tag.trim(),
+                                "StoryId": storyId
+                            })
+                        });
+
+                        let tagsResponse = await tagsRequest.json();
+
+                        if (tagsRequest.status !== 200 && tagsResponse.errors) {
+                            let count = 0;
+
+                            if (tagsResponse.errors.StoryTag) {
+                                document.getElementById("create-story-validation-tags").style.display = "inline-block";
+                                document.getElementById("create-story-validation-tags").innerHTML = tagsResponse.errors.StoryTag;
+                                count++;
+                            }
+
+                            if (tagsResponse.errors.StoryId) {
+                                let newElement = document.createElement("p");
+                                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                                newElement.innerHTML = tagsResponse.errors.StoryId;
+                                document.getElementById("create-story-form").append(newElement);
+                                count++;
+                            }
+
+                            if (count === 0) {
+                                let newElement = document.createElement("p");
+                                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                                newElement.innerHTML = tagsResponse.errors.toString();
+                                document.getElementById("create-story-form").append(newElement);
+                            }
+
+                            count = 0;
+
+                            return null;
+                        }
+                    })
+                }
 
                 storyGenresArray.forEach(async (genre) => {
                     let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
@@ -223,6 +307,37 @@
                             "StoryId": storyId
                         })
                     });
+
+                    let genreResponse = await genreRequest.json();
+
+                    if (genreRequest.status !== 200 && genreResponse.errors) {
+                        let count = 0;
+
+                        if (genreResponse.errors.StoryGenre) {
+                            document.getElementById("create-story-validation-genres").style.display = "inline-block";
+                            document.getElementById("create-story-validation-genres").innerHTML = genreResponse.errors.StoryGenre;
+                            count++;
+                        }
+
+                        if (genreResponse.errors.StoryId) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = genreResponse.errors.StoryId;
+                            document.getElementById("create-story-form").append(newElement);
+                            count++;
+                        }
+
+                        if (count === 0) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = genreResponse.errors.toString();
+                            document.getElementById("create-story-form").append(newElement);
+                        }
+
+                        count = 0;
+
+                        return null;
+                    }
                 })
 
                 //Either array should work fine for looping here. Just make sure to adjust content location in the body.
@@ -239,12 +354,70 @@
                             "StoryId": storyId
                         })
                     });
+
+                    let storyChaptersResponse = await storyChaptersRequest.json();
+
+                    if (storyChaptersRequest.status !== 200 && storyChaptersResponse.errors) {
+                        let count = 0;
+                        if (storyChaptersResponse.errors.ChapterNumber) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = "One or more of the chapters has the following error/s: " + storyChaptersResponse.errors.ChapterNumber;
+                            document.getElementById("create-story-chapters-container").append(newElement);
+                            count++;
+                        }
+
+                        if (storyChaptersResponse.errors.ChapterTitle) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = "One or more of the chapters has the following error/s: " + storyChaptersResponse.errors.ChapterTitle;
+                            document.getElementById("create-story-chapters-container").append(newElement);
+                            count++;
+                        }
+
+                        if (storyChaptersResponse.errors.ChapterContent) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = "One or more of the chapters has the following error/s: " + storyChaptersResponse.errors.ChapterContent;
+                            document.getElementById("create-story-chapters-container").append(newElement);
+                            count++;
+                        }
+
+                        if (storyChaptersResponse.errors.StoryId) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = "One or more of the chapters has the following error/s: " + storyChaptersResponse.errors.StoryId;
+                            document.getElementById("create-story-chapters-container").append(newElement);
+                            count++;
+                        }
+
+                        if (count === 0) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = "One or more of the chapters has the following error/s: " + storyChaptersResponse.errors.toString();
+                            document.getElementById("create-story-chapters-container").append(newElement);
+                        }
+
+                        count = 0;
+
+                        return null;
+                    }
                 });
 
-                window.location.href = "https://localhost:44389/";
+                window.location.href = "/";
             } catch (error) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                newElement.innerHTML = error.toString();
+                document.getElementById("create-story-form").append(newElement);
             }
         } else {
+            if (storyContentText.value === "") {
+                document.getElementById("create-story-validation-story-content").style.display = "inline-block";
+                document.getElementById("create-story-validation-story-content").innerHTML = "No story content entered.";
+                return null;
+            }
+
             try {
                 const storyStream = await fetch("https://localhost:44389/api/storymodels/create", {
                     method: "POST",
@@ -254,29 +427,110 @@
                     body: JSON.stringify({
                         "StoryTitle": storyTitleText,
                         "StoryHeadline": storyTitleHeadline,
-                        "StoryContent": storyContentText,
+                        "StoryContent": storyContentText.value,
                         "ProfileId": window.localStorage.getItem("pid")
                     })
                 })
 
                 const storyId = await storyStream.json();
 
+                if (storyStream.status !== 200 && storyId.errors) {
+                    let count = 0;
+                    if (storyId.errors.StoryModelId) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.StoryModelId;
+                        document.getElementById("create-story-form").append(newElement);
+                        count++;
+                    }
+
+                    if (storyId.errors.StoryTitle) {
+                        document.getElementById("create-story-validation-title").style.display = "inline-block";
+                        document.getElementById("create-story-validation-title").innerHTML = storyId.errors.StoryTitle;
+                        count++;
+                    }
+
+                    if (storyId.errors.StoryHeadline) {
+                        document.getElementById("create-story-validation-headline").style.display = "inline-block";
+                        document.getElementById("create-story-validation-headline").innerHTML = storyId.errors.StoryHeadline;
+                        count++;
+                    }
+
+                    if (storyId.errors.StoryContent) {
+                        document.getElementById("create-story-validation-story-content").style.display = "inline-block";
+                        document.getElementById("create-story-validation-story-content").innerHTML = storyId.errors.StoryContent;
+                        count++;
+                    }
+
+                    if (storyId.errors.ProfileId) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.ProfileId;
+                        document.getElementById("create-story-form").append(newElement);
+                        count++;
+                    }
+
+                    if (count === 0) {
+                        let newElement = document.createElement("p");
+                        newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                        newElement.innerHTML = storyId.errors.toString();
+                        document.getElementById("create-story-form").append(newElement);
+                    }
+
+                    count = 0;
+
+                    return null;
+                }
+
                 
                 //Split tag string into array of tags, and make a request per tag.
-                const storyTagsTextArray = storyTagsText.split(",");
-                //Make sure to check length of array to assure 3 tags total.
-                storyTagsTextArray.forEach(async (tag) => {
-                    let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            "StoryTag": tag.trim(),
-                            "StoryId": storyId
-                        })
-                    });
-                })
+                if (storyTagsText !== null) {
+                    const storyTagsTextArray = storyTagsText.split(",");
+                    //Make sure to check length of array to assure 3 tags total.
+                    storyTagsTextArray.forEach(async (tag) => {
+                        let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                "StoryTag": tag.trim(),
+                                "StoryId": storyId
+                            })
+                        });
+
+                        let tagsResponse = await tagsRequest.json();
+
+                        if (tagsRequest.status !== 200 && tagsResponse.errors) {
+                            let count = 0;
+
+                            if (tagsResponse.errors.StoryTag) {
+                                document.getElementById("create-story-validation-tags").style.display = "inline-block";
+                                document.getElementById("create-story-validation-tags").innerHTML = tagsResponse.errors.StoryTag;
+                                count++;
+                            }
+
+                            if (tagsResponse.errors.StoryId) {
+                                let newElement = document.createElement("p");
+                                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                                newElement.innerHTML = tagsResponse.errors.StoryId;
+                                document.getElementById("create-story-form").append(newElement);
+                                count++;
+                            }
+
+                            if (count === 0) {
+                                let newElement = document.createElement("p");
+                                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                                newElement.innerHTML = tagsResponse.errors.toString();
+                                document.getElementById("create-story-form").append(newElement);
+                            }
+
+                            count = 0;
+
+                            return null;
+                        }
+                    })
+                }
 
                 storyGenresArray.forEach(async (genre) => {
                     let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
@@ -289,10 +543,47 @@
                             "StoryId": storyId
                         })
                     });
+
+                    let genreResponse = await genreRequest.json();
+
+                    if (genreRequest.status !== 200 && genreResponse.errors) {
+                        let count = 0;
+
+                        if (genreResponse.errors.StoryGenre) {
+                            document.getElementById("create-story-validation-genres").style.display = "inline-block";
+                            document.getElementById("create-story-validation-genres").innerHTML = genreResponse.errors.StoryGenre;
+                            count++;
+                        }
+
+                        if (genreResponse.errors.StoryId) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = genreResponse.errors.StoryId;
+                            document.getElementById("create-story-form").append(newElement);
+                            count++;
+                        }
+
+                        if (count === 0) {
+                            let newElement = document.createElement("p");
+                            newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                            newElement.innerHTML = genreResponse.errors.toString();
+                            document.getElementById("create-story-form").append(newElement);
+                        }
+
+                        count = 0;
+
+                        return null;
+                    }
                 })
 
-                window.location.href = "https://localhost:44389/";
+                window.location.href = "/";
             } catch (error) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("create-story-validation", "alert", "alert-danger");
+                newElement.innerHTML = error.toString();
+                document.getElementById("create-story-form").append(newElement);
+
+                return null;
             } 
 
         }

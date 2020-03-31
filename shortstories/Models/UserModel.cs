@@ -14,17 +14,17 @@ namespace shortstories.Models
         {
             UserModelId = Guid.NewGuid().ToString();
         }
-        [Required(ErrorMessage = "No user id for the user. This should be automatic.")]
+        [Required(ErrorMessage = "No user id. This should be automatic.")]
         [Key]
         [Column(TypeName = "varchar(100)")]
         [StringLength(100, ErrorMessage = "The length of the user id cannot exceed 100 characters. This should be automatic.")]
         public string UserModelId { get; set; }
 
         string _FirebaseUserId;
-        [Required]
+        [Required(ErrorMessage = "No firebase id. This should be automatic.")]
         [Column(TypeName = "varchar(100)")]
-        [StringLength(100, ErrorMessage = "The length of the firebase uid cannot exceed 100 characters. This should be automatic.")]
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Firebase uid regex issue. This should be automatic.")]
+        [StringLength(100, ErrorMessage = "The length of the firebase id cannot exceed 100 characters. This should be automatic.")]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "firebase id regex issue. This should be automatic.")]
         public string FirebaseUserId { 
             get { return _FirebaseUserId; }
             set

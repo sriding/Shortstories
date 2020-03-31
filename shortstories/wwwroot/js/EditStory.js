@@ -22,6 +22,13 @@
 
         const story = await storyStream.json();
 
+        if (storyStream.status !== 200 && story.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = story.errors.toString();
+            document.getElementById("edit-story-form").prepend(newElement);
+        }
+
         this.preFillStoryTitle(story.StoryTitle);
         this.preFillStoryHeadline(story.StoryHeadline);
 
@@ -34,6 +41,13 @@
             })
 
             const storyChapters = await storyChaptersStream.json();
+
+            if (storyChaptersStream.status !== 200 && storyChapters.errors) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+                newElement.innerHTML = storyChapters.errors.toString();
+                document.getElementById("edit-story-form").prepend(newElement);
+            }
 
             const chapterNumbers = [];
             const chapterTitles = [];
@@ -61,6 +75,13 @@
 
         const genres = await genresStream.json();
 
+        if (genresStream.status !== 200 && genres.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = genres.errors.toString();
+            document.getElementById("edit-story-form").prepend(newElement);
+        }
+
         this.preSelectStoryGenres(genres);
 
         const tagsStream = await fetch("https://localhost:44389/api/storytagsmodels/story/" + storyId, {
@@ -71,6 +92,13 @@
         })
 
         const tags = await tagsStream.json();
+
+        if (tagsStream.status !== 200 && tags.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = tags.errors.toString();
+            document.getElementById("edit-story-form").prepend(newElement);
+        }
 
         this.preFillStoryTags(tags);
     }
@@ -232,37 +260,57 @@
                 return genres.value;
             })
 
-            //If the story content container isn't hidden then...
-            if (document.getElementById("edit-story-story-content-container").style.display !== "none") {
-                const storyContent = document.getElementById("edit-story-story-content").value;
+            Array.from(document.getElementsByClassName("edit-story-validation")).forEach((elements) => {
+                elements.innerHTML = "";
+                elements.style.display = "none";
+            })
 
-                await this.apiRequestForStory(storyId, storyTitle, storyHeadline, storyContent);
-                await this.apiRequestForStoryGenre(storyId, storyGenresArray);
-                await this.apiRequestForStoryTag(storyId, storyTagsArrayTrimmed);
-            } else {
-                const chapterTitlesElements = Array.from(document.getElementsByClassName("edit-story-chapter-title"));
-                const chapterContentsElements = Array.from(document.getElementsByClassName("edit-story-chapter-content"));
-                const chapterNumbers = [];
-                chapterContentsElements.forEach((contents, index) => {
-                    chapterNumbers.push(index + 1);
-                })
+            try {
+                //If the story content container isn't hidden then...
+                if (document.getElementById("edit-story-story-content-container").style.display !== "none") {
+                    const storyContent = document.getElementById("edit-story-story-content").value;
 
-                const chapterTitlesArray = chapterTitlesElements.map((titles) => {
-                    return titles.value;
-                })
-                const chapterContentsArray = chapterContentsElements.map((contents) => {
-                    return contents.value;
-                })
+                    await this.apiRequestForStory(storyId, storyTitle, storyHeadline, storyContent);
+                    await this.apiRequestForStoryGenre(storyId, storyGenresArray);
+                    await this.apiRequestForStoryTag(storyId, storyTagsArrayTrimmed);
+                } else {
+                    const chapterTitlesElements = Array.from(document.getElementsByClassName("edit-story-chapter-title"));
+                    const chapterContentsElements = Array.from(document.getElementsByClassName("edit-story-chapter-content"));
+                    const chapterNumbers = [];
+                    chapterContentsElements.forEach((contents, index) => {
+                        chapterNumbers.push(index + 1);
+                    })
 
-                await this.apiRequestForStory(storyId, storyTitle, storyHeadline, null);
-                await this.apiRequestForStoryChapter(storyId, chapterNumbers, chapterTitlesArray, chapterContentsArray);
-                await this.apiRequestForStoryGenre(storyId, storyGenresArray);
-                await this.apiRequestForStoryTag(storyId, storyTagsArray);
+                    const chapterTitlesArray = chapterTitlesElements.map((titles) => {
+                        return titles.value;
+                    })
+                    const chapterContentsArray = chapterContentsElements.map((contents) => {
+                        return contents.value;
+                    })
+
+                    await this.apiRequestForStory(storyId, storyTitle, storyHeadline, null);
+                    await this.apiRequestForStoryChapter(storyId, chapterNumbers, chapterTitlesArray, chapterContentsArray);
+                    await this.apiRequestForStoryGenre(storyId, storyGenresArray);
+                    await this.apiRequestForStoryTag(storyId, storyTagsArray);
+                }
+            } catch (error) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+                newElement.innerHTML = error.toString();
+                document.getElementById("edit-story-form").append(newElement);
+
+                return null;
             }
         })
     }
 
     async apiRequestForStory(storyId, storyTitle, storyHeadline, storyContent = null) {
+        if (storyContent === "") {
+            document.getElementById("edit-story-validation-story-content").style.display = "inline-block";
+            document.getElementById("edit-story-validation-story-content").innerHTML = "No story content.";
+            return null;
+        }
+
         const body = {
             "StoryTitle": storyTitle,
             "StoryHeadline": storyHeadline,
@@ -270,22 +318,70 @@
             "ProfileId": window.localStorage.getItem("pid")
         }
 
-        const storyStream = await fetch("https://localhost:44389/api/storymodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
-            method: "PUT",
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem("t"),
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
+        try {
+            const storyStream = await fetch("https://localhost:44389/api/storymodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+                method: "PUT",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
 
-        const story = await storyStream.json();
+            const story = await storyStream.json();
 
-        return;
+            if (storyStream.status !== 200 && story.errors) {
+                let count = 0;
+
+                if (story.errors.StoryTitle) {
+                    document.getElementById("edit-story-validation-title").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-title").innerHTML = story.errors.StoryTitle;
+                    count++;
+                }
+
+                if (story.errors.StoryHeadline) {
+                    document.getElementById("edit-story-validation-headline").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-headline").innerHTML = story.errors.StoryHeadline;
+                    count++;
+                }
+
+                if (story.errors.StoryContent) {
+                    document.getElementById("edit-story-validation-story-content").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-story-content").innerHTML = story.errors.StoryContent;
+                    count++;
+                }
+
+                if (story.errors.ProfileId) {
+                    let newElement = document.createElement("p");
+                    newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+                    newElement.innerHTML = story.errors.ProfileId;
+                    document.getElementById("edit-story-form").append(newElement);
+                    count++;
+                }
+
+                if (count === 0) {
+                    let newElement = document.createElement("p");
+                    newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+                    newElement.innerHTML = story.errors.toString();
+                    document.getElementById("edit-story-form").append(newElement);
+                }
+
+                count = 0;
+
+                return null;
+            }
+        } catch (error) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = error.toString();
+            document.getElementById("edit-story-form").append(newElement);
+
+            return null;
+        }
     }
 
-    async apiRequestForStoryChapter(storyId, chapterNumbers, chaptertitles = null, chapterContents) {
+    async apiRequestForStoryChapter(storyId, chapterNumbers, chaptertitles, chapterContents) {
         const body = chapterNumbers.map((numbers, index) => {
             return {
                 "ChapterNumber": numbers,
@@ -294,20 +390,37 @@
                 "StoryId": storyId
             }
         })
+        try {
+            const storyChapterStream = await fetch("https://localhost:44389/api/storychaptersmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+                method: "PUT",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
 
-        const storyChapterStream = await fetch("https://localhost:44389/api/storychaptersmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
-            method: "PUT",
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem("t"),
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
+            const storyChapter = await storyChapterStream.json();
 
-        const storyChapter = await storyChapterStream.json();
+            if (storyChapterStream.status !== 200 && storyChapter.errors) {
+                let errorsArray = Object.values(storyChapter.errors);
+                errorsArray.forEach((err) => {
+                    let newElement = document.createElement("p");
+                    newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+                    newElement.innerHTML = "One or more of the chapters has the following error/s: " + err;
+                    document.getElementById("edit-story-chapters-container").append(newElement);
+                })
+                return null;
+            }
+        } catch (error) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = error.toString();
+            document.getElementById("edit-story-form").append(newElement);
 
-        return;
+            return null;
+        }
     }
 
     async apiRequestForStoryGenre(storyId, storyGenres) {
@@ -318,19 +431,51 @@
             }
         })
 
-        const storyGenreStream = await fetch("https://localhost:44389/api/storygenresmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
-            method: "PUT",
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem("t"),
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
+        try {
+            const storyGenreStream = await fetch("https://localhost:44389/api/storygenresmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+                method: "PUT",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
 
-        const storyGenre = await storyGenreStream.json();
+            const storyGenre = await storyGenreStream.json();
 
-        return;
+            if (storyGenreStream.status !== 200 && storyGenre.errors) {
+                let count = 0;
+
+                if (storyGenre.errors.StoryGenre) {
+                    document.getElementById("edit-story-validation-genres").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-genres").innerHTML = storyGenre.errors.StoryGenre;
+                    count++;
+                }
+
+                if (storyGenre.errors.StoryId) {
+                    document.getElementById("edit-story-validation-genres").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-genres").innerHTML = storyGenre.errors.StoryId;
+                    count++;
+                }
+
+                if (count === 0) {
+                    document.getElementById("edit-story-validation-genres").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-genres").innerHTML = storyGenre.errors.toString();
+                }
+
+                count = 0;
+
+                return null;
+            }
+        } catch (error) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = error.toString();
+            document.getElementById("edit-story-form").append(newElement);
+
+            return null;
+        }
     }
 
     async apiRequestForStoryTag(storyId, storyTags) {
@@ -341,18 +486,52 @@
             }
         })
 
-        const storyTagStream = await fetch("https://localhost:44389/api/storytagsmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
-            method: "PUT",
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem("t"),
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        })
+        try {
+            const storyTagStream = await fetch("https://localhost:44389/api/storytagsmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+                method: "PUT",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
 
-        const storyTag = await storyTagStream.json();
+            const storyTag = await storyTagStream.json();
 
-        return window.location.reload();
+            if (storyTagStream.status !== 200 && storyTag.errors) {
+                let count = 0;
+
+                if (storyTag.errors.StoryTag) {
+                    document.getElementById("edit-story-validation-tags").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-tags").innerHTML = storyTag.errors.StoryTag;
+                    count++;
+                }
+
+                if (storyTag.errors.StoryId) {
+                    document.getElementById("edit-story-validation-tags").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-tags").innerHTML = storyTag.errors.StoryId;
+                    count++;
+                }
+
+                if (count === 0) {
+                    document.getElementById("edit-story-validation-tags").style.display = "inline-block";
+                    document.getElementById("edit-story-validation-tags").innerHTML = storyTag.errors.toString();
+                }
+
+                count = 0;
+
+                return null;
+            }
+
+            //window.location.reload();
+        } catch (error) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("edit-story-validation", "alert", "alert-danger");
+            newElement.innerHTML = error.toString();
+            document.getElementById("edit-story-form").append(newElement);
+
+            return null;
+        }
     }
 }

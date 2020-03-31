@@ -21,7 +21,7 @@
         const firebaseId = window.localStorage.getItem("fid");
 
         if (userId === null && firebaseId === null) {
-            return;
+            return null;
         }
 
         const authStatusStream = await fetch(`https://localhost:44389/api/usermodels/${firebaseId}/${userId}`, {
@@ -46,9 +46,9 @@
             method: "GET"
         });
 
-        const avatarUrl = await avatarUrlStream.text();
+        const avatarResponse = await avatarUrlStream.json();
 
-        return avatarUrl;
+        return avatarResponse.pAvatar;
     }
 
     setAvatar() {
@@ -67,14 +67,15 @@
                 }
             })
 
-            const username = await usernameStream.text();
+            const username = await usernameStream.json();
 
             if (username == null || username == undefined) {
                 window.location.href = "https://localhost:44389/";
             }
 
-            return username;
+            return username.pUsername;
         } catch (err) {
+            return null;
         }
     }
 

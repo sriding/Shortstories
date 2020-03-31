@@ -38,11 +38,11 @@ namespace shortstories.Models
                 _StoryHeadline = HttpUtility.HtmlEncode(value);
             } 
         }
-    #nullable enable
+#nullable enable
         [Column(TypeName = "varchar(8000)")]
         [StringLength(8000, ErrorMessage = "Content cannot exceed 8000 characters.")]
         public string? StoryContent { get; set; }
-    #nullable disable
+#nullable disable
         [Column(TypeName = "int")]
         public int StoryThumbsUp { get; set; }
         [Column(TypeName = "int")]

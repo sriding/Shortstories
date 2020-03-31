@@ -12,7 +12,10 @@
         <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/story.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/editstory.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/settings.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     </environment>
 </head>
 <body onload="pageLoadFunction()">
@@ -30,10 +33,12 @@
                 <div class="form-group">
                     <label for="current-login-details-email-address">Email address</label>
                     <input type="email" id="current-login-details-email-address" name="current-login-details-email-address" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                    <p id="current-login-validation-email" class="current-login-validation alert alert-danger"></p>
                 </div>
                 <div class="form-group">
                     <label for="current-login-details-password">Password</label>
                     <input type="password" id="current-login-details-password" name="current-login-details-password" class="form-control" placeholder="Password">
+                    <p id="current-login-validation-password" class="current-login-validation alert alert-danger"></p>
                 </div>
                 <button type="submit" id="current-login-details-submit-button" class="btn btn-outline-primary">Provide Details</button>
             </form>

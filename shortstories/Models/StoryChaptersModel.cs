@@ -20,11 +20,10 @@ namespace shortstories.Models
         [Required(ErrorMessage = "Chapter number is required.")]
         [Column(TypeName = "int")]
         public int ChapterNumber { get; set; }
-    #nullable enable
+        [Required(ErrorMessage = "Chapter title is required.")]
         [Column(TypeName = "varchar(80)")]
         [StringLength(80, ErrorMessage = "Chapter titles cannot exceed 80 characters.")]
-        public string? ChapterTitle { get; set; }
-    #nullable disable
+        public string ChapterTitle { get; set; }
         [Required(ErrorMessage = "Chapter content is required.")]
         [Column(TypeName = "varchar(4000)")]
         [StringLength(4000, ErrorMessage = "Content cannot exceed 4000 characters.")]

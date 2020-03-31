@@ -37,7 +37,7 @@
     async getStoriesByFilter(filterText, elementId) {
         try {
             if (filterText === null) {
-                return;
+                return null;
             }
 
             const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/" + filterText, {
@@ -51,6 +51,7 @@
 
             this.createStoryContainersGeneral(stories, elementId);
         } catch (error) {
+            return null;
         }
     }
 
@@ -62,7 +63,7 @@
                 noFollowersElement.style.fontSize = "20px";
                 noFollowersElement.innerHTML = "Not following anyone.";
                 document.getElementById("home-no-follower-stories").append(noFollowersElement);
-                return;
+                return null;
             }
             const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/followers/" + profileId, {
                 method: "GET",
@@ -79,14 +80,15 @@
                 noFollowersElement.style.fontSize = "20px";
                 noFollowersElement.innerHTML = "Not following anyone.";
                 document.getElementById("home-no-follower-stories").append(noFollowersElement);
-                return;
+
+                return null;
             }
 
             const stories = await storiesStream.json();
 
             this.createStoryContainersFollowers(stories, elementId);
         } catch (error) {
-
+            return null;
         }
     }
 
@@ -103,6 +105,7 @@
 
             this.createStoryContainersGeneral(stories, elementId, true);
         } catch (error) {
+            return null;
         }
     }
 

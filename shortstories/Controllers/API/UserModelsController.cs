@@ -34,7 +34,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             } else
             {
-                return Ok(userModel.UserModelId);
+                return Ok(new { uid = userModel.UserModelId });
             }
         }
 
@@ -86,7 +86,7 @@ namespace shortstories.Controllers.API
                 }
             }
 
-            return Ok(user.UserModelId);
+            return Ok(new { uid = user.UserModelId });
         }
 
         // DELETE: api/UserModels/delete

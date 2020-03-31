@@ -15,10 +15,19 @@
             }
         });
 
-        const avatar = await avatarStream.text();
+        const avatarResponse = await avatarStream.json();
+
+        if (avatarStream.status !== 200 && avatarResponse.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("settings-validation", "alert", "alert-danger");
+            newElement.innerHTML = avatarResponse.errors.toString();
+            document.getElementById("settings-profile-details-form").append(newElement);
+            return null;
+        }
+
         let correctAvatar = null;
         this.settingsAvatarImages.forEach((avatarImages) => {
-            if (avatarImages.alt === avatar) {
+            if (avatarImages.alt === avatarResponse.pAvatar) {
                 correctAvatar = avatarImages;
             }
         });
@@ -45,9 +54,17 @@
             }
         })
 
-        const writerLabel = await writerLabelStream.text();
+        const writerLabelResponse = await writerLabelStream.json();
 
-        document.getElementsByClassName(`settings-option-${writerLabel}`)[0].selected = true;
+        if (writerLabelStream.status !== 200 && writerLabelResponse.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("settings-validation", "alert", "alert-danger");
+            newElement.innerHTML = writerLabelResponse.errors.toString();
+            document.getElementById("setings-profile-details-form").append(newElement);
+            return null;
+        }
+
+        document.getElementsByClassName(`settings-option-${writerLabelResponse.pWriter}`)[0].selected = true;
     }
 
     async preFillProfileDescription() {
@@ -58,9 +75,17 @@
             }
         })
 
-        const description = await descriptionStream.text();
+        const descriptionResponse = await descriptionStream.json();
 
-        document.getElementById("settings-writer-description").value = description;
+        if (descriptionStream.status !== 200 && descriptionResponse.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("settings-validation", "alert", "alert-danger");
+            newElement.innerHTML = descriptionResponse.errors.toString();
+            document.getElementById("setings-profile-details-form").append(newElement);
+            return null;
+        }
+
+        document.getElementById("settings-writer-description").value = descriptionResponse.pDescription;
     }
 
     async displayCurrentStories() {
@@ -72,6 +97,14 @@
         })
 
         const stories = await storiesStream.json();
+
+        if (storiesStream.status !== 200 && stories.errors) {
+            let newElement = document.createElement("p");
+            newElement.classList.add("settings-validation", "alert", "alert-danger");
+            newElement.innerHTML = descriptionResponse.errors.toString();
+            document.getElementById("settings-stories-container").prepend(newElement);
+            return null;
+        }
 
         stories.forEach((story) => {
             let containerElement = document.createElement("div");
@@ -105,6 +138,7 @@
         firebaseInstance.changeEmail(email).then(() => {
             window.location.reload();
         }).catch((err) => {
+            document.getElementById("settings-validation-email").innerHTML = err.toString();
         })
     }
 
@@ -113,6 +147,7 @@
         firebaseInstance.changePassword(password).then(() => {
             window.location.reload();
         }).catch((err) => {
+            document.getElementById("settings-validation-password").innerHTML = err.toString();
         })
     }
 
@@ -128,21 +163,26 @@
         let emailInformation = document.getElementById("current-login-details-email-address").value;
         let passwordInformation = document.getElementById("current-login-details-password").value;
 
-        const login = await firebaseInstance.signInWithEmailAndPassword(emailInformation, passwordInformation);
+        Array.from(document.getElementsByClassName("settings-validation")).forEach((elements) => {
+            elements.innerHTML = "";
+            elements.style.display = "none";
+        })
 
-        if (login === undefined) {
-            return;
-        }
+        try {
+            const login = await firebaseInstance.signInWithEmailAndPassword(emailInformation, passwordInformation);
 
-        let newEmail = document.getElementById("settings-form-email").value;
-        let newPassword = document.getElementById("settings-form-password").value;
+            let newEmail = document.getElementById("settings-form-email").value;
+            let newPassword = document.getElementById("settings-form-password").value;
 
-        if (newEmail && newEmail !== "") {
-            await this.changeEmail(newEmail);
-        }
+            if (newEmail && newEmail !== "") {
+                await this.changeEmail(newEmail);
+            }
 
-        if (newPassword && newPassword !== "") {
-            await this.changePassword(newPassword);
+            if (newPassword && newPassword !== "") {
+                await this.changePassword(newPassword);
+            }
+        } catch (err) {
+            return alert(err);
         }
     }
 
@@ -158,7 +198,16 @@
             })
 
             const changeAvatar = await changeAvatarStream.json();
+
+            if (changeAvatarStream.status !== 200 && changeAvatarStream.status !== 204 && changeAvatar.errors) {
+                document.getElementById("settings-validation-avatars").style.display = "inline-block";
+                document.getElementById("settings-validation-avatars").innerHTML = changeAvatar.errors.toString(); 
+                return null;
+            }
         } catch (err) {
+            document.getElementById("settings-validation-avatars").style.display = "inline-block";
+            document.getElementById("settings-validation-avatars").innerHTML = err.toString();
+            return null;
         }
     }
 
@@ -174,7 +223,16 @@
             })
 
             const changeLabel = await changeLabelStream.json();
+
+            if (changeLabelStream.status !== 200 && changeLabelStream.status !== 204 && changeLabel.errors) {
+                document.getElementById("settings-validation-profession").style.display = "inline-block";
+                document.getElementById("settings-validation-profession").innerHTML = changeLabel.errors.toString();
+                return null;
+            }
         } catch (err) {
+            document.getElementById("settings-validation-profession").style.display = "inline-block";
+            document.getElementById("settings-validation-profession").innerHTML = err.toString();
+            return null;
         }
     }
 
@@ -190,12 +248,26 @@
             })
 
             const changeDescription = await changeDescriptionStream.json();
+
+            if (changeDescriptionStream.status !== 200 && changeDescriptionStream.status !== 204 && changeDescription.errors) {
+                document.getElementById("settings-validation-description").style.display = "inline-block";
+                document.getElementById("settings-validation-description").innerHTML = changeDescription.errors.toString();
+                return null;
+            }
         } catch (err) {
+            document.getElementById("settings-validation-description").style.display = "inline-block";
+            document.getElementById("settings-validation-description").innerHTML = err.toString();
+            return null;
         }
     }
 
     async updateProfileButtonEventListeners() {
         document.getElementById("settings-update-profile-button").addEventListener("click", async () => {
+            Array.from(document.getElementsByClassName("settings-validation")).forEach((elements) => {
+                elements.innerHTML = "";
+                elements.style.display = "none";
+            })
+
             const newAvatar = document.getElementsByClassName("settings-chosen-avatar")[0];
             const avatarChanged = await this.changeAvatar(newAvatar.alt);
 
@@ -223,20 +295,30 @@
     }
 
     async deleteStory(storyId) {
-        const deleteStoryStream = await fetch("https://localhost:44389/api/storymodels/" + storyId, {
-            method: "DELETE",
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + window.localStorage.getItem("t"),
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                UserModelId: window.localStorage.getItem("uid"),
-                FirebaseUserId: window.localStorage.getItem("fid")
+        try {
+            const deleteStoryStream = await fetch("https://localhost:44389/api/storymodels/" + storyId, {
+                method: "DELETE",
+                withCredentials: true,
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("t"),
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    UserModelId: window.localStorage.getItem("uid"),
+                    FirebaseUserId: window.localStorage.getItem("fid")
+                })
             })
-        })
 
-        const deleteStoryResponse = await deleteStoryStream.json();
+            const deleteStoryResponse = await deleteStoryStream.json();
+
+            if (deleteStoryStream.status !== 200 && deleteStoryResponse.errors) {
+                alert(deleteStoryResponse.errors);
+                return null;
+            }
+        } catch (err) {
+            alert(err);
+            return null;
+        }
     }
 
     deleteStoryButtonsEventListeners() {

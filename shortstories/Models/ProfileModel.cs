@@ -63,9 +63,10 @@ namespace shortstories.Models
           get { return _ProfileTypeOfWriter; }
           set
             {
-                if (value == null)
+                if (!(value is string) || string.IsNullOrEmpty(value))
                 {
                     _ProfileTypeOfWriter = "Beginner";
+                    return;
                 }
 
                 switch (char.ToUpper(value[0]) + value.Substring(1))

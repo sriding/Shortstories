@@ -1,0 +1,30 @@
+﻿.edit-story-validation {
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    padding: 8px;
+}
+
+#edit-story-validation-title {
+    display: none;
+}
+
+#edit-story-validation-headline {
+    display: none;
+}
+
+#edit-story-validation-tags {
+    display: none;
+}
+
+#edit-story-validation-genres {
+    display: none;
+}
+
+#edit-story-validation-checkbox {
+    display: none;
+}
+
+#edit-story-validation-story-content {
+    display: none;
+}

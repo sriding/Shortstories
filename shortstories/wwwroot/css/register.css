@@ -1,1 +1,30 @@
-﻿
+﻿#register-validation-username {
+    display: none;
+}
+
+#register-validation-email {
+    display: none;
+}
+
+#register-validation-password {
+    display: none;
+}
+
+#register-validation-avatar {
+    display: none;
+}
+
+#register-validation-profession {
+    display: none;
+}
+
+#register-validation-description {
+    display: none;
+}
+
+.register-validation {
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    padding: 8px;
+}

@@ -12,12 +12,16 @@
 
     submitLoginForm = async (event) => {
         event.preventDefault();
+        Array.from(document.getElementsByClassName("login-validation")).forEach((element) => {
+            element.style.display = "none";
+        })
 
         const loginFormEmailAddress = document.getElementById("login_form_email_address").value;
         const loginFormPassword = document.getElementById("login_form_password").value;
 
         try {
             const loginResult = await firebaseInstance.signInWithEmailAndPassword(loginFormEmailAddress, loginFormPassword);
+
             window.localStorage.setItem("t", loginResult.user.ma);
             window.localStorage.setItem("fid", loginResult.user.uid);
 
@@ -29,11 +33,19 @@
                 }
             });
 
-            const loginText = await loginStream.text();
+            const loginResponse = await loginStream.json();
 
-            window.localStorage.setItem("uid", loginText);
+            if (loginStream.status !== 200 && loginResponse.errors) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("login-validation", "alert", "alert-danger");
+                newElement.innerHTML = loginResponse.errors.toString();
+                document.getElementById("login_form").append(newElement);
+                return null;
+            }
 
-            const profileStream = await fetch("https://localhost:44389/api/profilemodels/id/" + `${loginText}`, {
+            window.localStorage.setItem("uid", loginResponse.uid);
+
+            const profileStream = await fetch("https://localhost:44389/api/profilemodels/id/" + `${loginResponse.uid}`, {
                 method: "GET",
                 withCredentials: true,
                 headers: {
@@ -41,13 +53,26 @@
                 }
             });
 
-            const profileText = await profileStream.text();
+            const profileResponse = await profileStream.json();
 
-            window.localStorage.setItem("pid", profileText);
+            if (profileStream.status !== 200 && profileResponse.errors) {
+                let newElement = document.createElement("p");
+                newElement.classList.add("login-validation", "alert", "alert-danger");
+                newElement.innerHTML = profileResponse.errors.toString();
+                document.getElementById("login_form").append(newElement);
+                return null;
+            }
+
+            window.localStorage.setItem("pid", profileResponse.pid);
 
             return window.location.href = "https://localhost:44389/";
         } catch (error) {
-            return error;
+            let newElement = document.createElement("p");
+            newElement.classList.add("login-validation", "alert", "alert-danger");
+            newElement.innerHTML = "Make sure fields are filled out properly.";
+            document.getElementById("login_form").append(newElement);
+
+            return null;
         }
     }
 }

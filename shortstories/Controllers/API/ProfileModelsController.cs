@@ -37,7 +37,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             }
 
-            return Ok(profile.ProfileModelId);
+            return Ok(new { pid = profile.ProfileModelId });
         }
 
         [HttpGet("username/{profileId}")]
@@ -51,7 +51,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             }
 
-            return Ok(profile.ProfileUsername);
+            return Ok(new { pUsername = profile.ProfileUsername });
         }
 
         [HttpGet("avatar/{profileId}")]
@@ -64,7 +64,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             }
 
-            return Ok(profile.ProfileAvatar);
+            return Ok(new { pAvatar = profile.ProfileAvatar });
         }
 
         [HttpGet("writer/{profileId}")]
@@ -77,7 +77,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             }
 
-            return Ok(profile.ProfileTypeOfWriter);
+            return Ok(new { pWriter = profile.ProfileTypeOfWriter });
         }
 
         [HttpGet("description/{profileId}")]
@@ -90,7 +90,7 @@ namespace shortstories.Controllers.API
                 return NotFound();
             }
 
-            return Ok(profile.ProfileDescription);
+            return Ok(new { pDescription = profile.ProfileDescription });
         }
 
         // GET: api/ProfileModels/{profileUsername}
@@ -125,7 +125,7 @@ namespace shortstories.Controllers.API
                 throw;
             }
 
-            return Ok(profile.ProfileModelId);
+            return Ok(new { pid = profile.ProfileModelId });
         }
 
         [HttpPut("update/avatar/{userId}/{avatar}")]
@@ -159,7 +159,7 @@ namespace shortstories.Controllers.API
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // PUT: api/ProfileModels/5
@@ -249,7 +249,7 @@ namespace shortstories.Controllers.API
 
             await _context.SaveChangesAsync();
 
-            return Ok("Profile deleted.");
+            return Ok();
         }
     }
 }

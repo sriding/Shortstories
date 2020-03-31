@@ -24,14 +24,43 @@
 }
 
 .create-story-individual-genres {
+}
 
+.create-story-validation {
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    padding: 8px;
+}
+
+#create-story-validation-title {
+    display: none;
+}
+
+#create-story-validation-headline {
+    display: none;
+}
+
+#create-story-validation-tags {
+    display: none;
+}
+
+#create-story-validation-genres {
+    display: none;
+}
+
+#create-story-validation-checkbox {
+    display: none;
+}
+
+#create-story-validation-story-content {
+    display: none;
 }
 
 /*Create Story Page (End)*/
 
 /*Display story page (start)*/
 #story-view-page {
-    
 }
 
 .display-story-content-container {

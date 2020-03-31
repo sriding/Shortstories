@@ -8,3 +8,42 @@
     box-shadow: 0px 0px 2px black;
     width: 340px;
 }
+
+#current-login-validation-email {
+    display: none;
+}
+
+#current-login-validation-password {
+    display: none;
+}
+
+.settings-validation {
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    padding: 8px;
+}
+
+#settings-validation-username {
+    display: none;
+}
+
+#settings-validation-email {
+    display: none;
+}
+
+#settings-validation-password {
+    display: none;
+}
+
+#settings-validation-avatars {
+    display: none;
+}
+
+#settings-validation-profession {
+    display: none;
+}
+
+#settings-validation-description {
+    display: none;
+}
