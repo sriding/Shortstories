@@ -136,7 +136,7 @@
     static changeEmail(email) {
         //using global firebase object
         firebaseInstance.changeEmail(email).then(() => {
-            window.location.reload();
+            //window.location.reload();
         }).catch((err) => {
             document.getElementById("settings-validation-email").innerHTML = err.toString();
         })
@@ -145,7 +145,7 @@
     static changePassword(password) {
         //using global firebase object
         firebaseInstance.changePassword(password).then(() => {
-            window.location.reload();
+           //window.location.reload();
         }).catch((err) => {
             document.getElementById("settings-validation-password").innerHTML = err.toString();
         })
@@ -168,21 +168,36 @@
             elements.style.display = "none";
         })
 
+        Array.from(document.getElementsByClassName("current-login-validation")).forEach((elements) => {
+            elements.innerHTML = "";
+            elements.style.display = "none";
+        })
+
         try {
             const login = await firebaseInstance.signInWithEmailAndPassword(emailInformation, passwordInformation);
+
+            if (login === null) {
+                return null;
+            }
+
+            document.getElementById("role-main").style.filter = "none";
+            document.getElementById("current-login-details-modal").style.display = "none";
 
             let newEmail = document.getElementById("settings-form-email").value;
             let newPassword = document.getElementById("settings-form-password").value;
 
-            if (newEmail && newEmail !== "") {
-                await this.changeEmail(newEmail);
+            if (document.getElementById("settings-form-email").value !== "") {
+                const changedEmail = await this.changeEmail(newEmail);
             }
 
-            if (newPassword && newPassword !== "") {
-                await this.changePassword(newPassword);
+            if (document.getElementById("settings-form-password").value !== "") {
+                const changedPassword = await this.changePassword(newPassword);
             }
+
         } catch (err) {
-            return alert(err);
+            document.getElementById("current-login-validation-password").style.display = "inline-block";
+            document.getElementById("current-login-validation-password").innerHTML = err.toString();
+            return null;
         }
     }
 
@@ -312,11 +327,9 @@
             const deleteStoryResponse = await deleteStoryStream.json();
 
             if (deleteStoryStream.status !== 200 && deleteStoryResponse.errors) {
-                alert(deleteStoryResponse.errors);
                 return null;
             }
         } catch (err) {
-            alert(err);
             return null;
         }
     }

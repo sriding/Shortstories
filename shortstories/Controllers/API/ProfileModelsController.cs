@@ -159,7 +159,7 @@ namespace shortstories.Controllers.API
                 }
             }
 
-            return Ok();
+            return Ok(new { });
         }
 
         // PUT: api/ProfileModels/5
@@ -196,7 +196,7 @@ namespace shortstories.Controllers.API
                 }
             }
 
-            return NoContent();
+            return Ok(new { });
         }
 
         [HttpPut("update/description/{userId}/{profileDescription}")]
@@ -230,7 +230,7 @@ namespace shortstories.Controllers.API
                 }
             }
 
-            return NoContent();
+            return Ok(new { });
         }
 
         // DELETE: api/ProfileModels/5
@@ -249,7 +249,7 @@ namespace shortstories.Controllers.API
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { });
         }
     }
 }

@@ -45,18 +45,18 @@
                     userValidationElement.style.display = "inline-block";
                     userValidationElement.innerHTML = err.message;
                 } else {
-                    settingsValidationElement.style.display = "inline-block";
-                    settingsValidationElement.innerHTML = err.message;
+                    currentLoginValidationElement.style.display = "inline-block";
+                    currentLoginValidationElement.innerHTML = err.message;
                 }
             } else {
                 const userValidationElement = document.getElementById("login-validation-password") || null;
-                const settingsValidationElement = document.getElementById("current-login-validation-password") || null;
+                const currentLoginValidationElement = document.getElementById("current-login-validation-password") || null;
                 if (userValidationElement !== null) {
                     userValidationElement.style.display = "inline-block";
                     userValidationElement.innerHTML = err.message;
                 } else {
-                    settingsValidationElement.style.display = "inline-block";
-                    settingsValidationElement.innerHTML = err.message;
+                    currentLoginValidationElement.style.display = "inline-block";
+                    currentLoginValidationElement.innerHTML = err.message;
                 }
             }
 

@@ -350,7 +350,7 @@ namespace shortstories.Controllers.API
 
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return Ok(new { });
             } catch(Exception e)
             {
                 return Problem(e.ToString());

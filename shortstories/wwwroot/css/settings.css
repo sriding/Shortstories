@@ -9,6 +9,13 @@
     width: 340px;
 }
 
+.current-login-validation {
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    padding: 8px;
+}
+
 #current-login-validation-email {
     display: none;
 }
