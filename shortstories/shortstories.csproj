@@ -26,6 +26,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.4.0" />

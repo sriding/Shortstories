@@ -13,6 +13,8 @@ using shortstories.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
+using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Http;
 
 namespace shortstories
 {
@@ -28,7 +30,21 @@ namespace shortstories
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // needed to load configuration from appsettings.json
+            services.AddOptions();
+            // needed to store rate limit counters and ip rules
+            services.AddMemoryCache();
+            //load general configuration from appsettings.json
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            //load ip rules from appsettings.json
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            // inject counter and rules stores
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+
             services.AddControllersWithViews();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.AddDbContext<ShortstoriesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ShortstoriesConnection")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -51,6 +67,8 @@ namespace shortstories
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ShortstoriesContext context)
         {
+            app.UseIpRateLimiting();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
