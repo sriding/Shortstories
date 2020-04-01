@@ -42,7 +42,7 @@
                 "firebaseUserId": registerResult.user.uid,
             }
 
-            const userResponseStream = await fetch("https://localhost:44389/api/UserModels/register", {
+            const userResponseStream = await fetch(window.location.origin + "/api/UserModels/register", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -95,7 +95,7 @@
                 "ProfileDescription": registerFormDescription
             }
 
-            const profileResponseStream = await fetch("https://localhost:44389/api/ProfileModels", {
+            const profileResponseStream = await fetch(window.location.origin + "/api/ProfileModels", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -176,7 +176,7 @@
                 return null;
             }
 
-            window.location.href = "https://localhost:44389/Login";
+            window.location.href = "/";
         } catch (error) {
             let newElement = document.createElement("p");
             newElement.classList.add("register-validation", "alert", "alert-danger");

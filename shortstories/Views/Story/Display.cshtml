@@ -6,7 +6,7 @@
 
 
     <div id="story-view-page" class="mb-4 mt-4">
-        <div style="display: grid; grid-template-columns: 25% 75%; min-height: 100vh;">
+        <div class="display-story-main-container">
             <div class="d-flex justify-content-center flex-column mr-3">
                 <h2 class="display-4">@Model.story.StoryTitle</h2>
                 <a style="color: inherit;" asp-controller="Profile" asp-action="GetProfile" asp-route-id="@Model.profile.ProfileUsername">
@@ -15,7 +15,7 @@
                 <div class="d-flex mb-5">
                     @foreach (var genre in Model.genres)
                     {
-                        <p class="p-2 m-1 text-muted" style="font-size: 15px; border-radius: 100px; background-color: #DCDCDC;">@genre.StoryGenre</p>
+                        <p class="d-inline-block p-2 m-1 text-muted" style="font-size: 15px; border-radius: 100px; background-color: #DCDCDC;">@genre.StoryGenre</p>
                     }
                 </div>
             </div>

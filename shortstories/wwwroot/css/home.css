@@ -20,7 +20,7 @@
 
 #home-follower-stories {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     justify-items: center;
 }
@@ -38,7 +38,7 @@
     top: 40px;
     left: 10px;
     display: none;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
     border-top: 1px solid gray;
     border-left: 1px solid gray;
@@ -55,7 +55,51 @@
 
 #home-filter-stories {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     justify-items: center;
+}
+
+@media screen and (min-width: 700px) {
+    #home-follower-stories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #home-filter-stories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 950px) {
+    #home-follower-stories {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #home-filter-stories {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    #home-follower-stories {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    #home-filter-stories {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .home-genre-selection-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    #home-follower-stories {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    #home-filter-stories {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }

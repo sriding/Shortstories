@@ -25,7 +25,7 @@
             window.localStorage.setItem("t", loginResult.user.ma);
             window.localStorage.setItem("fid", loginResult.user.uid);
 
-            const loginStream = await fetch("https://localhost:44389/api/usermodels/login/" + `${loginResult.user.uid}`, {
+            const loginStream = await fetch(window.location.origin + "/api/usermodels/login/" + `${loginResult.user.uid}`, {
                 method: "GET",
                 withCredentials: true,
                 headers: {
@@ -45,7 +45,7 @@
 
             window.localStorage.setItem("uid", loginResponse.uid);
 
-            const profileStream = await fetch("https://localhost:44389/api/profilemodels/id/" + `${loginResponse.uid}`, {
+            const profileStream = await fetch(window.location.origin + "/api/profilemodels/id/" + `${loginResponse.uid}`, {
                 method: "GET",
                 withCredentials: true,
                 headers: {
@@ -65,7 +65,7 @@
 
             window.localStorage.setItem("pid", profileResponse.pid);
 
-            return window.location.href = "https://localhost:44389/";
+            return window.location.href = "/";
         } catch (error) {
             let newElement = document.createElement("p");
             newElement.classList.add("login-validation", "alert", "alert-danger");

@@ -13,7 +13,7 @@
         this.emptyStoryChapterContainerClone1 = document.getElementsByClassName("edit-story-chapter-container")[0].cloneNode(true);
         this.emptyStoryChapterContainerClone2 = document.getElementsByClassName("edit-story-chapter-container")[0].cloneNode(true);
 
-        const storyStream = await fetch("https://localhost:44389/api/storymodels/" + storyId, {
+        const storyStream = await fetch(window.location.origin + "/api/storymodels/" + storyId, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -33,7 +33,7 @@
         this.preFillStoryHeadline(story.StoryHeadline);
 
         if (story.StoryContent === "null" || story.StoryContent === "" || story.StoryContent === null) {
-            const storyChaptersStream = await fetch("https://localhost:44389/api/storychaptersmodels/story/" + storyId, {
+            const storyChaptersStream = await fetch(window.location.origin + "/api/storychaptersmodels/story/" + storyId, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json"
@@ -66,7 +66,7 @@
             this.preSelectIfStoryDoesNotContainChapters();
         }
 
-        const genresStream = await fetch("https://localhost:44389/api/storygenresmodels/story/" + storyId, {
+        const genresStream = await fetch(window.location.origin + "/api/storygenresmodels/story/" + storyId, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -84,7 +84,7 @@
 
         this.preSelectStoryGenres(genres);
 
-        const tagsStream = await fetch("https://localhost:44389/api/storytagsmodels/story/" + storyId, {
+        const tagsStream = await fetch(window.location.origin + "/api/storytagsmodels/story/" + storyId, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -321,7 +321,7 @@
         }
 
         try {
-            const storyStream = await fetch("https://localhost:44389/api/storymodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+            const storyStream = await fetch(window.location.origin + "/api/storymodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -393,7 +393,7 @@
             }
         })
         try {
-            const storyChapterStream = await fetch("https://localhost:44389/api/storychaptersmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+            const storyChapterStream = await fetch(window.location.origin + "/api/storychaptersmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -434,7 +434,7 @@
         })
 
         try {
-            const storyGenreStream = await fetch("https://localhost:44389/api/storygenresmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+            const storyGenreStream = await fetch(window.location.origin + "/api/storygenresmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -489,7 +489,7 @@
         })
 
         try {
-            const storyTagStream = await fetch("https://localhost:44389/api/storytagsmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
+            const storyTagStream = await fetch(window.location.origin + "/api/storytagsmodels/" + window.localStorage.getItem("uid") + "/" + storyId, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {

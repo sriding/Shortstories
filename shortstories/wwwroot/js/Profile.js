@@ -37,7 +37,7 @@
     }
 
     async sendFollowRequest(followerId) {
-        const followerRequest = await fetch("https://localhost:44389/api/followersmodels", {
+        const followerRequest = await fetch(window.location.origin + "/api/followersmodels", {
             method: "POST",
             withCredentials: true,
             headers: {
@@ -56,7 +56,7 @@
     }
 
     async removeFollow(followerId) {
-        const removeRequest = await fetch("https://localhost:44389/api/followersmodels/" + window.localStorage.getItem("uid") + "/" + followerId, {
+        const removeRequest = await fetch(window.location.origin + "/api/followersmodels/" + window.localStorage.getItem("uid") + "/" + followerId, {
             method: "DELETE",
             withCredentials: true,
             headers: {
@@ -78,7 +78,7 @@
             return null;
         }
 
-        const checkIfFriendStream = await fetch("https://localhost:44389/api/followersmodels/" + myProfileId + "/" + userProfileId, {
+        const checkIfFriendStream = await fetch(window.location.origin + "/api/followersmodels/" + myProfileId + "/" + userProfileId, {
             method: "GET",
             withCredentials: true,
             headers: {

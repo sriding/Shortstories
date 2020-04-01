@@ -4,25 +4,31 @@
 @{
 }
 
-<header style="height: 64px;">
-    <div class="header-unauthenticated">
-        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
-            <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
-            <a class="navbar-brand" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
-            <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-        </nav>
-    </div>
-    <div class="header-authenticated">
-        <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
-            <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
-            <div class="header-user-details">
-                <a id="header-avatar-link" class="navbar-brand mr-2" asp-area="" asp-controller="Profile" asp-action="GetProfile"><img id="header-avatar-image" alt="profile pic" style="width: 30px; height: 30px;" /></a>
-                <a id="header-username" class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="GetProfile"></a>
-            </div>
-            <a id="header-settings-link" class="d-inline-block text-decoration-none" style="cursor: pointer; color: whitesmoke;" asp-area="" asp-controller="Settings" asp-action="GetSettings">
-                <p class="mb-0 mr-2" style="font-size: 18px;">Settings</p>
-            </a>
-            <a href="#" id="header-logout" class="navbar-brand">Logout</a>
-        </nav>
-    </div>
-</header>
+    <header style="height: 64px;">
+        <div class="header-unauthenticated">
+            <nav style="background-color: #4B0082;" class="justify-content-end navbar navbar-dark border-bottom box-shadow">
+                <a style="margin-right: auto; font-size: 24px;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
+                <i class="las la-bars" onclick="Header.toggleHiddenMobileNavbarItems()"></i>
+                <div class="navbar-items-container">
+                    <a class="navbar-hidden-on-mobile navbar-brand navbar-items" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
+                    <a class="navbar-hidden-on-mobile navbar-brand navbar-items" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                </div>
+            </nav>
+        </div>
+        <div class="header-authenticated">
+            <nav style="background-color: #4B0082; justify-content: flex-end;" class="navbar navbar-dark border-bottom box-shadow">
+                <a style="margin-right: auto;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shortstories</a>
+                <i class="las la-bars" onclick="Header.toggleHiddenMobileNavbarItems()"></i>
+                <div class="navbar-items-container">
+                    <div class="header-user-details">
+                        <a id="header-avatar-link" class="navbar-hidden-on-mobile navbar-items navbar-brand" asp-area="" asp-controller="Profile" asp-action="GetProfile"><img id="header-avatar-image" alt="profile pic" style="width: 30px; height: 30px;" /></a>
+                        <a id="header-username" class="navbar-hidden-on-mobile navbar-items navbar-brand" asp-area="" asp-controller="Profile" asp-action="GetProfile"></a>
+                    </div>
+                    <a id="header-settings-link" class="navbar-hidden-on-mobile text-decoration-none" style="cursor: pointer; color: whitesmoke;" asp-area="" asp-controller="Settings" asp-action="GetSettings">
+                        <p class="navbar-items" style="font-size: 18px;">Settings</p>
+                    </a>
+                    <a href="#" id="header-logout" class="navbar-hidden-on-mobile navbar-items navbar-brand">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>

@@ -24,7 +24,7 @@
             return null;
         }
 
-        const authStatusStream = await fetch(`https://localhost:44389/api/usermodels/${firebaseId}/${userId}`, {
+        const authStatusStream = await fetch(window.location.origin + `/api/usermodels/${firebaseId}/${userId}`, {
             method: "GET",
             withCredentials: true,
             headers: {
@@ -42,7 +42,7 @@
     }
 
     async getAvatarUrl() {
-        const avatarUrlStream = await fetch("https://localhost:44389/api/profilemodels/avatar/" + window.localStorage.getItem("pid"), {
+        const avatarUrlStream = await fetch(window.location.origin + "/api/profilemodels/avatar/" + window.localStorage.getItem("pid"), {
             method: "GET"
         });
 
@@ -59,7 +59,7 @@
 
     async getProfileUsername() {
         try {
-            const usernameStream = await fetch("https://localhost:44389/api/profilemodels/username/" + window.localStorage.getItem("pid"), {
+            const usernameStream = await fetch(window.location.origin + "/api/profilemodels/username/" + window.localStorage.getItem("pid"), {
                 method: "GET",
                 withCredentials: true,
                 headers: {
@@ -70,7 +70,7 @@
             const username = await usernameStream.json();
 
             if (username == null || username == undefined) {
-                window.location.href = "https://localhost:44389/";
+                window.location.href = "/";
             }
 
             return username.pUsername;
@@ -94,6 +94,17 @@
         document.getElementById("header-logout").addEventListener("click", () => {
             //Instance created in page load function.
             firebaseInstance.firebaseLogout();
+        })
+    }
+
+    static toggleHiddenMobileNavbarItems() {
+        const navbarItems = Array.from(document.getElementsByClassName("navbar-hidden-on-mobile"));
+        navbarItems.forEach((navbarItem) => {
+            if (navbarItem.style.display === "none") {
+                navbarItem.style.display = "block";
+            } else {
+                navbarItem.style.display = "none"
+            }
         })
     }
 }

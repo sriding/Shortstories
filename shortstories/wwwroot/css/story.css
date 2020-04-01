@@ -63,11 +63,18 @@
 #story-view-page {
 }
 
+.display-story-main-container {
+    display: grid;
+    grid-template-columns: 100%;
+    min-height: 100vh;
+}
+
 .display-story-content-container {
     max-height: 100vh;
     overflow: auto;
     width: 95%;
     margin: 0 auto;
+    text-wrap: normal;
 }
 
 .display-story-chapter-content-container {
@@ -96,6 +103,12 @@
     left: 0px;
     font-size: 46px;
     cursor: pointer;
+}
+
+@media screen and (min-width: 1000px) {
+    .display-story-main-container {
+        grid-template-columns: 25% 75%;
+    }
 }
 
 /*Display store page (end)*/

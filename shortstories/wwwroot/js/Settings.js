@@ -8,7 +8,7 @@
     }
 
     async preSelectCurrentAvatar() {
-        const avatarStream = await fetch("https://localhost:44389/api/profilemodels/avatar/" + window.localStorage.getItem("pid"), {
+        const avatarStream = await fetch(window.location.origin + "/api/profilemodels/avatar/" + window.localStorage.getItem("pid"), {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -47,7 +47,7 @@
     }
 
     async preSelectCurrentWriterLabel() {
-        const writerLabelStream = await fetch("https://localhost:44389/api/profilemodels/writer/" + window.localStorage.getItem("pid"), {
+        const writerLabelStream = await fetch(window.location.origin + "/api/profilemodels/writer/" + window.localStorage.getItem("pid"), {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -68,7 +68,7 @@
     }
 
     async preFillProfileDescription() {
-        const descriptionStream = await fetch("https://localhost:44389/api/profilemodels/description/" + window.localStorage.getItem("pid"), {
+        const descriptionStream = await fetch(window.location.origin + "/api/profilemodels/description/" + window.localStorage.getItem("pid"), {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -89,7 +89,7 @@
     }
 
     async displayCurrentStories() {
-        const storiesStream = await fetch("https://localhost:44389/api/storymodels/profile/" + window.localStorage.getItem("pid"), {
+        const storiesStream = await fetch(window.location.origin + "/api/storymodels/profile/" + window.localStorage.getItem("pid"), {
             method: "GET",
             headers: {
                 "Content-type": "application/json"
@@ -203,7 +203,7 @@
 
     async changeAvatar(newAvatar) {
         try {
-            const changeAvatarStream = await fetch("https://localhost:44389/api/profilemodels/update/avatar/" + window.localStorage.getItem("uid") + "/" + newAvatar, {
+            const changeAvatarStream = await fetch(window.location.origin + "/api/profilemodels/update/avatar/" + window.localStorage.getItem("uid") + "/" + newAvatar, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -228,7 +228,7 @@
 
     async changeWriterLabel(newLabel) {
         try {
-            const changeLabelStream = await fetch("https://localhost:44389/api/profilemodels/update/type-of-writer/" + window.localStorage.getItem("uid") + "/" + newLabel, {
+            const changeLabelStream = await fetch(window.location.origin + "/api/profilemodels/update/type-of-writer/" + window.localStorage.getItem("uid") + "/" + newLabel, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -253,7 +253,7 @@
 
     async changeProfileDescription(newDescription) {
         try {
-            const changeDescriptionStream = await fetch("https://localhost:44389/api/profilemodels/update/description/" + window.localStorage.getItem("uid") + "/" + newDescription, {
+            const changeDescriptionStream = await fetch(window.location.origin + "/api/profilemodels/update/description/" + window.localStorage.getItem("uid") + "/" + newDescription, {
                 method: "PUT",
                 withCredentials: true,
                 headers: {
@@ -304,14 +304,14 @@
         Array.from(document.getElementsByClassName("settings-edit-button")).forEach((editButtons) => {
             editButtons.addEventListener("click", () => {
                 let uid = window.localStorage.getItem("uid");
-                window.location.href = `https://localhost:44389/Story/${uid}/Edit/${editButtons.value}`;
+                window.location.href = window.location.origin + `/Story/${uid}/Edit/${editButtons.value}`;
             })
         })
     }
 
     async deleteStory(storyId) {
         try {
-            const deleteStoryStream = await fetch("https://localhost:44389/api/storymodels/" + storyId, {
+            const deleteStoryStream = await fetch(window.location.origin + "/api/storymodels/" + storyId, {
                 method: "DELETE",
                 withCredentials: true,
                 headers: {

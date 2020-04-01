@@ -40,7 +40,7 @@
                 return null;
             }
 
-            const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/" + filterText, {
+            const storiesStream = await fetch(window.location.origin + "/api/storymodels/filter/" + filterText, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json"
@@ -65,7 +65,7 @@
                 document.getElementById("home-no-follower-stories").append(noFollowersElement);
                 return null;
             }
-            const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/followers/" + profileId, {
+            const storiesStream = await fetch(window.location.origin + "/api/storymodels/filter/followers/" + profileId, {
                 method: "GET",
                 withCredentials: true,
                 headers: {
@@ -94,7 +94,7 @@
 
     async getStoriesByProfile(profileUsername, elementId) {
         try {
-            const storiesStream = await fetch("https://localhost:44389/api/storymodels/filter/profile/" + profileUsername, {
+            const storiesStream = await fetch(window.location.origin + "/api/storymodels/filter/profile/" + profileUsername, {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json"
@@ -143,7 +143,7 @@
                 genreContainer.append(genreElement);
             })
 
-            linkWrapper.href = "https://localhost:44389/story/display/" + story.StoryModelId;
+            linkWrapper.href = window.location.origin + "/story/display/" + story.StoryModelId;
             title.innerHTML = story.StoryTitle;
             headline.innerHTML = story.StoryHeadline;
             linkWrapper.append(divContainer);
@@ -184,7 +184,7 @@
                     genreContainer.append(genreElement);
                 })
 
-                linkWrapper.href = "https://localhost:44389/story/display/" + story.StoryModelId;
+                linkWrapper.href = window.location.origin + "/story/display/" + story.StoryModelId;
                 title.innerHTML = story.StoryTitle;
                 headline.innerHTML = story.StoryHeadline;
                 linkWrapper.append(divContainer);

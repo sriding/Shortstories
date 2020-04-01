@@ -184,7 +184,7 @@
 
         if (document.getElementById("create-story-story-content-container").style.display === "none") {
             try {
-                const storyStream = await fetch("https://localhost:44389/api/storymodels/create", {
+                const storyStream = await fetch(window.location.origin + "/api/storymodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -251,8 +251,8 @@
                 if (storyTagsText !== null) {
                     const storyTagsTextArray = storyTagsText.split(",");
                     //Make sure to check length of array to assure 3 tags total.
-                    storyTagsTextArray.forEach(async (tag) => {
-                        let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                    await storyTagsTextArray.forEach(async (tag) => {
+                        let tagsRequest = await fetch(window.location.origin + "/api/storytagsmodels/create", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json"
@@ -297,7 +297,7 @@
                 }
 
                 storyGenresArray.forEach(async (genre) => {
-                    let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
+                    let genreRequest = await fetch(window.location.origin + "/api/storygenresmodels/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -342,7 +342,7 @@
 
                 //Either array should work fine for looping here. Just make sure to adjust content location in the body.
                 storyChapterTitleArray.forEach(async (content, index) => {
-                    let storyChaptersRequest = await fetch("https://localhost:44389/api/storychaptersmodels/create", {
+                    let storyChaptersRequest = await fetch(window.location.origin + "/api/storychaptersmodels/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -419,7 +419,7 @@
             }
 
             try {
-                const storyStream = await fetch("https://localhost:44389/api/storymodels/create", {
+                const storyStream = await fetch(window.location.origin + "/api/storymodels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -488,7 +488,7 @@
                     const storyTagsTextArray = storyTagsText.split(",");
                     //Make sure to check length of array to assure 3 tags total.
                     storyTagsTextArray.forEach(async (tag) => {
-                        let tagsRequest = await fetch("https://localhost:44389/api/storytagsmodels/create", {
+                        let tagsRequest = await fetch(window.location.origin + "/api/storytagsmodels/create", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json"
@@ -533,7 +533,7 @@
                 }
 
                 storyGenresArray.forEach(async (genre) => {
-                    let genreRequest = await fetch("https://localhost:44389/api/storygenresmodels/create", {
+                    let genreRequest = await fetch(window.location.origin + "/api/storygenresmodels/create", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
