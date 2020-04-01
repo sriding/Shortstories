@@ -18,19 +18,13 @@ namespace shortstories.Models
         [Key]
         [Column(TypeName = "varchar(100)")]
         [StringLength(100, ErrorMessage = "The length of the user id cannot exceed 100 characters. This should be automatic.")]
+        [RegularExpression(@"^[a-zA-Z0-9-]*$", ErrorMessage = "User id regex issue. This should be automatic.")]
         public string UserModelId { get; set; }
 
-        string _FirebaseUserId;
         [Required(ErrorMessage = "No firebase id. This should be automatic.")]
         [Column(TypeName = "varchar(100)")]
         [StringLength(100, ErrorMessage = "The length of the firebase id cannot exceed 100 characters. This should be automatic.")]
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "firebase id regex issue. This should be automatic.")]
-        public string FirebaseUserId { 
-            get { return _FirebaseUserId; }
-            set
-            {
-                _FirebaseUserId = HttpUtility.HtmlEncode(value);
-            }
-        }
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Firebase id regex issue. This should be automatic.")]
+        public string FirebaseUserId { get; set; }
     }
 }

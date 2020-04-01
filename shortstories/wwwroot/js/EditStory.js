@@ -246,6 +246,7 @@
         e.target.parentElement.remove();
     }
 
+    //TODO: Page needs to reload once request is made successfully
     async updateStoryButtonFunctionality() {
         document.getElementById("edit-story-submit-button").addEventListener("click", async () => {
             const storyId = Number(document.getElementById("edit-story-id").value);
@@ -273,6 +274,7 @@
                     await this.apiRequestForStory(storyId, storyTitle, storyHeadline, storyContent);
                     await this.apiRequestForStoryGenre(storyId, storyGenresArray);
                     await this.apiRequestForStoryTag(storyId, storyTagsArrayTrimmed);
+
                 } else {
                     const chapterTitlesElements = Array.from(document.getElementsByClassName("edit-story-chapter-title"));
                     const chapterContentsElements = Array.from(document.getElementsByClassName("edit-story-chapter-content"));

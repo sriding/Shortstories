@@ -16,9 +16,9 @@ namespace shortstories.Models
         [Key]
         [Column(TypeName = "int")]
         public int StoryTagsId { get; set; }
-        [Required(ErrorMessage = "There is no tag.")]
         [Column(TypeName = "varchar(25)")]
         [StringLength(25, ErrorMessage = "Tag cannot exceed 25 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9 ]*$", ErrorMessage = "Tags can only be alphanumerical with spaces.")]
         public string StoryTag { get; set; }
         [Required(ErrorMessage = "Must be attached to a story. This should be automatic.")]
         [Column(TypeName = "int")]

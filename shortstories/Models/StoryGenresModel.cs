@@ -17,9 +17,9 @@ namespace shortstories.Models
         [Key]
         [Column(TypeName = "int")]
         public int StoryGenresId { get; set; }
-        [Required(ErrorMessage = "Must have a genre.")]
         [Column(TypeName = "varchar(30)")]
         [StringLength(30, ErrorMessage = "The genre length has a maximum of 30 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9- ]*$", ErrorMessage = "Genres must be alphanumerical with dashes and spaces only. Should be automatic.")]
         public string StoryGenre { get; set; }
         [Required(ErrorMessage = "No story id. This should be automatic.")]
         [Column(TypeName = "int")]

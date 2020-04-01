@@ -22,6 +22,8 @@
     <Compile Remove="Migrations\20200309214317_SecondMigration.Designer.cs" />
     <Compile Remove="Migrations\20200331002950_FourthMigration.cs" />
     <Compile Remove="Migrations\20200331002950_FourthMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200331233054_SixthMigration.cs" />
+    <Compile Remove="Migrations\20200331233054_SixthMigration.Designer.cs" />
   </ItemGroup>
 
 
