@@ -111,15 +111,4 @@
             return null;
         }
     }
-
-    onAuthStateChanged() {
-        this.firebaseAuth.onAuthStateChanged(function (user) {
-            if (user) {
-                // User is signed in.
-                // ...
-            } else {
-                // User is signed out.
-            }
-        });
-    }
 }

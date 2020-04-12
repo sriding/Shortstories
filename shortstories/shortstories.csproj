@@ -12,6 +12,10 @@
     <None Remove="Views\Shared\NewFolder\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\shortstories20200409092134 - Web Deploy.pubxml.user" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />

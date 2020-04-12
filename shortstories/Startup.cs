@@ -54,8 +54,6 @@ namespace shortstories
                 services.AddDbContext<ShortstoriesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
             }
-            // Automatically perform database migration
-            //services.BuildServiceProvider().GetService<ShortstoriesContext>().Database.Migrate();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
