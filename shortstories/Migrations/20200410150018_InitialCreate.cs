@@ -26,6 +26,7 @@ namespace shortstories.Migrations
                     ProfileModelId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     TimeOfCreation = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     ProfileUsername = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    ProfileAvatar = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
                     ProfileTypeOfWriter = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: true),
                     ProfileDescription = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     UserId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
@@ -69,6 +70,7 @@ namespace shortstories.Migrations
                     StoryModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StoryTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false),
+                    StoryHeadline = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
                     StoryContent = table.Column<string>(type: "varchar(8000)", maxLength: 8000, nullable: true),
                     StoryThumbsUp = table.Column<int>(type: "int", nullable: false),
                     StoryThumbsDown = table.Column<int>(type: "int", nullable: false),
@@ -92,7 +94,7 @@ namespace shortstories.Migrations
                     StoryChaptersId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChapterNumber = table.Column<int>(type: "int", nullable: false),
-                    ChapterTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: true),
+                    ChapterTitle = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false),
                     ChapterContent = table.Column<string>(type: "varchar(4000)", maxLength: 4000, nullable: false),
                     StoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -113,7 +115,7 @@ namespace shortstories.Migrations
                 {
                     StoryGenresId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoryGenre = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
+                    StoryGenre = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true),
                     StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -133,7 +135,7 @@ namespace shortstories.Migrations
                 {
                     StoryTagsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoryTag = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    StoryTag = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: true),
                     StoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

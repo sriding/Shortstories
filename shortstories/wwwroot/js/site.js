@@ -4,6 +4,15 @@
 // Write your JavaScript code.
 
 //Function to run functions on page load.
+import Home from "./Home.js";
+import Register from "./Register.js";
+import Login from "./Login.js";
+import Header from "./Header.js";
+import Profile from "./Profile.js";
+import Story from "./Story.js";
+import EditStory from "./EditStory.js";
+import Settings from "./Settings.js";
+
 const pageLoadFunction = () => {
     //Home Page
     const homeInstance = new Home();
@@ -13,6 +22,7 @@ const pageLoadFunction = () => {
         homeInstance.addMainDropdownButtonEventListener();
         homeInstance.addAllDropdownButtonEventListeners();
     }
+
     //Register Page
     const registerInstance = new Register();
     registerInstance.addFormEventListener();
@@ -82,3 +92,7 @@ const pageLoadFunction = () => {
         settingsInstance.updateProfileButtonEventListeners();
     }
 };
+
+window.addEventListener('DOMContentLoaded', () => {
+    pageLoadFunction();
+})

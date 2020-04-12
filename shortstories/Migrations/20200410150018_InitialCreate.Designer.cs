@@ -9,8 +9,8 @@ using shortstories.Data;
 namespace shortstories.Migrations
 {
     [DbContext(typeof(ShortstoriesContext))]
-    [Migration("20200331003232_FourthMigration")]
-    partial class FourthMigration
+    [Migration("20200410150018_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,7 +125,6 @@ namespace shortstories.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("StoryGenre")
-                        .IsRequired()
                         .HasColumnType("varchar(30)")
                         .HasMaxLength(30);
 
@@ -152,7 +151,6 @@ namespace shortstories.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("StoryContent")
-                        .IsRequired()
                         .HasColumnType("varchar(8000)")
                         .HasMaxLength(8000);
 
@@ -190,7 +188,6 @@ namespace shortstories.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StoryTag")
-                        .IsRequired()
                         .HasColumnType("varchar(25)")
                         .HasMaxLength(25);
 

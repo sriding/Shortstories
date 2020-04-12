@@ -6,19 +6,9 @@
     <title>@ViewData["Title"] - shortstories</title>
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/story.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/editstory.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/settings.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/css/site.min.css" />
 </head>
-<body onload="pageLoadFunction()">
+<body>
     @await Component.InvokeAsync("Header")
     <div class="container-fluid">
         <div id="main-container" style="width: 85%; margin: 0 auto;">
@@ -62,17 +52,7 @@
     </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <environment include="Development">
-        <script src="~/js/Register.js" asp-append-version="true"></script>
-        <script src="~/js/Login.js" asp-append-version="true"></script>
-        <script src="~/js/Home.js" asp-append-version="true"></script>
-        <script src="~/js/Header.js" asp-append-version="true"></script>
-        <script src="~/js/Story.js" asp-append-version="true"></script>
-        <script src="~/js/Profile.js" asp-append-version="true"></script>
-        <script src="~/js/Settings.js" asp-append-version="true"></script>
-        <script src="~/js/EditStory.js" asp-append-version="true"></script>
-    </environment>
+    <script type="module" src="~/js/site.min.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

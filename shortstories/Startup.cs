@@ -45,8 +45,18 @@ namespace shortstories
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            services.AddDbContext<ShortstoriesContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ShortstoriesConnection")));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<ShortstoriesContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            } else
+            {
+                services.AddDbContext<ShortstoriesContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+            }
+            // Automatically perform database migration
+            //services.BuildServiceProvider().GetService<ShortstoriesContext>().Database.Migrate();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
