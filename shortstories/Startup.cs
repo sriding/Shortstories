@@ -16,6 +16,7 @@ using System.Net;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace shortstories
 {
@@ -51,15 +52,6 @@ namespace shortstories
                 string connectionString = Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING");
                 services.AddDbContext<ShortstoriesContext>(options =>
                     options.UseSqlServer(connectionString));
-
-                services.AddHttpClient("heroku", client =>
-                {
-                    client.BaseAddress = new Uri("https://dry-meadow-74711.herokuapp.com/");
-                })
-                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-                {
-                    Proxy = new WebProxy(Environment.GetEnvironmentVariable("FIXIE_URL"))
-                });
             }
             else
             {
@@ -91,10 +83,12 @@ namespace shortstories
 
             if (env.IsDevelopment())
             {
+                app.UseForwardedHeaders();
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseForwardedHeaders();
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
