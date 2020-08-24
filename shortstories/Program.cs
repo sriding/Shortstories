@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using shortstories.Models;
-using System.Net;
 
 namespace shortstories
 {
@@ -31,12 +26,6 @@ namespace shortstories
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred seeding the DB.");
                 }
-
-                WebProxy proxyObject = new WebProxy(Environment.GetEnvironmentVariable("FIXIE_URL"));
-
-                proxyObject.Credentials = CredentialCache.DefaultCredentials;
-
-                WebRequest.DefaultWebProxy = proxyObject;
             }
 
             host.Run();

@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace shortstories
 {
@@ -50,6 +51,15 @@ namespace shortstories
                 string connectionString = Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING");
                 services.AddDbContext<ShortstoriesContext>(options =>
                     options.UseSqlServer(connectionString));
+
+                services.AddHttpClient("heroku", client =>
+                {
+                    client.BaseAddress = new Uri("https://dry-meadow-74711.herokuapp.com/");
+                })
+                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                {
+                    Proxy = new WebProxy(Environment.GetEnvironmentVariable("FIXIE_URL"))
+                });
             }
             else
             {
