@@ -47,8 +47,9 @@ namespace shortstories
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
+                string connectionString = Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING");
                 services.AddDbContext<ShortstoriesContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString(Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING"))));
+                    options.UseSqlServer(Configuration.GetConnectionString(connectionString)));
             }
             else
             {
