@@ -48,7 +48,7 @@ namespace shortstories
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ShortstoriesContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString(Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING"))));
             }
             else
             {
