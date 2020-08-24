@@ -49,7 +49,7 @@ namespace shortstories
             {
                 string connectionString = Environment.GetEnvironmentVariable("PROD_CONNECTION_STRING");
                 services.AddDbContext<ShortstoriesContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString(connectionString)));
+                    options.UseSqlServer(connectionString));
             }
             else
             {
