@@ -1,19 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-//Function to run functions on page load.
-import Home from "./Home.js";
-import Register from "./Register.js";
-import Login from "./Login.js";
-import Header from "./Header.js";
-import Profile from "./Profile.js";
-import Story from "./Story.js";
-import EditStory from "./EditStory.js";
-import Settings from "./Settings.js";
-
-const pageLoadFunction = () => {
+﻿const pageLoadFunction = () => {
     //Home Page
     const homeInstance = new Home();
     if (homeInstance.homePage !== null) {
@@ -34,6 +19,7 @@ const pageLoadFunction = () => {
 
     //Header Component
     const headerInstance = new Header();
+    headerInstance.addClickFunctionalityToHeaderHamburgerIcon();
     headerInstance.checkAuthorizationState().then((username) => {
         if (username) {
             document.getElementsByClassName("header-unauthenticated")[0].style.display = "none";
@@ -45,7 +31,7 @@ const pageLoadFunction = () => {
             headerInstance.setSettingsLink();
         }
     }).catch((err) => {
-    })
+    });
 
     //Profile Page
     const profileInstance = new Profile();
@@ -95,4 +81,4 @@ const pageLoadFunction = () => {
 
 window.addEventListener('DOMContentLoaded', () => {
     pageLoadFunction();
-})
+});

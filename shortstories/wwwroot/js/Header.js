@@ -97,16 +97,22 @@
         })
     }
 
-    static toggleHiddenMobileNavbarItems() {
-        const navbarItems = Array.from(document.getElementsByClassName("navbar-hidden-on-mobile"));
+    toggleHiddenMobileNavbarItems() {
+        let navbarItems = Array.from(document.getElementsByClassName("navbar-hidden-on-mobile"));
         navbarItems.forEach((navbarItem) => {
-            if (navbarItem.style.display === "none") {
+            if (navbarItem.style.display === "none" || navbarItem.style.display === "") {
                 navbarItem.style.display = "block";
             } else {
                 navbarItem.style.display = "none"
             }
         })
     }
-}
 
-export default Header;
+    addClickFunctionalityToHeaderHamburgerIcon() {
+        Array.from(document.getElementsByClassName("la-bars")).forEach(node => {
+            node.addEventListener("click", () => {
+                this.toggleHiddenMobileNavbarItems();
+            })
+        })
+    }
+}

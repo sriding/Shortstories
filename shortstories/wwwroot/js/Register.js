@@ -190,5 +190,3 @@
         return "Success";
     }
 }
-
-export default Register;

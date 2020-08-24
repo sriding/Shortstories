@@ -365,5 +365,3 @@
         document.getElementById("current-login-details-modal").style.left = `${leftEdge}px`;
     }
 }
-
-export default Settings;

@@ -22,7 +22,7 @@
             <div class="border-left border-right" style="display: flex; position: relative;">
                 @if (Model.story.StoryContent != null)
                 {
-                <div class="display-story-content-container p-5">
+                <div class="display-story-content-container pt-5 pb-5">
                     <p class="pl-5 pr-5 text-muted" style="line-height: 32px; font-size: 16px;">"@Model.story.StoryHeadline"</p>
                     <p class="pl-5 pr-5" style="line-height: 32px; font-size: 20px;">@Model.story.StoryContent</p>
                 </div>
@@ -33,7 +33,7 @@
                     <i class="las la-caret-square-left"></i>
                     @foreach (var chapter in Model.chapters)
                     {
-                        <div class="display-story-chapter-content-container p-5">
+                        <div class="display-story-chapter-content-container pt-5 pb-5">
                             <p class="pl-5 pr-5 text-muted" style="line-height: 32px; font-size: 16px;">"@Model.story.StoryHeadline"</p>
                             <div class="text-center">
                                 <h3 class="d-inline-block mb-5 border-bottom">@chapter.ChapterTitle</h3>

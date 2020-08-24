@@ -48,9 +48,17 @@
         const firebaseInstance = new Firebase();
         // Initialize Firebase
         firebaseInstance.initialize();
-        firebaseInstance.onAuthStateChanged();
     </script>
-    <script type="module" src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="~/js/EditStory.js" asp-append-version="true"></script>
+    <script src="~/js/Header.js" asp-append-version="true"></script>
+    <script src="~/js/Home.js" asp-append-version="true"></script>
+    <script src="~/js/Login.js" asp-append-version="true"></script>
+    <script src="~/js/Profile.js" asp-append-version="true"></script>
+    <script src="~/js/Register.js" asp-append-version="true"></script>
+    <script src="~/js/Settings.js" asp-append-version="true"></script>
+    <script src="~/js/Story.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

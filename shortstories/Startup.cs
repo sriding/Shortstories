@@ -49,7 +49,8 @@ namespace shortstories
             {
                 services.AddDbContext<ShortstoriesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            } else
+            }
+            else
             {
                 services.AddDbContext<ShortstoriesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
