@@ -27,7 +27,7 @@ namespace shortstories.Controllers.API
 
         // GET: api/ProfileModels/{userId}
         [HttpGet("id/{userId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<ProfileModel>> GetProfileId([FromRoute] string userId)
         {
             var profile = await _context.Profile.SingleAsync(a => a.UserId == userId);

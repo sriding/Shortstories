@@ -2,23 +2,13 @@
     firebaseConfig;
     firebaseAuth;
 
-    constructor() {
-        this.firebaseConfig = {
-            apiKey: "AIzaSyDce1gieOtJHvS4a3wOF1__2z6jXbnA_NI",
-            authDomain: "shortstories-auth.firebaseapp.com",
-            databaseURL: "https://shortstories-auth.firebaseio.com",
-            projectId: "shortstories-auth",
-            storageBucket: "shortstories-auth.appspot.com",
-            messagingSenderId: "1087906798602",
-            appId: "1:1087906798602:web:f007252c9ae7bb835393f3",
-            measurementId: "G-XD67708PJ3"
-        }
+    constructor(config) {
+        this.firebaseConfig = config;
     }
 
     initialize() {
         //firebase is brought in from scripts on layout page
         firebase.initializeApp(this.firebaseConfig);
-        firebase.analytics();
 
         this.firebaseAuth = firebase.auth();
     }
