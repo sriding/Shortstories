@@ -5,3 +5,5 @@
 /shortstories/bin/
 /shortstories/Properties/
 packages-microsoft-prod.deb
+
+.fake
